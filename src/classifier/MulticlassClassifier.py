@@ -17,9 +17,9 @@ from util import LogManager, Validation
 from util.helper import PreProcessing, Tuning
 
 
-class MCSVM(AbstractClassifier):
+class MulticlassClassifier(AbstractClassifier):
     """
-    Multi-class Support Vector Machine
+    Multi-class classifier
     """
 
     __LOG: logging.Logger = None
@@ -34,9 +34,9 @@ class MCSVM(AbstractClassifier):
 
         # validate python version
         Validation.python_version(
-            MCSVM.REQUIRED_PYTHON,
+            MulticlassClassifier.REQUIRED_PYTHON,
             f"Unsupported Python version.\n"
-            f"Required Python {MCSVM.REQUIRED_PYTHON[0]}.{MCSVM.REQUIRED_PYTHON[1]} or higher."
+            f"Required Python {MulticlassClassifier.REQUIRED_PYTHON[0]}.{MulticlassClassifier.REQUIRED_PYTHON[1]} or higher."
         )
 
         self.__LOG = LogManager.get_instance().logger(LogManager.Logger.MCSVM)
@@ -50,7 +50,7 @@ class MCSVM(AbstractClassifier):
         super().prepare()
 
         # print classifier type
-        self.__LOG.info(f"[CLASSIFIER] {MCSVM.__qualname__}")
+        self.__LOG.info(f"[CLASSIFIER] {MulticlassClassifier.__qualname__}")
 
         # print libs' version
         self.__LOG.debug(f"[LIB VERSION] {np.__name__} : {np.__version__}")
@@ -87,7 +87,7 @@ class MCSVM(AbstractClassifier):
             f"\tC4: {round(class4 / (class1 + class2 + class3 + class4) * 100, 2)} %"
         )
 
-        self.__LOG.info(f"Splitting dataset into training and test set with ratio: {MCSVM.TEST_RATIO}")
+        self.__LOG.info(f"Splitting dataset into training and test set with ratio: {MulticlassClassifier.TEST_RATIO}")
         self.data.set_x = self.data.set_.iloc[:, 0:20].values
         self.data.set_y = self.data.set_.iloc[:, 20].values
         # split training/test set
@@ -95,8 +95,8 @@ class MCSVM(AbstractClassifier):
             ms.train_test_split(
                 self.data.set_x,
                 self.data.set_y,
-                test_size=MCSVM.TEST_RATIO,
-                random_state=MCSVM.RNG_SEED
+                test_size=MulticlassClassifier.TEST_RATIO,
+                random_state=MulticlassClassifier.RNG_SEED
             )
 
     def refactor(self) -> None:

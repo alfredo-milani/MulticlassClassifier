@@ -1,10 +1,10 @@
 from classifier.IClassifier import IClassifier
 from classifier.AbstractClassifier import AbstractClassifier
 
-from classifier.MCSVM import MCSVM
+from classifier.MulticlassClassifier import MulticlassClassifier
 
 __all__ = [
     "IClassifier",
     "AbstractClassifier",
-    "MCSVM"
+    "MulticlassClassifier"
 ]

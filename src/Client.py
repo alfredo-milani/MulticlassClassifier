@@ -4,7 +4,7 @@ import sys
 
 from pathlib import Path
 
-from classifier import MCSVM
+from classifier import MulticlassClassifier
 from model import Conf
 from util import Validation, Common, LogManager
 
@@ -23,12 +23,6 @@ class Client(object):
 
         # init logging
         self.__init_logging()
-        try:
-            # init configuration file
-            self.__init_conf()
-        except (Conf.NoValueError, SyntaxError) as e:
-            self.__LOG.critical(f"Error in configuration file: {e}")
-            sys.exit(Common.EXIT_FAILURE)
 
     def __init_conf(self):
         # construct configuration file
@@ -60,6 +54,9 @@ class Client(object):
 
     def start(self) -> None:
         try:
+            # init configuration file
+            self.__init_conf()
+
             # register cleaning routine at exit
             atexit.register(self.stop)
 
@@ -71,10 +68,13 @@ class Client(object):
             self.__LOG.info(f"[BENCHMARK] Current deadline: {self.conf.benchmark_deadline}")
 
             # execute Multi-class classification using SVM model
-            MCSVM(self.conf).process()
+            MulticlassClassifier(self.conf).process()
             # TODO - client per calcolare il valore migliore sul test set
         except KeyboardInterrupt:
             self.__LOG.info(f"Execution interrupted by user.")
+        except (Conf.NoValueError, SyntaxError) as e:
+            self.__LOG.critical(f"Error in configuration file: {e}")
+            sys.exit(Common.EXIT_FAILURE)
         except Exception as e:
             self.__LOG.critical(f"Unexpected exception.\n{e}")
             sys.exit(Common.EXIT_FAILURE)
