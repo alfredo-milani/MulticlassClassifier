@@ -1,0 +1,11 @@
+# Data manipulation
+numpy
+pandas
+matplotlib
+imblearn
+
+# Wrapper for Machine Learning algorithms
+sklearn
+
+# Plotting features
+seaborn
