@@ -2,15 +2,15 @@ import logging
 import numpy as np
 import pandas as pd
 import matplotlib
-from matplotlib import pyplot as plt
 import sklearn
+import imblearn
+import scipy
 import sklearn.preprocessing as prep
 import sklearn.model_selection as ms
 import sklearn.metrics as metrics
 from sklearn.feature_selection import SelectKBest, mutual_info_classif
 from imblearn.over_sampling import ADASYN, SMOTE, RandomOverSampler
 from scipy import stats
-from sklearn.naive_bayes import GaussianNB
 
 from classifier import AbstractClassifier
 from model import Conf, Set
@@ -26,9 +26,6 @@ class MulticlassClassifier(AbstractClassifier):
     __LOG: logging.Logger = None
 
     REQUIRED_PYTHON: tuple = (3, 7)
-
-    RNG_SEED: int = 0
-    TEST_RATIO: float = 0.2
 
     def __init__(self, conf: Conf):
         super().__init__()
@@ -55,13 +52,21 @@ class MulticlassClassifier(AbstractClassifier):
         self.__LOG.debug(f"[LIB VERSION] {pd.__name__} : {pd.__version__}")
         self.__LOG.debug(f"[LIB VERSION] {matplotlib.__name__} : {matplotlib.__version__}")
         self.__LOG.debug(f"[LIB VERSION] {sklearn.__name__} : {sklearn.__version__}")
+        self.__LOG.debug(f"[LIB VERSION] {imblearn.__name__} : {imblearn.__version__}")
+        self.__LOG.debug(f"[LIB VERSION] {scipy.__name__} : {scipy.__version__}")
 
         # dataset description
-        self.__LOG.debug(f"[DESCRIBE] Dataset description:\n{self.data.set_.describe(include='all')}")
+        self.__LOG.debug(f"[DESCRIPTION] Dataset description:\n{self.data.set_.describe(include='all')}")
+
+        # compute pairplot
+        if self.conf.pairplot_compute:
+            self.__LOG.info(f"[DESCRIPTION] Computing pairplot for '{self.conf.dataset}'")
+            PreProcessing.compute_pairplot(self.conf.dataset)
 
         ###########################
         ### manage missing data ###
         ###########################
+        self.__LOG.info(f"[MISSING DATA] Managing missing data")
         # TODO - vedere se performa meglio sostituendo dati mancanti con algo di clustering
         self.__LOG.debug(f"[MISSING DATA] Before processing:\n{PreProcessing.get_na_count(self.data.set_)}")
         for i in range(1, 21):
@@ -73,6 +78,7 @@ class MulticlassClassifier(AbstractClassifier):
         ### manage outliers ###
         #######################
         # TODO - vedere se performa meglio la gestione degli outlier con algo di clustering
+        self.__LOG.info(f"[OUTLIER] Managing outlier using zscore method")
         z_scores = stats.zscore(self.data.set_)
         abs_z_scores = np.abs(z_scores)
         filtered_entries = (abs_z_scores < 3).all(axis=1)
@@ -84,7 +90,7 @@ class MulticlassClassifier(AbstractClassifier):
         class3 = counts[2]
         class4 = counts[3]
         self.__LOG.debug(
-            f"[DESCRIBE] Class percentage :\n"
+            f"[DESCRIPTION] Class percentage :\n"
             f"\tC1: {round(class1 / (class1 + class2 + class3 + class4) * 100, 2)} %\n"
             f"\tC2: {round(class2 / (class1 + class2 + class3 + class4) * 100, 2)} %\n"
             f"\tC3: {round(class3 / (class1 + class2 + class3 + class4) * 100, 2)} %\n"
@@ -94,7 +100,7 @@ class MulticlassClassifier(AbstractClassifier):
         #########################
         ### splitting dataset ###
         #########################
-        self.__LOG.info(f"Splitting dataset into training and test set with ratio: {MulticlassClassifier.TEST_RATIO}")
+        self.__LOG.info(f"[DATA SPLIT] Splitting dataset into training and test set with ratio: {self.conf.dataset_test_ratio}")
         self.data.set_x = self.data.set_.iloc[:, 0:20].values
         self.data.set_y = self.data.set_.iloc[:, 20].values
         # split training/test set
@@ -102,8 +108,8 @@ class MulticlassClassifier(AbstractClassifier):
             ms.train_test_split(
                 self.data.set_x,
                 self.data.set_y,
-                test_size=MulticlassClassifier.TEST_RATIO,
-                random_state=MulticlassClassifier.RNG_SEED
+                test_size=self.conf.dataset_test_ratio,
+                random_state=self.conf.rng_seed
             )
 
     def refactor(self) -> None:
@@ -127,23 +133,23 @@ class MulticlassClassifier(AbstractClassifier):
         self.__LOG.info(f"[FEATURE SELECTION] Using {type(selector).__qualname__}")
         selector.fit(self.training.set_x, self.training.set_y)
         self.training.set_x = selector.transform(self.training.set_x)
-        self.__LOG.debug(f"Feature index after SelectKBest: {selector.get_support(indices=True)}")
+        self.__LOG.debug(f"[FEATURE SELECTION] Feature index after SelectKBest: {selector.get_support(indices=True)}")
         self.test.set_x = selector.transform(self.test.set_x)
-        self.__LOG.debug(f"Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
-        self.__LOG.debug(f"Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
+        self.__LOG.debug(f"[FEATURE SELECTION] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
+        self.__LOG.debug(f"[FEATURE SELECTION] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
 
         ###############################
         ### data over/undersampling ###
         ###############################
         # oversampling with SMOTE
-        sampler = SMOTE()
+        sampler = SMOTE(random_state=self.conf.rng_seed)
         # sampler = RandomUnderSampler()
         # sampler = RandomOverSampler()
         # sampler = ADASYN(sampling_strategy="not majority")
         self.__LOG.info(f"[SAMPLING] Using {type(sampler).__qualname__}")
         self.training.set_x, self.training.set_y = sampler.fit_sample(self.training.set_x, self.training.set_y)
-        self.__LOG.debug(f"Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
-        self.__LOG.debug(f"Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
+        self.__LOG.debug(f"[SAMPLING] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
+        self.__LOG.debug(f"[SAMPLING] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
 
     def tune(self) -> None:
         # TODO - testare altre macchine

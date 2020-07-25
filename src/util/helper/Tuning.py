@@ -16,8 +16,6 @@ class Tuning(object):
     Contains helper methods for hyperparameter tuning
     """
 
-    # TODO - vedere se inserire RANDOM_SEED nel file di configurazione per la riproducibilità dei tests
-
     @staticmethod
     def support_vector_machine_param_selection(x, y, n_folds, metric):
         """
@@ -231,7 +229,6 @@ class Tuning(object):
 
         return grid_search.best_estimator_
 
-    # TODO - migliorare naive_bayes
     @staticmethod
     def naive_bayes_param_selection(x, y, n_folds, metric):
         """
