@@ -1,8 +1,11 @@
 import seaborn as sns
 import pandas as pd
 
+from pathlib import Path
 from matplotlib import pyplot as plt
 from pandas import DataFrame
+
+from util import Validation
 
 
 class PreProcessing(object):
@@ -24,12 +27,17 @@ class PreProcessing(object):
         return boolean_mask.sum(axis=0)
 
     @staticmethod
-    def compute_pairplot(dataset_path: str):
-        from util import Validation
-        Validation.can_read(dataset_path)
+    def compute_pairplot(dataset: DataFrame, destination_file: str = None):
+        """
 
+        :param dataset:
+        :param destination_file:
+        :return:
+        """
         sns.set(style='ticks', color_codes=True)
-        dataset = pd.read_csv(dataset_path)
-        dataset.describe(include='all')
         sns.pairplot(dataset, hue='CLASS', height=2.5)
-        plt.show()
+
+        if destination_file is None:
+            plt.show()
+        else:
+            plt.savefig(destination_file)

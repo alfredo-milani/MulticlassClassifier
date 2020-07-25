@@ -18,6 +18,8 @@ The following libraries are required:
 2. [pandas](https://pandas.pydata.org/)
 3. [matplotlib](https://matplotlib.org/)
 4. [sklearn](https://scikit-learn.org/stable/index.html)
+5. [imblearn](https://pypi.org/project/imblearn/)
+6. [scipy](https://www.scipy.org/)
 
 ## 3. Installation <a name="installation"></a>
 
@@ -69,10 +71,49 @@ python src/Client.py /path/custom_config.ini
 
 Configurations file example:
 ```ini
-# Legend
+# [LEGEND]
 #   [opt] := optional parameter
 #   [dft] := default value
 #   [mnd] := mandatory parameter
+
+
+[GENERAL]
+# [opt] - Directory for temporary files
+# [dft] - /tmp
+tmp = /Volumes/Ramdisk/
+
+# [opt] - Set verbose level to debug
+# [dft] - False
+debug = True
+
+
+[MOBD]
+# [opt] - Compute pairplot
+# [dft] - False
+# pairplot.compute = True
+
+# [opt] - Seed for RNG
+# [dft] - 0
+rng.seed = 43531
+
+# [opt] - Current benchmark evaluation
+# [dft] - 0.0
+benchmark.value = 0.8868
+
+# [opt] - Current deadline (time format: dd/mm/yyyy)
+# [dft] - None
+benchmark.deadline = 23/07/2020
+
+# [opt] - Set test ratio from dataset
+# [dft] - 0.2
+# dataset.test_ratio = 0.3
+
+# [mnd] - Dataset for training purpose (fully qualified path name)
+dataset = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/training_set.csv
+
+# [opt] - Dataset for project evaluation (fully qualified path name)
+# [dft] -
+# dataset.test =
 ```
 
 ## 5. Note <a name="note"></a>

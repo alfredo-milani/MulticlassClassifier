@@ -1,4 +1,6 @@
 import logging
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -58,10 +60,17 @@ class MulticlassClassifier(AbstractClassifier):
         # dataset description
         self.__LOG.debug(f"[DESCRIPTION] Dataset description:\n{self.data.set_.describe(include='all')}")
 
-        # compute pairplot
+        #########################
+        ### compute pair plot ###
+        #########################
         if self.conf.pairplot_compute:
-            self.__LOG.info(f"[DESCRIPTION] Computing pairplot for '{self.conf.dataset}'")
-            PreProcessing.compute_pairplot(self.conf.dataset)
+            self.__LOG.info(f"[DESCRIPTION] Saving pair plot of '{self.conf.dataset}' in '{self.conf.tmp}'")
+            Validation.can_write(
+                self.conf.tmp,
+                f"Directory '{self.conf.tmp}' *must* exists and be writable."
+            )
+            destination_file = Path(self.conf.tmp, Path(self.conf.dataset).stem).with_suffix('.png')
+            PreProcessing.compute_pairplot(self.data.set_, str(destination_file.resolve()))
 
         ###########################
         ### manage missing data ###
