@@ -1,11 +1,14 @@
 import sklearn.model_selection as ms
 import sklearn.svm as svm
 import sklearn.metrics as metrics
+from sklearn.base import BaseEstimator
 
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import SGDClassifier
+from sklearn.naive_bayes import CategoricalNB, GaussianNB
+from sklearn.tree import DecisionTreeClassifier
 
 
 class Tuning(object):
@@ -13,84 +16,10 @@ class Tuning(object):
     Contains helper methods for hyperparameter tuning
     """
 
-    @staticmethod
-    def k_fold_cross_validation_svm(x, y, train_x, k=5, C=1, kernel='linear', degree=3, gamma='auto'):
-        """
-
-        :param x:
-        :param y:
-        :param train_x:
-        :param k:
-        :param C:
-        :param kernel:
-        :param degree:
-        :param gamma:
-        :return:
-        """
-        avg_score = 0
-        cv = ms.KFold(n_splits=k, random_state=0)
-        # https://scikit-learn.org/stable/index.html
-        classifier = svm.SVC(C=C, kernel=kernel, degree=degree, gamma=gamma)
-        for train_index, test_index in cv.split(train_x):
-            fold_train_x, fold_test_x = x[train_index], x[test_index]
-            fold_train_y, fold_test_y = y[train_index], y[test_index]
-            classifier.fit(fold_train_x, fold_train_y)
-            fold_pred_y = classifier.predict(fold_test_x)
-            # accuracy = percentuale esempi classificati correttamente
-            score = metrics.accuracy_score(fold_test_y, fold_pred_y)
-            print(score)
-            avg_score += score
-        avg_score = avg_score / k
-        return avg_score
+    # TODO - vedere se inserire RANDOM_SEED nel file di configurazione per la riproducibilità dei tests
 
     @staticmethod
-    def grid_search_linear_svm(x, y, k, train_x, c_list):
-        """
-        Grid search for hyperparameters tuning with SVM with linear kernel
-        :param x:
-        :param y:
-        :param k:
-        :param train_x:
-        :param c_list:
-        :return:
-        """
-        best_score = 0
-        best_c = None
-        for c in c_list:
-            score = Tuning.k_fold_cross_validation_svm(x, y, train_x, k=k, C=c, kernel='linear')
-            print('C =', c, 'accuracy =', score)
-            if score > best_score:
-                best_score = score
-                best_c = c
-        return best_score, best_c
-
-    @staticmethod
-    def grid_search_rbf_svm(x, y, k, train_x, c_list, gamma_list):
-        """
-        Grid search for hyperparameters tuning with SVM with gaussian kernel
-        :param x:
-        :param y:
-        :param k:
-        :param train_x:
-        :param c_list:
-        :param gamma_list:
-        :return:
-        """
-        best_score = 0
-        best_c = None
-        best_gamma = None
-        for c in c_list:
-            for gamma in gamma_list:
-                score = Tuning.k_fold_cross_validation_svm(x, y, train_x, k=k, C=c, kernel='rbf', gamma=gamma)
-                print('C =', c, 'gamma = ', gamma, 'accuracy =', score)
-            if score > best_score:
-                best_score = score
-                best_c = c
-                best_gamma = gamma
-        return best_score, best_c, best_gamma
-
-    @staticmethod
-    def svm_param_selection(x, y, n_folds, metric):
+    def support_vector_machine_param_selection(x, y, n_folds, metric):
         """
 
         :param x:
@@ -113,7 +42,7 @@ class Tuning(object):
             }
         ]
 
-        clf = ms.GridSearchCV(
+        grid_search = ms.GridSearchCV(
             svm.SVC(),
             param_grid,
             scoring=metric,
@@ -121,22 +50,22 @@ class Tuning(object):
             refit=True,
             n_jobs=-1
         )
-        clf.fit(x, y)
+        grid_search.fit(x, y)
 
         print("Best parameters:")
         print()
-        print(clf.best_params_)
+        print(grid_search.best_params_)
         print()
         print("Grid scores:")
         print()
-        means = clf.cv_results_['mean_test_score']
-        stds = clf.cv_results_['std_test_score']
-        for mean, std, params in zip(means, stds, clf.cv_results_['params']):
+        means = grid_search.cv_results_['mean_test_score']
+        stds = grid_search.cv_results_['std_test_score']
+        for mean, std, params in zip(means, stds, grid_search.cv_results_['params']):
             print("%0.4f (+/-%0.03f) for %r"
                   % (mean, std * 2, params))
         print()
 
-        return clf.best_estimator_
+        return grid_search.best_estimator_
 
     @staticmethod
     def random_forest_param_selection(x, y, n_folds, metric):
@@ -155,7 +84,7 @@ class Tuning(object):
             'n_estimators': [100, 200, 300]
         }
 
-        clf = ms.GridSearchCV(
+        grid_search = ms.GridSearchCV(
             RandomForestClassifier(),
             param_grid,
             scoring=metric,
@@ -163,24 +92,24 @@ class Tuning(object):
             refit=True,
             n_jobs=-1
         )
-        clf.fit(x, y)
+        grid_search.fit(x, y)
 
         print("Best parameters:")
         print()
-        print(clf.best_params_)
+        print(grid_search.best_params_)
         print()
         print("Grid scores:")
         print()
-        means = clf.cv_results_['mean_test_score']
-        stds = clf.cv_results_['std_test_score']
-        for mean, std, params in zip(means, stds, clf.cv_results_['params']):
+        means = grid_search.cv_results_['mean_test_score']
+        stds = grid_search.cv_results_['std_test_score']
+        for mean, std, params in zip(means, stds, grid_search.cv_results_['params']):
             print("%0.4f (+/-%0.03f) for %r" % (mean, std * 2, params))
         print()
 
-        return clf.best_estimator_
+        return grid_search.best_estimator_
 
     @staticmethod
-    def mlp_param_selection(x, y, n_folds, metric):
+    def multilayer_perceptron_param_selection(x, y, n_folds, metric):
         """
         Multi-layer perceptron param selection
         :param x:
@@ -189,15 +118,15 @@ class Tuning(object):
         :param metric:
         :return:
         """
-        param_grid = [{
+        param_grid = {
             'hidden_layer_sizes': [(100, 50, 25), (100, 50), (100,)],
             'activation': ['tanh', 'relu'],
             'solver': ['sgd', 'adam'],
             'learning_rate_init': [0.1, 0.01, 10 ** -3, 10 ** -4],
             'learning_rate': ['constant', 'adaptive']
-        }]
+        }
 
-        clf = ms.GridSearchCV(
+        grid_search = ms.GridSearchCV(
             MLPClassifier(max_iter=10000),
             param_grid=param_grid,
             scoring=metric,
@@ -205,24 +134,24 @@ class Tuning(object):
             refit=True,
             n_jobs=-1
         )
-        clf.fit(x, y)
+        grid_search.fit(x, y)
 
         print("Best parameters:")
         print()
-        print(clf.best_params_)
+        print(grid_search.best_params_)
         print()
         print("Grid scores:")
         print()
-        means = clf.cv_results_['mean_test_score']
-        stds = clf.cv_results_['std_test_score']
-        for mean, std, params in zip(means, stds, clf.cv_results_['params']):
+        means = grid_search.cv_results_['mean_test_score']
+        stds = grid_search.cv_results_['std_test_score']
+        for mean, std, params in zip(means, stds, grid_search.cv_results_['params']):
             print("%0.4f (+/-%0.03f) for %r" % (mean, std * 2, params))
         print()
 
-        return clf.best_estimator_
+        return grid_search.best_estimator_
 
     @staticmethod
-    def knn_param_selection(x, y, n_folds, metric):
+    def knearest_neighbors_param_selection(x, y, n_folds, metric):
         """
 
         :param x:
@@ -237,7 +166,7 @@ class Tuning(object):
             'p': [3, 4, 5]
         }
 
-        clf = ms.GridSearchCV(
+        grid_search = ms.GridSearchCV(
             KNeighborsClassifier(),
             param_grid=param_grid,
             scoring=metric,
@@ -245,24 +174,24 @@ class Tuning(object):
             refit=True,
             n_jobs=-1
         )
-        clf.fit(x, y)
+        grid_search.fit(x, y)
 
         print("Best parameters:")
         print()
-        print(clf.best_params_)
+        print(grid_search.best_params_)
         print()
         print("Grid scores:")
         print()
-        means = clf.cv_results_['mean_test_score']
-        stds = clf.cv_results_['std_test_score']
-        for mean, std, params in zip(means, stds, clf.cv_results_['params']):
+        means = grid_search.cv_results_['mean_test_score']
+        stds = grid_search.cv_results_['std_test_score']
+        for mean, std, params in zip(means, stds, grid_search.cv_results_['params']):
             print("%0.4f (+/-%0.03f) for %r" % (mean, std * 2, params))
         print()
 
-        return clf.best_estimator_
+        return grid_search.best_estimator_
 
     @staticmethod
-    def sgd_param_selection(x, y, n_folds, metric):
+    def stochastic_gradient_descent_param_selection(x, y, n_folds, metric):
         """
 
         :param x:
@@ -278,7 +207,7 @@ class Tuning(object):
             'penality': ['l2', 'l1', 'elasticnet']
         }
 
-        clf = ms.GridSearchCV(
+        grid_search = ms.GridSearchCV(
             SGDClassifier(max_iter=6000),
             param_grid=param_grid,
             scoring=metric,
@@ -286,18 +215,147 @@ class Tuning(object):
             refit=True,
             n_jobs=-1
         )
-        clf.fit(x, y)
+        grid_search.fit(x, y)
 
         print("Best parameters:")
         print()
-        print(clf.best_params_)
+        print(grid_search.best_params_)
         print()
         print("Grid scores:")
         print()
-        means = clf.cv_results_['mean_test_score']
-        stds = clf.cv_results_['std_test_score']
-        for mean, std, params in zip(means, stds, clf.cv_results_['params']):
+        means = grid_search.cv_results_['mean_test_score']
+        stds = grid_search.cv_results_['std_test_score']
+        for mean, std, params in zip(means, stds, grid_search.cv_results_['params']):
             print("%0.4f (+/-%0.03f) for %r" % (mean, std * 2, params))
         print()
 
-        return clf.best_estimator_
+        return grid_search.best_estimator_
+
+    # TODO - migliorare naive_bayes
+    @staticmethod
+    def naive_bayes_param_selection(x, y, n_folds, metric):
+        """
+
+        :param x:
+        :param y:
+        :param n_folds:
+        :param metric:
+        :return:
+        """
+        param_grid = {
+            'priors': [None, [0.25, 0.25, 0.25, 0.25]],
+            'var_smoothing': [10e-9, 10e-6, 10e-3, 10e-1]
+        }
+
+        grid_search = ms.GridSearchCV(
+            GaussianNB(),
+            param_grid=param_grid,
+            scoring=metric,
+            cv=n_folds,
+            refit=True,
+            n_jobs=-1
+        )
+        grid_search.fit(x, y)
+
+        print("Best parameters:")
+        print()
+        print(grid_search.best_params_)
+        print()
+        print("Grid scores:")
+        print()
+        means = grid_search.cv_results_['mean_test_score']
+        stds = grid_search.cv_results_['std_test_score']
+        for mean, std, params in zip(means, stds, grid_search.cv_results_['params']):
+            print("%0.4f (+/-%0.03f) for %r" % (mean, std * 2, params))
+        print()
+
+        return grid_search.best_estimator_
+
+    @staticmethod
+    def ada_boosting_param_selection(x, y, n_folds, metric):
+        """
+
+        :param x:
+        :param y:
+        :param n_folds:
+        :param metric:
+        :return:
+        """
+        param_grid = {
+            'base_estimator__criterion': ['gini', 'entropy'],
+            'base_estimator__splitter': ['best', 'random'],
+            'n_estimators': [100, 200, 300]
+        }
+
+        dtc = DecisionTreeClassifier(
+            max_depth=90,
+            max_features=3,
+            min_samples_leaf=4,
+            class_weight='balanced'
+        )
+        grid_search = ms.GridSearchCV(
+            AdaBoostClassifier(base_estimator=dtc),
+            param_grid=param_grid,
+            scoring=metric,
+            cv=n_folds,
+            refit=True,
+            n_jobs=-1
+        )
+        grid_search.fit(x, y)
+
+        print("Best parameters:")
+        print()
+        print(grid_search.best_params_)
+        print()
+        print("Grid scores:")
+        print()
+        means = grid_search.cv_results_['mean_test_score']
+        stds = grid_search.cv_results_['std_test_score']
+        for mean, std, params in zip(means, stds, grid_search.cv_results_['params']):
+            print("%0.4f (+/-%0.03f) for %r" % (mean, std * 2, params))
+        print()
+
+        return grid_search.best_estimator_
+
+    @staticmethod
+    def kmeans_param_selection(x, y, n_folds, metric):
+        """
+
+        :param x:
+        :param y:
+        :param n_folds:
+        :param metric:
+        :return:
+        """
+
+        # TODO - seguire guida: https://www.datacamp.com/community/tutorials/k-means-clustering-python
+
+        param_grid = {
+            'n_neighbors': [3, 5, 7, 11],
+            'metric': ['minkowski', 'euclidean', 'chebyshev'],
+            'p': [3, 4, 5]
+        }
+
+        grid_search = ms.GridSearchCV(
+            KNeighborsClassifier(),
+            param_grid=param_grid,
+            scoring=metric,
+            cv=n_folds,
+            refit=True,
+            n_jobs=-1
+        )
+        grid_search.fit(x, y)
+
+        print("Best parameters:")
+        print()
+        print(grid_search.best_params_)
+        print()
+        print("Grid scores:")
+        print()
+        means = grid_search.cv_results_['mean_test_score']
+        stds = grid_search.cv_results_['std_test_score']
+        for mean, std, params in zip(means, stds, grid_search.cv_results_['params']):
+            print("%0.4f (+/-%0.03f) for %r" % (mean, std * 2, params))
+        print()
+
+        return grid_search.best_estimator_
