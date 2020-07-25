@@ -167,85 +167,69 @@ class MulticlassClassifier(AbstractClassifier):
         naive_bayes = 'Naive Bayes'
         kmeans = 'K-Means'
 
-        self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {multilayer_perceptron}")
-        mlp_classifier = Tuning.multilayer_perceptron_param_selection(
-            self.training.set_x,
-            self.training.set_y,
-            n_folds=10,
-            metric='f1_macro'
-        )
-        f1_score = metrics.f1_score(self.test.set_y, mlp_classifier.predict(self.test.set_x), average='macro')
-        self.__LOG.debug(f"[TUNING] F1 score for {multilayer_perceptron}: {f1_score}")
-
-        self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {support_vector_machine}")
-        svm_classifier = Tuning.support_vector_machine_param_selection(
-            self.training.set_x,
-            self.training.set_y,
-            n_folds=10,
-            metric='f1_macro'
-        )
-        f1_score = metrics.f1_score(self.test.set_y, svm_classifier.predict(self.test.set_x), average='macro')
-        self.__LOG.debug(f"[TUNING] F1 score for {support_vector_machine}: {f1_score}")
-
-        self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {random_forest}")
-        random_forest_classifier = Tuning.random_forest_param_selection(
-            self.training.set_x,
-            self.training.set_y,
-            n_folds=10,
-            metric='f1_macro'
-        )
-        f1_score = metrics.f1_score(self.test.set_y, random_forest_classifier.predict(self.test.set_x), average='macro')
-        self.__LOG.debug(f"[TUNING] F1 score for {random_forest}: {f1_score}")
-
-        self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {knearest_neighbors}")
-        knn_classifier = Tuning.knearest_neighbors_param_selection(
-            self.training.set_x,
-            self.training.set_y,
-            n_folds=10,
-            metric='f1_macro'
-        )
-        f1_score = metrics.f1_score(self.test.set_y, knn_classifier.predict(self.test.set_x), average='macro')
-        self.__LOG.debug(f"[TUNING] F1 score for {knearest_neighbors}: {f1_score}")
-
-        self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {stochastic_gradient_descent}")
-        sgd_classifier = Tuning.stochastic_gradient_descent_param_selection(
-            self.training.set_x,
-            self.training.set_y,
-            n_folds=10,
-            metric='f1_macro'
-        )
-        f1_score = metrics.f1_score(self.test.set_y, sgd_classifier.predict(self.test.set_x), average='macro')
-        self.__LOG.debug(f"[TUNING] F1 score for {stochastic_gradient_descent}: {f1_score}")
-
-        self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {ada_boost}")
-        ada_boost_classifier = Tuning.ada_boosting_param_selection(
-            self.training.set_x,
-            self.training.set_y,
-            n_folds=10,
-            metric='f1_macro'
-        )
-        f1_score = metrics.f1_score(self.test.set_y, ada_boost_classifier.predict(self.test.set_x), average='macro')
-        self.__LOG.debug(f"[TUNING] F1 score for {ada_boost}: {f1_score}")
-
-        self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {naive_bayes}")
-        naive_bayes_classifier = Tuning.naive_bayes_param_selection(
-            self.training.set_x,
-            self.training.set_y,
-            n_folds=10,
-            metric='f1_macro'
-        )
-        f1_score = metrics.f1_score(self.test.set_y, naive_bayes_classifier.predict(self.test.set_x), average='macro')
-        self.__LOG.debug(f"[TUNING] F1 score for {naive_bayes}: {f1_score}")
-
-        # self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {kmeans}")
-        # kmeans_classifier = Tuning.kmeans_param_selection(
+        # self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {multilayer_perceptron}")
+        # mlp_classifier = Tuning.multilayer_perceptron_param_selection(
         #     self.training.set_x,
-        #     self.training.set_y,
-        #     n_folds=10,
-        #     metric='f1_macro'
+        #     self.training.set_y
         # )
-        # f1_score = metrics.f1_score(self.test.set_y, kmeans_classifier.predict(self.test.set_x), average='macro')
-        # self.__LOG.debug(f"[TUNING] F1 score for {kmeans}: {f1_score}")
+        # f1_score = metrics.f1_score(self.test.set_y, mlp_classifier.predict(self.test.set_x), average='macro')
+        # self.__LOG.debug(f"[TUNING] F1 score for {multilayer_perceptron}: {f1_score}")
+
+        # self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {support_vector_machine}")
+        # svm_classifier = Tuning.support_vector_machine_param_selection(
+        #     self.training.set_x,
+        #     self.training.set_y
+        # )
+        # f1_score = metrics.f1_score(self.test.set_y, svm_classifier.predict(self.test.set_x), average='macro')
+        # self.__LOG.debug(f"[TUNING] F1 score for {support_vector_machine}: {f1_score}")
+
+        # self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {random_forest}")
+        # random_forest_classifier = Tuning.random_forest_param_selection(
+        #     self.training.set_x,
+        #     self.training.set_y
+        # )
+        # f1_score = metrics.f1_score(self.test.set_y, random_forest_classifier.predict(self.test.set_x), average='macro')
+        # self.__LOG.debug(f"[TUNING] F1 score for {random_forest}: {f1_score}")
+
+        # self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {knearest_neighbors}")
+        # knn_classifier = Tuning.knearest_neighbors_param_selection(
+        #     self.training.set_x,
+        #     self.training.set_y
+        # )
+        # f1_score = metrics.f1_score(self.test.set_y, knn_classifier.predict(self.test.set_x), average='macro')
+        # self.__LOG.debug(f"[TUNING] F1 score for {knearest_neighbors}: {f1_score}")
+
+        # self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {stochastic_gradient_descent}")
+        # sgd_classifier = Tuning.stochastic_gradient_descent_param_selection(
+        #     self.training.set_x,
+        #     self.training.set_y
+        # )
+        # f1_score = metrics.f1_score(self.test.set_y, sgd_classifier.predict(self.test.set_x), average='macro')
+        # self.__LOG.debug(f"[TUNING] F1 score for {stochastic_gradient_descent}: {f1_score}")
+
+        # self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {ada_boost}")
+        # ada_boost_classifier = Tuning.ada_boosting_param_selection(
+        #     self.training.set_x,
+        #     self.training.set_y
+        # )
+        # f1_score = metrics.f1_score(self.test.set_y, ada_boost_classifier.predict(self.test.set_x), average='macro')
+        # self.__LOG.debug(f"[TUNING] F1 score for {ada_boost}: {f1_score}")
+
+        # self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {naive_bayes}")
+        # naive_bayes_classifier = Tuning.naive_bayes_param_selection(
+        #     self.training.set_x,
+        #     self.training.set_y
+        # )
+        # f1_score = metrics.f1_score(self.test.set_y, naive_bayes_classifier.predict(self.test.set_x), average='macro')
+        # self.__LOG.debug(f"[TUNING] F1 score for {naive_bayes}: {f1_score}")
+
+        self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {kmeans}")
+        kmeans_classifier = Tuning.kmeans_param_selection(
+            self.training.set_x,
+            self.training.set_y
+        )
+        f1_score = metrics.f1_score(self.test.set_y, kmeans_classifier.predict(self.test.set_x), average='macro')
+        self.__LOG.debug(f"[TUNING] F1 score for {kmeans}: {f1_score}")
 
     def train(self) -> None:
         pass
