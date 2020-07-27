@@ -36,12 +36,14 @@ class Conf(dict):
     # Section MOBD
     S_MOBD = "MOBD"
     # Keys
-    K_PAIRPLOT_COMPUTE = "pairplot.compute"
-    V_DEFAULT_PAIRPLOT_COMPUTE = False
+    K_PAIR_PLOT_COMPUTE = "pair_plot.compute"
+    V_DEFAULT_PAIR_PLOT_COMPUTE = False
     K_RNG_SEED = "rng.seed"
     V_DEFAULT_RNG_SEED = 0
     K_BENCHMARK_VALUE = "benchmark.value"
     V_DEFAULT_BENCHMARK_VALUE = 0.0
+    K_BENCHMARK_THRESHOLD = "benchmark.threshold"
+    V_DEFAULT_BENCHMARK_THRESHOLD = 0.0
     K_BENCHMARK_DEADLINE = "benchmark.deadline"
     V_DEFAULT_BENCHMARK_DEADLINE = date.today()
     K_DATASET_TEST_RATIO = "dataset.test_ratio"
@@ -68,9 +70,10 @@ class Conf(dict):
         self.debug = Conf.V_DEFAULT_DEBUG
 
         # section MOBD
-        self.pairplot_compute = Conf.V_DEFAULT_PAIRPLOT_COMPUTE
+        self.pair_plot_compute = Conf.V_DEFAULT_PAIR_PLOT_COMPUTE
         self.rng_seed = Conf.V_DEFAULT_RNG_SEED
         self.benchmark_value = Conf.V_DEFAULT_BENCHMARK_VALUE
+        self.benchmark_threshold = Conf.V_DEFAULT_BENCHMARK_THRESHOLD
         self.benchmark_deadline = Conf.V_DEFAULT_BENCHMARK_DEADLINE
         self.dataset_test_ratio = Conf.V_DEFAULT_DATASET_TEST_RATIO
         self.dataset = Conf.V_DEFAULT_DATASET
@@ -101,9 +104,10 @@ class Conf(dict):
         self.__put_bool(Conf.K_DEBUG, Conf.S_GENERAL, Conf.K_DEBUG, Conf.V_DEFAULT_DEBUG)
 
         # section MOBD
-        self.__put_bool(Conf.K_PAIRPLOT_COMPUTE, Conf.S_MOBD, Conf.K_PAIRPLOT_COMPUTE, Conf.V_DEFAULT_PAIRPLOT_COMPUTE)
+        self.__put_bool(Conf.K_PAIR_PLOT_COMPUTE, Conf.S_MOBD, Conf.K_PAIR_PLOT_COMPUTE, Conf.V_DEFAULT_PAIR_PLOT_COMPUTE)
         self.__put_int(Conf.K_RNG_SEED, Conf.S_MOBD, Conf.K_RNG_SEED, Conf.V_DEFAULT_RNG_SEED)
         self.__put_float(Conf.K_BENCHMARK_VALUE, Conf.S_MOBD, Conf.K_BENCHMARK_VALUE, Conf.V_DEFAULT_BENCHMARK_VALUE)
+        self.__put_float(Conf.K_BENCHMARK_THRESHOLD, Conf.S_MOBD, Conf.K_BENCHMARK_THRESHOLD, Conf.V_DEFAULT_BENCHMARK_THRESHOLD)
         self.__put_date(Conf.K_BENCHMARK_DEADLINE, Conf.S_MOBD, Conf.K_BENCHMARK_DEADLINE, Conf.V_DEFAULT_BENCHMARK_DEADLINE)
         self.__put_float(Conf.K_DATASET_TEST_RATIO, Conf.S_MOBD, Conf.K_DATASET_TEST_RATIO, Conf.V_DEFAULT_DATASET_TEST_RATIO)
         self.__put_str(Conf.K_DATASET, Conf.S_MOBD, Conf.K_DATASET, Conf.V_DEFAULT_DATASET)
@@ -150,8 +154,18 @@ class Conf(dict):
             self[key] = float(default)
 
     def __put_tuple(self, key: str, section: str, section_key: str, default: tuple) -> None:
+        """
+
+        :param key:
+        :param section:
+        :param section_key:
+        :param default:
+        :raise: ValueError if ast.literal_eval(node_or_string) fails parsing
+            input string (syntax error in key/value pairs type)
+        """
         try:
-            self[key] = tuple(self.__config_parser.get(section, section_key))
+            string = self.__config_parser.get(section, section_key)
+            self[key] = ast.literal_eval(string)
         except (configparser.NoOptionError, configparser.NoSectionError):
             if default is None:
                 raise Conf.NoValueError(key)
@@ -225,12 +239,12 @@ class Conf(dict):
         self[Conf.K_DEBUG] = debug
 
     @property
-    def pairplot_compute(self) -> bool:
-        return self[Conf.K_PAIRPLOT_COMPUTE]
+    def pair_plot_compute(self) -> bool:
+        return self[Conf.K_PAIR_PLOT_COMPUTE]
 
-    @pairplot_compute.setter
-    def pairplot_compute(self, pairplot_compute: bool):
-        self[Conf.K_PAIRPLOT_COMPUTE] = pairplot_compute
+    @pair_plot_compute.setter
+    def pair_plot_compute(self, pair_plot_compute: bool):
+        self[Conf.K_PAIR_PLOT_COMPUTE] = pair_plot_compute
 
     @property
     def rng_seed(self) -> int:
@@ -255,6 +269,14 @@ class Conf(dict):
     @benchmark_value.setter
     def benchmark_value(self, benchmark_value: float):
         self[Conf.K_BENCHMARK_VALUE] = benchmark_value
+
+    @property
+    def benchmark_threshold(self) -> float:
+        return self[Conf.K_BENCHMARK_THRESHOLD]
+
+    @benchmark_threshold.setter
+    def benchmark_threshold(self, benchmark_threshold: float):
+        self[Conf.K_BENCHMARK_THRESHOLD] = benchmark_threshold
 
     @property
     def benchmark_deadline(self) -> date:

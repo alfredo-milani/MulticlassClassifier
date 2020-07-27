@@ -1,0 +1,152 @@
+\ProvidesPackage{style}
+
+
+
+\usepackage{comment}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+% \usepackage[italian]{babel}
+\usepackage[margin = 1in]{geometry}
+\usepackage{
+	amsmath,
+	amsthm,
+	amssymb
+}
+\usepackage{setspace}
+\usepackage{titling}
+\usepackage[page, toc, titletoc, title]{appendix}
+\usepackage{
+    listings, 
+    lstautogobble, 
+    courier, 
+    xcolor
+}
+\usepackage{caption}
+\usepackage{tikz}
+\usepackage{wrapfig}
+\usetikzlibrary{arrows}
+% to create tables
+\usepackage{
+    tabularx, 
+    booktabs, 
+    makecell, % to brake line inside tabula cell
+    changepage % to change page width to fit tabular
+}
+% to plot graph
+\usepackage{pgfplotstable, pgfplots}
+\pgfplotsset{compat=1.16}
+
+
+
+\graphicspath{{../res/images/}}
+
+% toc depth
+\addtocontents{toc}{\setcounter{tocdepth}{5}}
+
+% listing configuration
+\lstset{
+	language=Java,
+	morekeywords={@Override, @FunctionalInterface, @Nullable, @Nonnull, @Nonnegative},
+	basicstyle=\footnotesize\ttfamily, %or \small or \footnotesize or \tiny etc.
+	commentstyle=\color{gray},
+	keywordstyle=\bfseries, % \bfseries\color{blue}
+	stringstyle=\color{brown},
+	rulecolor=\color{black},
+	showstringspaces=false,
+	numbers=left,
+	numbersep=2pt,
+	% xleftmargin=2pt,
+	% xrightmargin=2pt,
+	frame=single, % shadowbox, tb, single
+	framexleftmargin=2pt,
+	framexrightmargin=2pt,
+	% linewidth=18cm,
+	breaklines=true,
+	% postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}, 
+	autogobble=true,
+	tabsize=2,
+	inputpath="/Volumes/Data/Projects/Java/--STANDALONE/NextEventSimulator"
+}
+% define format for *.properties files
+\lstdefinelanguage{Properties}{
+	basicstyle=\footnotesize\ttfamily,
+	columns=fullflexible,
+	morecomment=[s][\color{gray}\bfseries]{[}{]},
+	morecomment=[l]{\#},
+	commentstyle=\color{gray},
+	morekeywords={},
+	otherkeywords={=},
+	keywordstyle=\bfseries
+}
+
+
+
+% redefine \paragraph command to insert breakline
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+    {-3.25ex\@plus -1ex \@minus -.2ex}%
+    {1.5ex \@plus .2ex}%
+    {\normalfont\normalsize\bfseries}
+}
+\renewcommand*\thelstnumber{
+	\arabic{lstnumber}:
+}
+\DeclareCaptionFormat{mylst}{
+	\hrule#1#2#3
+}
+\captionsetup[lstlisting]{
+	format=mylst,
+	labelfont=bf,
+	singlelinecheck=off,
+	labelsep=space
+}
+
+% to compute/draw mean from data table
+\newcommand\DrawMean[1][]{
+    \draw[#1] 
+    (axis cs:\pgfkeysvalueof{/pgfplots/xmin},\Mean) -- 
+    (axis cs:\pgfkeysvalueof{/pgfplots/xmax},\Mean);
+}
+\newcommand\GetMean[2]{
+    \pgfplotstableread{#1}\tableA
+    \pgfplotstableset{
+        create on use/new/.style={
+            create col/expr={\pgfmathaccuma + \thisrow{#2}}},
+    }
+    \pgfplotstablegetrowsof{\tableA}
+    \pgfmathsetmacro{\NumRows}{\pgfplotsretval}
+    \pgfplotstablegetelem{\numexpr\NumRows-1\relax}{new}\of{#1} 
+    \pgfmathsetmacro{\Sum}{\pgfplotsretval}
+    \pgfmathsetmacro{\Mean}{\Sum/\NumRows}
+}
+% to manage custom tables
+\newcolumntype{+} {
+    >{\global\let\currentrowstyle\relax}
+}
+\newcolumntype{^} {
+    >{\currentrowstyle}
+}
+\newcommand{\rowstyle}[1] {
+    \gdef
+    \currentrowstyle{#1}
+    #1 \ignorespaces
+}
+% add new empty page (remember to \clearpage before)
+\newcommand{\empypage} {
+    \newpage
+    \null
+    \thispagestyle{empty}
+    \newpage
+    \addtocounter{page}{-1}
+}
+\newcommand{\subtitle}[1] {
+	\posttitle{
+		\par\end{center}
+	\begin{center}
+		\large#1
+	\end{center}
+	\vskip0.5em
+	}
+}
+\newcommand {
+	\emptyline
+} { \vspace{4.5mm} }
