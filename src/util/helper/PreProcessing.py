@@ -44,52 +44,46 @@ class PreProcessing(object):
             plt.savefig(destination_file)
 
     @staticmethod
-    def zscore(dataset: DataFrame, threshold: int = DEFAULT_ZSCORE_THRESHOLD):
+    def zscore(dataset: ndarray, threshold: int = DEFAULT_ZSCORE_THRESHOLD):
         """
 
-        :param dataset:
+        :param dataset: column of a dataset (1-dimension array)
         :param threshold:
-        :return:
+        :return: mask with True values iif abs(zscore) > threshold
         """
-        for feature in dataset.columns:
-            # using z-score method to detect outliers
-            zscore = stats.zscore(dataset[feature], nan_policy='raise')
-            # outlier is replaced with feature mean
-            dataset.loc[np.abs(zscore) > threshold, feature] = dataset[feature].mean()
+        # using z-score method to detect outliers
+        zscore = stats.zscore(dataset, nan_policy='raise')
+        # outlier is replaced with feature mean
+        return np.array(np.abs(zscore) > threshold)
 
     @staticmethod
-    def modified_zscore(dataset: DataFrame, threshold: int = DEFAULT_MODIFIED_ZSCORE_THRESHOLD):
+    def modified_zscore(dataset: ndarray, threshold: int = DEFAULT_MODIFIED_ZSCORE_THRESHOLD):
         """
 
-        :param dataset:
+        :param dataset: column of a dataset (1-dimension array)
         :param threshold:
-        :return:
+        :return: mask with True values iif abs(modified_zscore) > threshold
         """
-        for feature in dataset.columns:
-            # using a modified version of z-score method to detect outliers
-            # this method uses median and MAD rather than the mean and standard deviation
-            # the median and MAD are robust measures of central tendency and dispersion, respectively
-            median = np.median(dataset[feature])
-            median_abs_deviation = np.median([np.abs(x - median) for x in dataset[feature]])
-            modified_zscore = [0.6745 * (x - median) / median_abs_deviation for x in dataset[feature]]
-            # outlier is replaced with feature mean
-            dataset.loc[np.abs(modified_zscore) > threshold, feature] = dataset[feature].mean()
+        # using a modified version of z-score method to detect outliers
+        # this method uses median and MAD rather than the mean and standard deviation
+        # the median and MAD are robust measures of central tendency and dispersion, respectively
+        median = np.median(dataset)
+        median_abs_deviation = np.median([np.abs(x - median) for x in dataset])
+        modified_zscore = [0.6745 * (x - median) / median_abs_deviation for x in dataset]
+        # outlier is replaced with feature mean
+        return np.array(np.abs(modified_zscore) > threshold)
 
     @staticmethod
-    def iqr(dataset: DataFrame):
+    def iqr(dataset: ndarray):
         """
 
-        :param dataset:
-        :return:
+        :param dataset: column of a dataset (1-dimension array)
+        :return: mask with True values iif (dataset > upper_bound) | (dataset < lower_bound)
         """
-        for feature in dataset.columns:
-            # using inter-quartile range method to detect outliers
-            quartile_1, quartile_3 = np.percentile(dataset[feature], [25, 75])
-            iqr = quartile_3 - quartile_1
-            lower_bound = quartile_1 - (iqr * 1.5)
-            upper_bound = quartile_3 + (iqr * 1.5)
-            # outlier is replaced with feature mean
-            dataset.loc[
-                (dataset[feature] > upper_bound) | (dataset[feature] < lower_bound),
-                feature
-            ] = dataset[feature].mean()
+        # using inter-quartile range method to detect outliers
+        quartile_1, quartile_3 = np.percentile(dataset, [25, 75])
+        iqr = quartile_3 - quartile_1
+        lower_bound = quartile_1 - (iqr * 1.5)
+        upper_bound = quartile_3 + (iqr * 1.5)
+        # outlier is replaced with feature mean
+        return np.array((dataset > upper_bound) | (dataset < lower_bound))

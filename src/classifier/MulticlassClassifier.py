@@ -163,9 +163,11 @@ class MulticlassClassifier(AbstractClassifier):
         )
 
         # TODO - devono essere sostituiti anche gli outliers del test set ?
-        # PreProcessing.zscore(self.training.set_x)
-        PreProcessing.modified_zscore(self.training.set_x)
-        # PreProcessing.iqr(self.training.set_x)
+        for feature in self.training.set_x.columns:
+            # zscore_mask = PreProcessing.zscore(self.training.set_x[feature])
+            zscore_mask = PreProcessing.modified_zscore(self.training.set_x[feature])
+            # zscore_mask = PreProcessing.iqr(self.training.set_x[feature])
+            self.training.set_x.loc[zscore_mask, feature] = feature_mean_dict[feature]
 
         self.__LOG.debug(
             f"[DESCRIPTION] Training set x description after manage outlier:\n"
