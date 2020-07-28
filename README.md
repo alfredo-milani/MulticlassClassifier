@@ -118,20 +118,21 @@ rng.seed = 43531
 [MOBD]
 # [opt] - Best benchmark computed for F1-score metric
 # [dft] - 0.0
-benchmark.best_found = (0.844, 'Multi-Layer Perceptron')
+benchmark.best_found = (0.8444, 'Multi-Layer Perceptron')
 
 # [opt] - Current benchmark threshold evaluation and deadline (time format: dd/mm/yyyy)
 # [dft] - (0.0 - 'datetime.today()')
-benchmark.threshold = (0.8868, '23/07/2020')
+benchmark.threshold = (0.8906, '04/09/2020')
 
 # [opt] - Dataset for project evaluation (fully qualified path name)
 #   If tool shutdown without message error, probably the format of test set file is wrong.
 #   By default this tool manages test file without index column (so, saved from pandas.data_frame.to_csv('path', index=False))
-#   If you want to input test set file with index column just go to Evaluator.__init__() and change line 
+#   If you want to input test set file with index column just go to Evaluator.__init__() and change line
 #     self.__test = Set(pd.read_csv(self.conf.dataset_test)) to self.__test = Set(pd.read_csv(self.conf.dataset_test, index_col=0))
 # [dft] -
-dataset.test = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/test_set_index.csv
+# dataset.test = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/test_set_index.csv
 # dataset.test = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/test_set_no_index.csv
+# dataset.test = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/test_set_no_index_features.csv
 ```
 
 ## 5. Note <a name="note"></a>
