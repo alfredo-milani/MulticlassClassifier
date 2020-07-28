@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from statistics import mean
 
 import numpy as np
 import pandas as pd
@@ -10,10 +11,14 @@ import scipy
 import sklearn.preprocessing as prep
 import sklearn.model_selection as ms
 import sklearn.metrics as metrics
+from imblearn.pipeline import Pipeline
 from imblearn.under_sampling import RandomUnderSampler
-from sklearn.feature_selection import SelectKBest, mutual_info_classif
+from numpy.ma import std
+from sklearn.feature_selection import SelectKBest, mutual_info_classif, RFE, RFECV
 from imblearn.over_sampling import ADASYN, SMOTE, RandomOverSampler
 from scipy import stats
+from sklearn.model_selection import RepeatedStratifiedKFold, cross_val_score
+from sklearn.tree import DecisionTreeClassifier
 
 from classifier import AbstractClassifier
 from model import Conf, Set
@@ -93,7 +98,7 @@ class MulticlassClassifier(AbstractClassifier):
         class3 = counts[2]
         class4 = counts[3]
         self.__LOG.debug(
-            f"[DESCRIPTION] Class percentage :\n"
+            f"[DESCRIPTION] Class percentage in dataset :\n"
             f"\tC1: {round(class1 / (class1 + class2 + class3 + class4) * 100, 2)} %\n"
             f"\tC2: {round(class2 / (class1 + class2 + class3 + class4) * 100, 2)} %\n"
             f"\tC3: {round(class3 / (class1 + class2 + class3 + class4) * 100, 2)} %\n"
@@ -167,6 +172,7 @@ class MulticlassClassifier(AbstractClassifier):
         for feature in self.training.set_x.columns:
             # using feature median from training set to manage missing values for training and test set
             # it is not used mean as it is affected by outliers
+            # TODO - provare sia con media che con mediana
             feature_median_dict[feature] = self.training.set_x[feature].median()
             self.training.set_x[feature].fillna(feature_median_dict[feature], inplace=True)
             self.test.set_x[feature].fillna(feature_median_dict[feature], inplace=True)
@@ -183,6 +189,8 @@ class MulticlassClassifier(AbstractClassifier):
         #######################
         ### manage outliers ###
         #######################
+        # TODO - vedere se la rimozione degli outliers è necessaria/utile se
+        #        si dopo si sua MinMaxScaler
         zscore = 'z-score'
         modified_zscore = 'modified z-score'
         iqr = 'inter-quantile range'
@@ -228,7 +236,7 @@ class MulticlassClassifier(AbstractClassifier):
         ##########################
         # TODO - provare un approccio di tipo wrapper, il Recursive Feature Elimination o il SelectFromModel di sklearn
         # do not consider the 5 features that have less dependence on the target feature
-        # (i.e. the class to which they belong)
+        #   (i.e. the class to which they belong)
         selector = SelectKBest(mutual_info_classif, k=15)
         self.__LOG.info(f"[FEATURE SELECTION] Feature selection using {type(selector).__qualname__}")
         selector.fit(self.training.set_x, self.training.set_y)
@@ -239,6 +247,24 @@ class MulticlassClassifier(AbstractClassifier):
             f"[FEATURE SELECTION] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
         self.__LOG.debug(
             f"[FEATURE SELECTION] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
+
+        # ### Recursive Feature Elimination
+        # # create pipeline
+        # rfe = RFECV(estimator=DecisionTreeClassifier())
+        # model = DecisionTreeClassifier()
+        # pipeline = Pipeline(steps=[('s', rfe), ('m', model)])
+        # # evaluate model
+        # cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+        # n_scores = cross_val_score(pipeline, self.training.set_x, self.training.set_y,
+        #                            scoring='accuracy', cv=cv, n_jobs=-1, error_score='raise')
+        # # report performance
+        # print('Accuracy: %.3f (%.3f)' % (mean(n_scores), std(n_scores)))
+        #
+        # # fit RFE
+        # rfe.fit(self.training.set_x, self.training.set_y)
+        # # summarize all features
+        # for i in range(self.training.set_x.shape[1]):
+        #     print('Column: %d, Selected %s, Rank: %.3f' % (i, rfe.support_[i], rfe.ranking_[i]))
 
     def sample(self) -> None:
         ###############################
@@ -263,32 +289,40 @@ class MulticlassClassifier(AbstractClassifier):
         ###############################
         ### hyper-parameters tuning ###
         ###############################
-        self.__LOG.info(f"[TUNING] Hyper-parameters tuning of: {', '.join(k for k in self.classifiers.keys())}")
+        self.__LOG.info(f"[TUNING] Hyper-parameters tuning of: {', '.join(self.classifiers.keys())}")
 
         for name, classifier in self.classifiers.items():
             self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {name}")
             if name == MulticlassClassifier._MULTILAYER_PERCEPTRON:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(self.training.set_x, self.training.set_y)
             elif name == MulticlassClassifier._SUPPORT_VECTOR_MACHINE:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.support_vector_machine_param_selection(self.training.set_x, self.training.set_y)
             elif name == MulticlassClassifier._RANDOM_FOREST:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.random_forest_param_selection(self.training.set_x, self.training.set_y)
             elif name == MulticlassClassifier._KNEAREST_NEIGHBORS:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.knearest_neighbors_param_selection(self.training.set_x, self.training.set_y)
             elif name == MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(self.training.set_x, self.training.set_y)
             elif name == MulticlassClassifier._ADA_BOOST:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.ada_boosting_param_selection(self.training.set_x, self.training.set_y)
             elif name == MulticlassClassifier._NAIVE_BAYES:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.naive_bayes_param_selection(self.training.set_x, self.training.set_y)
             elif name == MulticlassClassifier._KMEANS:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.kmeans_param_selection(self.training.set_x, self.training.set_y)
 
     def evaluate(self) -> None:
         ###############################
         ### classifiers' evaluation ###
         ###############################
-        self.__LOG.info(f"[EVAL] Computing evaluation for: {', '.join(k for k in self.classifiers.keys())}")
+        self.__LOG.info(f"[EVAL] Computing evaluation for: {', '.join(self.classifiers.keys())}")
 
         # TODO - è necessario testare con vari seed del RNG (dato che se cambia il seed, cambia il test set
         #           ottenuto dal training set) ?

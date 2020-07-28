@@ -56,9 +56,11 @@ class Evaluator(AbstractClassifier):
 
         # using full dataset as training set
         self.__training = Set(pd.read_csv(self.conf.dataset))
-        # NOTE: if csv test set file has been saved using param index=True, it is necessary
-        #   using pd.read_csv(self.conf.dataset_test, index_col=0))
         self.__test = Set(pd.read_csv(self.conf.dataset_test))
+        # NOTE: if csv test set file has been saved using command pd.to_csv('/path', index=True), it is necessary
+        #   using pd.read_csv(self.conf.dataset_test, index_col=0)), so just uncomment following line
+        #   and comment previous one
+        # self.__test = Set(pd.read_csv(self.conf.dataset_test,r index_col=0))
 
         # current classifiers used
         self.__classifiers = {
@@ -225,20 +227,28 @@ class Evaluator(AbstractClassifier):
         for name, classifier in self.classifiers.items():
             self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {name}")
             if name == Evaluator._MULTILAYER_PERCEPTRON:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(self.training.set_x, self.training.set_y)
             elif name == Evaluator._SUPPORT_VECTOR_MACHINE:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.support_vector_machine_param_selection(self.training.set_x, self.training.set_y)
             elif name == Evaluator._RANDOM_FOREST:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.random_forest_param_selection(self.training.set_x, self.training.set_y)
             elif name == Evaluator._KNEAREST_NEIGHBORS:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.knearest_neighbors_param_selection(self.training.set_x, self.training.set_y)
             elif name == Evaluator._STOCHASTIC_GRADIENT_DESCENT:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(self.training.set_x, self.training.set_y)
             elif name == Evaluator._ADA_BOOST:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.ada_boosting_param_selection(self.training.set_x, self.training.set_y)
             elif name == Evaluator._NAIVE_BAYES:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.naive_bayes_param_selection(self.training.set_x, self.training.set_y)
             elif name == Evaluator._KMEANS:
+                # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.kmeans_param_selection(self.training.set_x, self.training.set_y)
 
     def evaluate(self) -> None:

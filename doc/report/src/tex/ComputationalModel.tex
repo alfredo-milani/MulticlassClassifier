@@ -17,16 +17,16 @@
                         Il \textit{dataset} originale contiene dati mancanti in corrispondenza di alcune delle \textit{features}, per questo motivo, i valori relativi a tali campi sono stati sostituiti con il valore medio della \textit{feature} all'interno del \textit{dataset}.
                         \bigbreak
                         
-                        Per la gestione degli \textit{outlier} sono stati analizzati i risultati derivanti da tre metodi:
+                        Per l'individuazione degli \textit{outlier} sono stati analizzati i risultati derivanti da tre metodi:
                         \begin{itemize}
                             \item \textit{z-score}
                             \item \textit{modified z-score}
-                            \item \textit{inter-quantile range}
+                            \item \textit{inter-quartile range}
                         \end{itemize}
                         
                         \textbf{TODO - descrivere in formule gli approcci dei 3 metodi}
                         
-                        Per non ridurre la numerosità del \textit{training set} si è scelto di sostituire gli \textit{outliers} con la mediana relativa ad una determinata \textit{feature}. Si è ritenuto opportuno utilizzare la mediana in quanto è una misura più robusta per la rappresentazione della dispersione di valori rispetto alla media essendo meno soggetta alla presenza di \textit{outliers}.                        
+                        Per non ridurre la numerosità del \textit{training set} si è scelto di sostituire (e non eliminare) gli \textit{outliers} con la mediana relativa ad una determinata \textit{feature}. Si è ritenuto opportuno utilizzare la mediana in quanto è una misura più robusta per la rappresentazione della dispersione di valori rispetto alla media essendo meno soggetta alla presenza di \textit{outliers}.                        
                 
                 \subsubsection{Data normalization}
                 
@@ -42,10 +42,33 @@
                         \end{figure}
                         \clearpage
                 
-                \subsubsection{Data sampling}  
+                \subsubsection{Data sampling} 
                 
+                        Il \textit{dataset} considerato presenta elementi così distribuiti:
+                        \begin{itemize}
+                                \item \textit{Class 1}: $33.67 \, \%$
+                                \item \textit{Class 2}: $15.99 \, \%$
+                                \item \textit{Class 3}: $20.66 \, \%$
+                                \item \textit{Class 4}: $29.68 \, \%$
+                        \end{itemize}
+                        
+                        \`E stato quindi effettuato balancing delle classi per evitare che il modello finale pecchi nel riconoscimento di classi meno presenti nel \textit{training set}.
+                        
+                        La tecnica di balancing utilizzata è lo \textit{SMOTE}.
                 
 
         \subsection{Hyper-parameters tuning}
         
+                I modelli utilizzati per la classificazione sono:
+                \begin{itemize}
+                        \item \textit{Multi-Layer Perceptron}
+                        \item \textit{Support Vector Machine}
+                        \item \textit{Random Forest}
+                        \item \textit{K-Nearest Neighbors}
+                        \item \textit{Stochastic Gradient Descent}
+                        \item \textit{Ada Boost}
+                        \item \textit{Naive Bayes}
+                        \item \textit{K-Means}
+                \end{itemize}
+            
                 In questa fase sono stati cercati gli \textit{iper-parametri} per i vari classificatori.
