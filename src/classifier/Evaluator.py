@@ -14,6 +14,7 @@ from imblearn.under_sampling import RandomUnderSampler
 from sklearn.feature_selection import SelectKBest, mutual_info_classif
 from imblearn.over_sampling import ADASYN, SMOTE, RandomOverSampler
 from scipy import stats
+from sklearn.neural_network import MLPClassifier
 
 from classifier import AbstractClassifier
 from model import Conf, Set
@@ -21,9 +22,9 @@ from util import LogManager, Validation
 from util.helper import PreProcessing, Tuning, Evaluation
 
 
-class MulticlassClassifier(AbstractClassifier):
+class Evaluator(AbstractClassifier):
     """
-    Multi-class classifier
+
     """
 
     __LOG: logging.Logger = None
@@ -45,28 +46,22 @@ class MulticlassClassifier(AbstractClassifier):
 
         # validate python version
         Validation.python_version(
-            MulticlassClassifier.REQUIRED_PYTHON,
+            Evaluator.REQUIRED_PYTHON,
             f"Unsupported Python version.\n"
-            f"Required Python {MulticlassClassifier.REQUIRED_PYTHON[0]}.{MulticlassClassifier.REQUIRED_PYTHON[1]} or higher."
+            f"Required Python {Evaluator.REQUIRED_PYTHON[0]}.{Evaluator.REQUIRED_PYTHON[1]} or higher."
         )
 
-        self.__LOG = LogManager.get_instance().logger(LogManager.Logger.MCC)
+        self.__LOG = LogManager.get_instance().logger(LogManager.Logger.EVAL)
         self.__conf = conf
 
-        self.__data = Set(pd.read_csv(self.conf.dataset))
-        self.__training = Set()
-        self.__test = Set()
+        # using full dataset as training set
+        self.__training = Set(pd.read_csv(self.conf.dataset))
+        self.__test = Set(pd.read_csv(self.conf.dataset_test))
 
         # current classifiers used
         self.__classifiers = {
-            # MulticlassClassifier._MULTILAYER_PERCEPTRON: None,
-            # MulticlassClassifier._SUPPORT_VECTOR_MACHINE: None,
-            # MulticlassClassifier._RANDOM_FOREST: None,
-            # MulticlassClassifier._KNEAREST_NEIGHBORS: None,
-            # MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT: None,
-            # MulticlassClassifier._ADA_BOOST: None,
-            # MulticlassClassifier._NAIVE_BAYES: None,
-            MulticlassClassifier._KMEANS: None
+            # Evaluator._MULTILAYER_PERCEPTRON: None,
+            Evaluator._KMEANS: None
         }
 
     def prepare(self) -> None:
@@ -80,65 +75,8 @@ class MulticlassClassifier(AbstractClassifier):
         self.__LOG.debug(f"[LIB VERSION] {imblearn.__name__} : {imblearn.__version__}")
         self.__LOG.debug(f"[LIB VERSION] {scipy.__name__} : {scipy.__version__}")
 
-        # dataset description
-        self.__LOG.debug(f"[DESCRIPTION] Dataset description:\n{self.data.set_.describe(include='all')}")
-
-        # count data with respect to class
-        counts = self.data.set_['CLASS'].value_counts()
-        class1 = counts[0]
-        class2 = counts[1]
-        class3 = counts[2]
-        class4 = counts[3]
-        self.__LOG.debug(
-            f"[DESCRIPTION] Class percentage :\n"
-            f"\tC1: {round(class1 / (class1 + class2 + class3 + class4) * 100, 2)} %\n"
-            f"\tC2: {round(class2 / (class1 + class2 + class3 + class4) * 100, 2)} %\n"
-            f"\tC3: {round(class3 / (class1 + class2 + class3 + class4) * 100, 2)} %\n"
-            f"\tC4: {round(class4 / (class1 + class2 + class3 + class4) * 100, 2)} %"
-        )
-
-        #########################
-        ### compute pair plot ###
-        #########################
-        if self.conf.pair_plot_compute:
-            self.__LOG.info(f"[DESCRIPTION] Saving pair plot of '{self.conf.dataset}' in '{self.conf.tmp}'")
-            Validation.can_write(
-                self.conf.tmp,
-                f"Directory '{self.conf.tmp}' *must* exists and be writable."
-            )
-            destination_file = Path(self.conf.tmp, Path(self.conf.dataset).stem).with_suffix('.png')
-            PreProcessing.compute_pairplot(self.data.set_, str(destination_file.resolve()))
-
     def split(self) -> None:
-        #########################
-        ### splitting dataset ###
-        #########################
-        self.__LOG.info(f"[DATA SPLIT] Splitting dataset into training and test set with ratio: {self.conf.dataset_test_ratio}")
-        # self.data.set_x = self.data.set_.iloc[:, 0:20].values
-        # self.data.set_y = self.data.set_.iloc[:, 20].values
-        # split training/test set
-        # self.training.set_x, self.test.set_x, self.training.set_y, self.test.set_y = \
-        #     ms.train_test_split(
-        #         self.data.set_x,
-        #         self.data.set_y,
-        #         test_size=self.conf.dataset_test_ratio,
-        #         random_state=self.conf.rng_seed
-        #     )
-        self.training.set_ = self.data.set_.sample(
-            frac=1 - self.conf.dataset_test_ratio,
-            random_state=self.conf.rng_seed
-        )
-        self.test.set_ = self.data.set_.drop(self.training.set_.index)
-        self.data.set_ = None
-
-        self.test.set_.to_csv(self.conf.tmp + '/test_set.csv', index=False)
-
-        self.training.set_y = self.training.set_.pop('CLASS')
-        self.training.set_x = self.training.set_
-        self.training.set_ = None
-        self.test.set_y = self.test.set_.pop('CLASS')
-        self.test.set_x = self.test.set_
-        self.test.set_ = None
+        pass
 
     def manage_bad_values(self) -> None:
         ###########################
@@ -234,24 +172,9 @@ class MulticlassClassifier(AbstractClassifier):
             f"[FEATURE SELECTION] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
 
     def sample(self) -> None:
-        ###############################
-        ### data over/undersampling ###
-        ###############################
-        # oversampling with SMOTE
-        sampler = SMOTE(random_state=self.conf.rng_seed)
-        # sampler = RandomUnderSampler()
-        # sampler = RandomOverSampler()
-        # sampler = ADASYN(sampling_strategy='auto', random_state=self.conf.rng_seed)
-        self.__LOG.info(f"[SAMPLING] Data sampling using {type(sampler).__qualname__}")
-        self.training.set_x, self.training.set_y = sampler.fit_resample(self.training.set_x, self.training.set_y)
-        self.__LOG.debug(
-            f"[SAMPLING] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
-        self.__LOG.debug(
-            f"[SAMPLING] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
+        pass
 
     def tune(self) -> None:
-        # TODO - vedere se testare altre macchine
-        # TODO - provare a modificare parametri di tuning (aumenta layer in MLP)
         ###############################
         ### hyper-parameters tuning ###
         ###############################
@@ -259,25 +182,18 @@ class MulticlassClassifier(AbstractClassifier):
 
         for name, classifier in self.classifiers.items():
             self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {name}")
-            if name == MulticlassClassifier._MULTILAYER_PERCEPTRON:
+            if name == Evaluator._MULTILAYER_PERCEPTRON:
                 self.__classifiers[name] = Tuning.multilayer_perceptron_param_selection(self.training.set_x, self.training.set_y)
-            elif name == MulticlassClassifier._SUPPORT_VECTOR_MACHINE:
-                self.__classifiers[name] = Tuning.support_vector_machine_param_selection(self.training.set_x, self.training.set_y)
-            elif name == MulticlassClassifier._RANDOM_FOREST:
-                self.__classifiers[name] = Tuning.random_forest_param_selection(self.training.set_x, self.training.set_y)
-            elif name == MulticlassClassifier._KNEAREST_NEIGHBORS:
-                self.__classifiers[name] = Tuning.knearest_neighbors_param_selection(self.training.set_x, self.training.set_y)
-            elif name == MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT:
-                self.__classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(self.training.set_x, self.training.set_y)
-            elif name == MulticlassClassifier._ADA_BOOST:
-                self.__classifiers[name] = Tuning.ada_boosting_param_selection(self.training.set_x, self.training.set_y)
-            elif name == MulticlassClassifier._NAIVE_BAYES:
-                self.__classifiers[name] = Tuning.naive_bayes_param_selection(self.training.set_x, self.training.set_y)
-            elif name == MulticlassClassifier._KMEANS:
+            elif name == Evaluator._KMEANS:
                 self.__classifiers[name] = Tuning.kmeans_param_selection(self.training.set_x, self.training.set_y)
 
     def train(self) -> None:
-        pass
+        ##############################
+        ### train best classifiers ###
+        ##############################
+        classifier = MLPClassifier(max_iter=10000, activation='relu', hidden_layer_sizes=(100, 50),
+                                   learning_rate='adaptive', learning_rate_init=0.01, solver='sgd')
+        classifier.fit(self.training.set_x, self.training.set_y)
 
     def evaluate(self) -> None:
         ###############################
@@ -306,15 +222,9 @@ class MulticlassClassifier(AbstractClassifier):
     def on_error(self, exception: Exception = None) -> None:
         super().on_error(exception)
 
-        self.__LOG.error(f"Something went wrong while training '{__name__}'.", exc_info=True)
-
     @property
     def conf(self) -> Conf:
         return self.__conf
-
-    @property
-    def data(self) -> Set:
-        return self.__data
 
     @property
     def training(self) -> Set:

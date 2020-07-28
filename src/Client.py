@@ -4,7 +4,7 @@ import sys
 
 from pathlib import Path
 
-from classifier import MulticlassClassifier
+from classifier import MulticlassClassifier, Evaluator
 from model import Conf
 from util import Validation, Common, LogManager
 
@@ -60,7 +60,7 @@ class Client(object):
             # register cleaning routine at exit
             atexit.register(self.stop)
 
-            self.__LOG.debug(f"v{self.conf.version}")
+            self.__LOG.info(f"v{self.conf.version}")
             self.__LOG.debug(f"\n{self.conf}")
 
             # print current benchmark value/deadline
@@ -70,9 +70,12 @@ class Client(object):
                 f"(deadline on {self.conf.benchmark_deadline})"
             )
 
-            # execute Multi-class classification using SVM model
-            MulticlassClassifier(self.conf).process()
-            # TODO - client per calcolare il valore migliore sul test set
+            if Common.trim_all(self.conf.dataset_test):
+                # perform evaluation on test set using best classifier found
+                Evaluator(self.conf).process()
+            else:
+                # execute multi-class classification to choose best classifier
+                MulticlassClassifier(self.conf).process()
         except KeyboardInterrupt:
             self.__LOG.info(f"Execution interrupted by user.")
         except (Conf.NoValueError, SyntaxError, ValueError) as e:

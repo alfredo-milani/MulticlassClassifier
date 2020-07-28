@@ -21,4 +21,4 @@ class Evaluation(object):
                metrics.precision_score(y, classifier.predict(x), average='macro'), \
                metrics.recall_score(y, classifier.predict(x), average='macro'), \
                metrics.f1_score(y, classifier.predict(x), average='macro'), \
-               metrics.confusion_matrix(y, classifier.prict(x))
+               metrics.confusion_matrix(y, classifier.predict(x))

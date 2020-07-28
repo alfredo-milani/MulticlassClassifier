@@ -22,7 +22,8 @@ class LogManager(object):
     __HANDLER_CONSOLE: logging.Handler = None
 
     __LOGGER_ROOT: logging.Logger = None
-    __LOGGER_MCSVM: logging.Logger = None
+    __LOGGER_MCC: logging.Logger = None
+    __LOGGER_EVAL: logging.Logger = None
 
     def __init__(self):
         super().__init__()
@@ -50,11 +51,13 @@ class LogManager(object):
 
             # loggers
             cls.__LOGGER_ROOT = LogManager.__configure_logger_root()
-            cls.__LOGGER_MCSVM = LogManager.__configure_logger_observer()
+            cls.__LOGGER_MCC = LogManager.__configure_logger_mcc()
+            cls.__LOGGER_EVAL = LogManager.__configure_logger_eval()
 
     class Logger(Enum):
         ROOT = "root"
-        MCSVM = "mcsvm"
+        MCC = "mcc"
+        EVAL = "eval"
 
     @classmethod
     def logger(cls, logger: Logger) -> logging.Logger:
@@ -62,8 +65,10 @@ class LogManager(object):
 
         if logger == cls.Logger.ROOT:
             return cls.__LOGGER_ROOT
-        elif logger == cls.Logger.MCSVM:
-            return cls.__LOGGER_MCSVM
+        elif logger == cls.Logger.MCC:
+            return cls.__LOGGER_MCC
+        elif logger == cls.Logger.EVAL:
+            return cls.__LOGGER_EVAL
         else:
             raise NotImplementedError
 
@@ -80,8 +85,16 @@ class LogManager(object):
         return root_logger
 
     @classmethod
-    def __configure_logger_observer(cls) -> logging.Logger:
-        observer_logger = logging.getLogger(cls.Logger.MCSVM.value)
+    def __configure_logger_mcc(cls) -> logging.Logger:
+        observer_logger = logging.getLogger(cls.Logger.MCC.value)
+        observer_logger.setLevel(logging.DEBUG)
+        observer_logger.propagate = 0
+        observer_logger.addHandler(cls.__HANDLER_CONSOLE)
+        return observer_logger
+
+    @classmethod
+    def __configure_logger_eval(cls) -> logging.Logger:
+        observer_logger = logging.getLogger(cls.Logger.EVAL.value)
         observer_logger.setLevel(logging.DEBUG)
         observer_logger.propagate = 0
         observer_logger.addHandler(cls.__HANDLER_CONSOLE)

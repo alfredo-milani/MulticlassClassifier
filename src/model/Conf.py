@@ -33,23 +33,27 @@ class Conf(dict):
     K_DEBUG = "debug"
     V_DEFAULT_DEBUG = False
 
+    # Section TRAINING
+    S_TRAINING = "TRAINING"
+    # Keys
+    K_DATASET = "dataset"
+    V_DEFAULT_DATASET = None
+    K_DATASET_TEST_RATIO = "dataset.test_ratio"
+    V_DEFAULT_DATASET_TEST_RATIO = 0.2
+    K_RNG_SEED = "rng.seed"
+    V_DEFAULT_RNG_SEED = 0
+    K_PAIR_PLOT_COMPUTE = "pair_plot.compute"
+    V_DEFAULT_PAIR_PLOT_COMPUTE = False
+
     # Section MOBD
     S_MOBD = "MOBD"
     # Keys
-    K_PAIR_PLOT_COMPUTE = "pair_plot.compute"
-    V_DEFAULT_PAIR_PLOT_COMPUTE = False
-    K_RNG_SEED = "rng.seed"
-    V_DEFAULT_RNG_SEED = 0
     K_BENCHMARK_VALUE = "benchmark.value"
-    V_DEFAULT_BENCHMARK_VALUE = 0.0
+    V_DEFAULT_BENCHMARK_VALUE = None
     K_BENCHMARK_THRESHOLD = "benchmark.threshold"
     V_DEFAULT_BENCHMARK_THRESHOLD = 0.0
     K_BENCHMARK_DEADLINE = "benchmark.deadline"
     V_DEFAULT_BENCHMARK_DEADLINE = date.today()
-    K_DATASET_TEST_RATIO = "dataset.test_ratio"
-    V_DEFAULT_DATASET_TEST_RATIO = 0.2
-    K_DATASET = "dataset"
-    V_DEFAULT_DATASET = None
     K_DATASET_TEST = "dataset.test"
     V_DEFAULT_DATASET_TEST = ""
 
@@ -69,14 +73,16 @@ class Conf(dict):
         self.tmp = Conf.V_DEFAULT_TMP
         self.debug = Conf.V_DEFAULT_DEBUG
 
-        # section MOBD
-        self.pair_plot_compute = Conf.V_DEFAULT_PAIR_PLOT_COMPUTE
+        # section TRAINING
+        self.dataset = Conf.V_DEFAULT_DATASET
+        self.dataset_test_ratio = Conf.V_DEFAULT_DATASET_TEST_RATIO
         self.rng_seed = Conf.V_DEFAULT_RNG_SEED
+        self.pair_plot_compute = Conf.V_DEFAULT_PAIR_PLOT_COMPUTE
+
+        # section MOBD
         self.benchmark_value = Conf.V_DEFAULT_BENCHMARK_VALUE
         self.benchmark_threshold = Conf.V_DEFAULT_BENCHMARK_THRESHOLD
         self.benchmark_deadline = Conf.V_DEFAULT_BENCHMARK_DEADLINE
-        self.dataset_test_ratio = Conf.V_DEFAULT_DATASET_TEST_RATIO
-        self.dataset = Conf.V_DEFAULT_DATASET
         self.dataset_test = Conf.V_DEFAULT_DATASET_TEST
 
     @classmethod
@@ -99,18 +105,20 @@ class Conf(dict):
         )
         self.__config_parser.read(config_file)
 
-        # section [GENERAL]
+        # section GENERAL
         self.__put_str(Conf.K_TMP, Conf.S_GENERAL, Conf.K_TMP, Conf.V_DEFAULT_TMP)
         self.__put_bool(Conf.K_DEBUG, Conf.S_GENERAL, Conf.K_DEBUG, Conf.V_DEFAULT_DEBUG)
 
+        # section TRAINING
+        self.__put_str(Conf.K_DATASET, Conf.S_TRAINING, Conf.K_DATASET, Conf.V_DEFAULT_DATASET)
+        self.__put_float(Conf.K_DATASET_TEST_RATIO, Conf.S_TRAINING, Conf.K_DATASET_TEST_RATIO, Conf.V_DEFAULT_DATASET_TEST_RATIO)
+        self.__put_int(Conf.K_RNG_SEED, Conf.S_TRAINING, Conf.K_RNG_SEED, Conf.V_DEFAULT_RNG_SEED)
+        self.__put_bool(Conf.K_PAIR_PLOT_COMPUTE, Conf.S_TRAINING, Conf.K_PAIR_PLOT_COMPUTE, Conf.V_DEFAULT_PAIR_PLOT_COMPUTE)
+
         # section MOBD
-        self.__put_bool(Conf.K_PAIR_PLOT_COMPUTE, Conf.S_MOBD, Conf.K_PAIR_PLOT_COMPUTE, Conf.V_DEFAULT_PAIR_PLOT_COMPUTE)
-        self.__put_int(Conf.K_RNG_SEED, Conf.S_MOBD, Conf.K_RNG_SEED, Conf.V_DEFAULT_RNG_SEED)
         self.__put_float(Conf.K_BENCHMARK_VALUE, Conf.S_MOBD, Conf.K_BENCHMARK_VALUE, Conf.V_DEFAULT_BENCHMARK_VALUE)
         self.__put_float(Conf.K_BENCHMARK_THRESHOLD, Conf.S_MOBD, Conf.K_BENCHMARK_THRESHOLD, Conf.V_DEFAULT_BENCHMARK_THRESHOLD)
         self.__put_date(Conf.K_BENCHMARK_DEADLINE, Conf.S_MOBD, Conf.K_BENCHMARK_DEADLINE, Conf.V_DEFAULT_BENCHMARK_DEADLINE)
-        self.__put_float(Conf.K_DATASET_TEST_RATIO, Conf.S_MOBD, Conf.K_DATASET_TEST_RATIO, Conf.V_DEFAULT_DATASET_TEST_RATIO)
-        self.__put_str(Conf.K_DATASET, Conf.S_MOBD, Conf.K_DATASET, Conf.V_DEFAULT_DATASET)
         self.__put_str(Conf.K_DATASET_TEST, Conf.S_MOBD, Conf.K_DATASET_TEST, Conf.V_DEFAULT_DATASET_TEST)
 
     def __put_obj(self, key: str, section: str, section_key: str, default: object) -> None:
@@ -239,12 +247,20 @@ class Conf(dict):
         self[Conf.K_DEBUG] = debug
 
     @property
-    def pair_plot_compute(self) -> bool:
-        return self[Conf.K_PAIR_PLOT_COMPUTE]
+    def dataset(self) -> str:
+        return self[Conf.K_DATASET]
 
-    @pair_plot_compute.setter
-    def pair_plot_compute(self, pair_plot_compute: bool):
-        self[Conf.K_PAIR_PLOT_COMPUTE] = pair_plot_compute
+    @dataset.setter
+    def dataset(self, dataset: str):
+        self[Conf.K_DATASET] = dataset
+
+    @property
+    def dataset_test_ratio(self) -> float:
+        return self[Conf.K_DATASET_TEST_RATIO]
+
+    @dataset_test_ratio.setter
+    def dataset_test_ratio(self, dataset_test_ratio: float):
+        self[Conf.K_DATASET_TEST_RATIO] = dataset_test_ratio
 
     @property
     def rng_seed(self) -> int:
@@ -255,12 +271,12 @@ class Conf(dict):
         self[Conf.K_RNG_SEED] = rng_seed
 
     @property
-    def dataset(self) -> str:
-        return self[Conf.K_DATASET]
+    def pair_plot_compute(self) -> bool:
+        return self[Conf.K_PAIR_PLOT_COMPUTE]
 
-    @dataset.setter
-    def dataset(self, dataset_training: str):
-        self[Conf.K_DATASET] = dataset_training
+    @pair_plot_compute.setter
+    def pair_plot_compute(self, pair_plot_compute: bool):
+        self[Conf.K_PAIR_PLOT_COMPUTE] = pair_plot_compute
 
     @property
     def benchmark_value(self) -> float:
@@ -285,14 +301,6 @@ class Conf(dict):
     @benchmark_deadline.setter
     def benchmark_deadline(self, benchmark_deadline: date):
         self[Conf.K_BENCHMARK_DEADLINE] = benchmark_deadline
-
-    @property
-    def dataset_test_ratio(self) -> float:
-        return self[Conf.K_DATASET_TEST_RATIO]
-
-    @dataset_test_ratio.setter
-    def dataset_test_ratio(self, dataset_test_ratio: float):
-        self[Conf.K_DATASET_TEST_RATIO] = dataset_test_ratio
 
     @property
     def dataset_test(self) -> str:

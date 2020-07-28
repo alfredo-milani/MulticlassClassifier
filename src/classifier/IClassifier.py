@@ -7,7 +7,7 @@ class IClassifier(object):
     """
 
     @abstractmethod
-    def prepare(self) -> None:
+    def split(self) -> None:
         """
 
         :return:
@@ -15,9 +15,33 @@ class IClassifier(object):
         raise NotImplementedError
 
     @abstractmethod
-    def refactor(self) -> None:
+    def manage_bad_values(self) -> None:
+        """
+
+        :return:
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def normalize(self) -> None:
         """
         Normalize, Scale features
+        :return:
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def feature_selection(self) -> None:
+        """
+
+        :return:
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def sample(self) -> None:
+        """
+
         :return:
         """
         raise NotImplementedError

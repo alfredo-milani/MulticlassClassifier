@@ -6,40 +6,41 @@
         
                 \subsubsection{Data splitting}
                 
-                        Il dataset è stato diviso in due sezioni differenti:
+                        Il \textit{dataset} è stato diviso in due sezioni differenti:
                         \begin{itemize}
-                                \item training set: contiene 80\% dell'intero dataset originale (6400 records)
-                                \item test set: contiene il restante 20\% del dataset originale (1600 records)
+                                \item \textit{training set}: contiene 80\% dell'intero dataset originale (6400 records)
+                                \item \textit{test set}: contiene il restante 20\% del dataset originale (1600 records)
                         \end{itemize}
                 
-                \subsubsection{Missing data management}
+                \subsubsection{Bad values management}
                 
-                        Il dataset originale contiene dati mancanti in corrispondenza di alcune delle features, per questo motivo, i valori relativi a tali campi sono stati sostituiti con il valore medio della feature all'interno del dataset.
-                
-                \subsubsection{Outlier management}
-                
-                        Per la gestione degli \textit{outlier} del dataset sono stati analizzati i risultati derivanti da tre metodi:
+                        Il \textit{dataset} originale contiene dati mancanti in corrispondenza di alcune delle \textit{features}, per questo motivo, i valori relativi a tali campi sono stati sostituiti con il valore medio della \textit{feature} all'interno del \textit{dataset}.
+                        \bigbreak
+                        
+                        Per la gestione degli \textit{outlier} sono stati analizzati i risultati derivanti da tre metodi:
                         \begin{itemize}
-                                \item \textit{z-score}
-                                \item \textit{modified z-score}
-                                \item \textit{inter-quantile range}
+                            \item \textit{z-score}
+                            \item \textit{modified z-score}
+                            \item \textit{inter-quantile range}
                         \end{itemize}
-                    
+                        
                         \textbf{TODO - descrivere in formule gli approcci dei 3 metodi}
+                        
+                        Per non ridurre la numerosità del \textit{training set} si è scelto di sostituire gli \textit{outliers} con la mediana relativa ad una determinata \textit{feature}. Si è ritenuto opportuno utilizzare la mediana in quanto è una misura più robusta per la rappresentazione della dispersione di valori rispetto alla media essendo meno soggetta alla presenza di \textit{outliers}.                        
                 
-                \subsubsection{Data scaling}
+                \subsubsection{Data normalization}
                 
                 \subsubsection{Feature selection}
                 
                         In questa fase sono state selezionate le \textit{features} più significative al fine di ridurre i costi di training e migliorare la capacità di generalizzazione del classificatore.
                         
-                        Pair plot:
                         \begin{figure}[!h]
                             \centering
                             \includegraphics[width=175mm]{training_set}
                             \caption{Pair plot representing \textit{features}.}
                             \label{fig:training_set_pairplot}
                         \end{figure}
+                        \clearpage
                 
                 \subsubsection{Data sampling}  
                 

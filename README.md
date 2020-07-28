@@ -1,4 +1,5 @@
 # Table of contents
+
 1. [Introduction](#introduction)
 2. [Requirements](#requirements)
 3. [Installation](#installation)
@@ -10,9 +11,12 @@
 
 
 ## 1. Introduction <a name="introduction"></a>
-TODO
+
+This tool shows performance of several machine learning models in a multi-class classification problem.
+The dataset used to train the models is under `./res/dataset/` folder.
 
 ## 2. Requirements <a name="requirements"></a>
+
 The following libraries are required:
 1. [numpy](https://numpy.org/)
 2. [pandas](https://pandas.pydata.org/)
@@ -87,18 +91,27 @@ tmp = /Volumes/Ramdisk/
 debug = True
 
 
-[MOBD]
-# [opt] - Compute pairplot
-# [dft] - False
-# pair_plot.compute = True
+[TRAINING]
+# [mnd] - Dataset for training purpose (fully qualified path name)
+dataset = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/training_set.csv
+
+# [opt] - Set test ratio from dataset
+# [dft] - 0.2
+# dataset.test_ratio = 0.3
 
 # [opt] - Seed for RNG
 # [dft] - 0
 rng.seed = 43531
 
+# [opt] - Compute pairplot
+# [dft] - False
+# pair_plot.compute = True
+
+
+[MOBD]
 # [opt] - Best benchmark computed
 # [dft] - 0.0
-benchmark.value = 0.8555
+benchmark.value = 0.844
 
 # [opt] - Current benchmark threshold evaluation
 # [dft] - 0.0
@@ -108,16 +121,12 @@ benchmark.threshold = 0.8868
 # [dft] - None
 benchmark.deadline = 23/07/2020
 
-# [opt] - Set test ratio from dataset
-# [dft] - 0.2
-# dataset.test_ratio = 0.3
-
-# [mnd] - Dataset for training purpose (fully qualified path name)
-dataset = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/training_set.csv
-
 # [opt] - Dataset for project evaluation (fully qualified path name)
 # [dft] -
 # dataset.test =
 ```
 
 ## 5. Note <a name="note"></a>
+
+In order to evaluate project using secret *test set* just use `dataset.test` option from `conf.ini` (see [usage](#usage)) and
+insert fully qualified path name of test file, then launch this tool as shown in [usage](#usage).

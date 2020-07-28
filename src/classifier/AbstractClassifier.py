@@ -17,9 +17,14 @@ class AbstractClassifier(ABC, IClassifier):
         :return:
         """
 
+        self.prepare()
+
         try:
-            self.prepare()
-            self.refactor()
+            self.split()
+            self.manage_bad_values()
+            self.normalize()
+            self.feature_selection()
+            self.sample()
             self.tune()
             self.train()
             self.evaluate()

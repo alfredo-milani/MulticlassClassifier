@@ -87,3 +87,64 @@ class PreProcessing(object):
         upper_bound = quartile_3 + (iqr * 1.5)
         # outlier is replaced with feature mean
         return np.array((dataset > upper_bound) | (dataset < lower_bound))
+
+    @staticmethod
+    def __skew_log(x):
+        """
+
+        :param x:
+        :return:
+        """
+        if x > 0:
+            return np.log(x)
+        elif x < 0:
+            return -np.log(-x)
+        else:
+            return x
+
+    @staticmethod
+    def __skew_square_root(x):
+        """
+
+        :param x:
+        :return:
+        """
+        if x > 0:
+            return x ** (1/2)
+        elif x < 0:
+            return -((-x) ** (1/2))
+        else:
+            return x
+
+    @staticmethod
+    def __skew_square_cube(x):
+        """
+
+        :param x:
+        :return:
+        """
+        if x > 0:
+            return x ** (1/3)
+        elif x < 0:
+            return -((-x) ** (1/3))
+        else:
+            return x
+
+    @staticmethod
+    def skew_transformation(dataset, transformation: str = 'log'):
+        """
+
+        :param dataset:
+        :param transformation:
+        :return:
+        """
+        if transformation == 'log':
+            function = PreProcessing.__skew_log
+        elif transformation == 'square_root':
+            function = PreProcessing.__skew_square_root
+        elif transformation == 'square_cube':
+            function = PreProcessing.__skew_square_cube
+        else:
+            raise ValueError(f"Transformation '{transformation}' not valid.")
+
+        return dataset.map(function)
