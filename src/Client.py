@@ -64,10 +64,13 @@ class Client(object):
             self.__LOG.debug(f"\n{self.conf}")
 
             # print current benchmark value/deadline
-            self.__LOG.info(f"[BENCHMARK] Current value: {self.conf.benchmark_value}")
             self.__LOG.info(
-                f"[BENCHMARK] Current threshold: {self.conf.benchmark_threshold} "
-                f"(deadline on {self.conf.benchmark_deadline})"
+                f"[BENCHMARK] Current best value found for {self.conf.benchmark_best_found[1]} classifier, with "
+                f"F1-score: {self.conf.benchmark_best_found[0]}."
+            )
+            self.__LOG.info(
+                f"[BENCHMARK] Current threshold with F1-score: {self.conf.benchmark_threshold[0]} "
+                f"(deadline on {self.conf.benchmark_threshold[1]})."
             )
 
             if Common.trim_all(self.conf.dataset_test):

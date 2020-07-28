@@ -56,11 +56,19 @@ class Evaluator(AbstractClassifier):
 
         # using full dataset as training set
         self.__training = Set(pd.read_csv(self.conf.dataset))
+        # NOTE: if csv test set file has been saved using param index=True, it is necessary
+        #   using pd.read_csv(self.conf.dataset_test, index_col=0))
         self.__test = Set(pd.read_csv(self.conf.dataset_test))
 
         # current classifiers used
         self.__classifiers = {
             # Evaluator._MULTILAYER_PERCEPTRON: None,
+            # Evaluator._SUPPORT_VECTOR_MACHINE: None,
+            # Evaluator._RANDOM_FOREST: None,
+            # Evaluator._KNEAREST_NEIGHBORS: None,
+            # Evaluator._STOCHASTIC_GRADIENT_DESCENT: None,
+            # Evaluator._ADA_BOOST: None,
+            # Evaluator._NAIVE_BAYES: None,
             Evaluator._KMEANS: None
         }
 
@@ -75,8 +83,21 @@ class Evaluator(AbstractClassifier):
         self.__LOG.debug(f"[LIB VERSION] {imblearn.__name__} : {imblearn.__version__}")
         self.__LOG.debug(f"[LIB VERSION] {scipy.__name__} : {scipy.__version__}")
 
+        # mode
+        self.__LOG.info(f"[MODE] Classifier evaluation on test set ({Evaluator.__qualname__})")
+
+        # dataset description
+        self.__LOG.debug(f"[DESCRIPTION] Training set description:\n{self.training.set_.describe(include='all')}")
+        self.__LOG.debug(f"[DESCRIPTION] Test set description:\n{self.test.set_.describe(include='all')}")
+
     def split(self) -> None:
-        pass
+        # split features and label
+        self.training.set_y = self.training.set_.pop('CLASS')
+        self.training.set_x = self.training.set_
+        self.training.set_ = None
+        self.test.set_y = self.test.set_.pop('CLASS')
+        self.test.set_x = self.test.set_
+        self.test.set_ = None
 
     def manage_bad_values(self) -> None:
         ###########################
@@ -171,10 +192,31 @@ class Evaluator(AbstractClassifier):
         self.__LOG.debug(
             f"[FEATURE SELECTION] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
 
-    def sample(self) -> None:
-        pass
+        # mask = np.array([False, True, True, True, True, True, True, True, False, False,
+        #                  True, True, True, True, True, True, False, True, False, True])
+        # self.training.set_x = self.training.set_x[:, mask]
+        # self.test.set_x = self.test.set_x[:, mask]
 
-    def tune(self) -> None:
+    def sample(self) -> None:
+        ###############################
+        ### data over/undersampling ###
+        ###############################
+
+        # oversampling with SMOTE
+        sampler = SMOTE(random_state=self.conf.rng_seed)
+        # sampler = RandomUnderSampler()
+        # sampler = RandomOverSampler()
+        # sampler = ADASYN(sampling_strategy='auto', random_state=self.conf.rng_seed)
+        self.__LOG.info(f"[SAMPLING] Data sampling using {type(sampler).__qualname__}")
+        self.training.set_x, self.training.set_y = sampler.fit_resample(self.training.set_x, self.training.set_y)
+        self.__LOG.debug(
+            f"[SAMPLING] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
+        self.__LOG.debug(
+            f"[SAMPLING] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
+
+    def train(self) -> None:
+        # TODO - vedere se testare altre macchine
+        # TODO - provare a modificare parametri di tuning (aumenta layer in MLP)
         ###############################
         ### hyper-parameters tuning ###
         ###############################
@@ -183,17 +225,21 @@ class Evaluator(AbstractClassifier):
         for name, classifier in self.classifiers.items():
             self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {name}")
             if name == Evaluator._MULTILAYER_PERCEPTRON:
-                self.__classifiers[name] = Tuning.multilayer_perceptron_param_selection(self.training.set_x, self.training.set_y)
+                self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(self.training.set_x, self.training.set_y)
+            elif name == Evaluator._SUPPORT_VECTOR_MACHINE:
+                self.classifiers[name] = Tuning.support_vector_machine_param_selection(self.training.set_x, self.training.set_y)
+            elif name == Evaluator._RANDOM_FOREST:
+                self.classifiers[name] = Tuning.random_forest_param_selection(self.training.set_x, self.training.set_y)
+            elif name == Evaluator._KNEAREST_NEIGHBORS:
+                self.classifiers[name] = Tuning.knearest_neighbors_param_selection(self.training.set_x, self.training.set_y)
+            elif name == Evaluator._STOCHASTIC_GRADIENT_DESCENT:
+                self.classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(self.training.set_x, self.training.set_y)
+            elif name == Evaluator._ADA_BOOST:
+                self.classifiers[name] = Tuning.ada_boosting_param_selection(self.training.set_x, self.training.set_y)
+            elif name == Evaluator._NAIVE_BAYES:
+                self.classifiers[name] = Tuning.naive_bayes_param_selection(self.training.set_x, self.training.set_y)
             elif name == Evaluator._KMEANS:
-                self.__classifiers[name] = Tuning.kmeans_param_selection(self.training.set_x, self.training.set_y)
-
-    def train(self) -> None:
-        ##############################
-        ### train best classifiers ###
-        ##############################
-        classifier = MLPClassifier(max_iter=10000, activation='relu', hidden_layer_sizes=(100, 50),
-                                   learning_rate='adaptive', learning_rate_init=0.01, solver='sgd')
-        classifier.fit(self.training.set_x, self.training.set_y)
+                self.classifiers[name] = Tuning.kmeans_param_selection(self.training.set_x, self.training.set_y)
 
     def evaluate(self) -> None:
         ###############################

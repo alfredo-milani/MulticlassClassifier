@@ -94,6 +94,8 @@ debug = True
 [TRAINING]
 # [mnd] - Dataset for training purpose (fully qualified path name)
 dataset = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/training_set.csv
+# dataset = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/auto-mpg.data
+# dataset = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/diabetes.csv
 
 # [opt] - Set test ratio from dataset
 # [dft] - 0.2
@@ -102,28 +104,34 @@ dataset = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/trainin
 # [opt] - Seed for RNG
 # [dft] - 0
 rng.seed = 43531
+# rng.seed = 2873587
 
-# [opt] - Compute pairplot
+# [opt] - Compute pair-plot
 # [dft] - False
 # pair_plot.compute = True
 
+# [opt] - Save pair-plot on file
+# [dft] - False
+# pair_plot.save = True
+
 
 [MOBD]
-# [opt] - Best benchmark computed
+# [opt] - Best benchmark computed for F1-score metric
 # [dft] - 0.0
-benchmark.value = 0.844
+benchmark.best_found = (0.844, 'Multi-Layer Perceptron')
 
-# [opt] - Current benchmark threshold evaluation
-# [dft] - 0.0
-benchmark.threshold = 0.8868
-
-# [opt] - Current deadline (time format: dd/mm/yyyy)
-# [dft] - None
-benchmark.deadline = 23/07/2020
+# [opt] - Current benchmark threshold evaluation and deadline (time format: dd/mm/yyyy)
+# [dft] - (0.0 - 'datetime.today()')
+benchmark.threshold = (0.8868, '23/07/2020')
 
 # [opt] - Dataset for project evaluation (fully qualified path name)
+#   If tool shutdown without message error, probably the format of test set file is wrong.
+#   By default this tool manages test file without index column (so, saved from pandas.data_frame.to_csv('path', index=False))
+#   If you want to input test set file with index column just go to Evaluator.__init__() and change line 
+#     self.__test = Set(pd.read_csv(self.conf.dataset_test)) to self.__test = Set(pd.read_csv(self.conf.dataset_test, index_col=0))
 # [dft] -
-# dataset.test =
+dataset.test = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/test_set_index.csv
+# dataset.test = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/test_set_no_index.csv
 ```
 
 ## 5. Note <a name="note"></a>
