@@ -34,6 +34,7 @@ class Evaluator(AbstractClassifier):
     # current classifiers used
     _MULTILAYER_PERCEPTRON = 'Multi-Layer Perceptron'
     _SUPPORT_VECTOR_MACHINE = 'Support Vector Machine'
+    _DECISION_TREE = 'Decision Tree'
     _RANDOM_FOREST = 'Random Forest'
     _KNEAREST_NEIGHBORS = 'K-Nearest Neighbors'
     _STOCHASTIC_GRADIENT_DESCENT = 'Stochastic Gradient Descent'
@@ -66,6 +67,7 @@ class Evaluator(AbstractClassifier):
         self.__classifiers = {
             # Evaluator._MULTILAYER_PERCEPTRON: None,
             # Evaluator._SUPPORT_VECTOR_MACHINE: None,
+            # Evaluator._DECISION_TREE: None,
             # Evaluator._RANDOM_FOREST: None,
             # Evaluator._KNEAREST_NEIGHBORS: None,
             # Evaluator._STOCHASTIC_GRADIENT_DESCENT: None,
@@ -232,6 +234,9 @@ class Evaluator(AbstractClassifier):
             elif name == Evaluator._SUPPORT_VECTOR_MACHINE:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.support_vector_machine_param_selection(self.training.set_x, self.training.set_y)
+            elif name == Evaluator._DECISION_TREE:
+                # perform grid search and fit on best evaluator
+                self.classifiers[name] = Tuning.decision_tree_param_selection(self.training.set_x, self.training.set_y)
             elif name == Evaluator._RANDOM_FOREST:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.random_forest_param_selection(self.training.set_x, self.training.set_y)

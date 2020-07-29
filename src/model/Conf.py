@@ -46,6 +46,8 @@ class Conf(dict):
     V_DEFAULT_PAIR_PLOT_COMPUTE = False
     K_PAIR_PLOT_SAVE = "pair_plot.save"
     V_DEFAULT_PAIR_PLOT_SAVE = False
+    K_THREADS = "threads"
+    V_DEFAULT_THREADS = 1
 
     # Section MOBD
     S_MOBD = "MOBD"
@@ -79,6 +81,7 @@ class Conf(dict):
         self.rng_seed = Conf.V_DEFAULT_RNG_SEED
         self.pair_plot_compute = Conf.V_DEFAULT_PAIR_PLOT_COMPUTE
         self.pair_plot_save = Conf.V_DEFAULT_PAIR_PLOT_SAVE
+        self.threads = Conf.V_DEFAULT_THREADS
 
         # section MOBD
         self.benchmark_best_found = Conf.V_DEFAULT_BENCHMARK_BEST_FOUND
@@ -115,6 +118,7 @@ class Conf(dict):
         self.__put_int(Conf.K_RNG_SEED, Conf.S_TRAINING, Conf.K_RNG_SEED, Conf.V_DEFAULT_RNG_SEED)
         self.__put_bool(Conf.K_PAIR_PLOT_COMPUTE, Conf.S_TRAINING, Conf.K_PAIR_PLOT_COMPUTE, Conf.V_DEFAULT_PAIR_PLOT_COMPUTE)
         self.__put_bool(Conf.K_PAIR_PLOT_SAVE, Conf.S_TRAINING, Conf.K_PAIR_PLOT_SAVE, Conf.V_DEFAULT_PAIR_PLOT_SAVE)
+        self.__put_int(Conf.K_THREADS, Conf.S_TRAINING, Conf.K_THREADS, Conf.V_DEFAULT_THREADS)
 
         # section MOBD
         self.__put_tuple(Conf.K_BENCHMARK_BEST_FOUND, Conf.S_MOBD, Conf.K_BENCHMARK_BEST_FOUND, Conf.V_DEFAULT_BENCHMARK_BEST_FOUND)
@@ -285,6 +289,14 @@ class Conf(dict):
     @pair_plot_save.setter
     def pair_plot_save(self, pair_plot_save: bool):
         self[Conf.K_PAIR_PLOT_SAVE] = pair_plot_save
+
+    @property
+    def threads(self) -> int:
+        return self[Conf.K_THREADS]
+
+    @threads.setter
+    def threads(self, threads: int):
+        self[Conf.K_THREADS] = threads
 
     @property
     def benchmark_best_found(self) -> tuple:

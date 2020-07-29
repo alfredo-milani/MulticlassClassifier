@@ -114,6 +114,10 @@ rng.seed = 43531
 # [dft] - False
 # pair_plot.save = True
 
+# [opt] - Thread to use during training
+# [dft] - 1
+threads = 4
+
 
 [MOBD]
 # [opt] - Best benchmark computed for F1-score metric

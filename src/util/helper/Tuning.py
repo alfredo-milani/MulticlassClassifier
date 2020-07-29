@@ -18,15 +18,19 @@ class Tuning(object):
     Contains helper methods for hyperparameter tuning
     """
 
+    DEFAULT_THREAD = -1
+
     @staticmethod
     def support_vector_machine_param_selection(x: DataFrame, y: DataFrame = None,
-                                               n_folds: int = 10, metric: str = 'f1_macro'):
+                                               n_folds: int = 10, metric: str = 'f1_macro',
+                                               thread: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
+        :param thread:
         :return:
         """
         param_grid = [
@@ -49,7 +53,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=-1
+            n_jobs=thread
         )
         grid_search.fit(x, y)
 
@@ -69,21 +73,69 @@ class Tuning(object):
         return grid_search.best_estimator_
 
     @staticmethod
-    def random_forest_param_selection(x: DataFrame, y: DataFrame = None,
-                                      n_folds: int = 10, metric: str = 'f1_macro'):
+    def decision_tree_param_selection(x: DataFrame, y: DataFrame = None,
+                                      n_folds: int = 10, metric: str = 'f1_macro',
+                                      thread: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
+        :param thread:
         :return:
         """
         param_grid = {
+            'criterion': ['entropy', 'gini'],
+            'splitter': ['best', 'random'],
             'max_depth': [80, 90],
-            'max_features': [2, 3],
-            'min_samples_leaf': [3, 4],
-            'n_estimators': [100, 200, 300]
+            'max_features': ['log2', 'sqrt', None],
+            'min_samples_leaf': [2, 5, 10]
+        }
+
+        grid_search = ms.GridSearchCV(
+            DecisionTreeClassifier(),
+            param_grid,
+            scoring=metric,
+            cv=n_folds,
+            refit=True,
+            n_jobs=thread
+        )
+        grid_search.fit(x, y)
+
+        print("Best parameters:")
+        print()
+        print(grid_search.best_params_)
+        print()
+        print("Grid scores:")
+        print()
+        means = grid_search.cv_results_['mean_test_score']
+        stds = grid_search.cv_results_['std_test_score']
+        for mean, std, params in zip(means, stds, grid_search.cv_results_['params']):
+            print("%0.4f (+/-%0.03f) for %r" % (mean, std * 2, params))
+        print()
+
+        return grid_search.best_estimator_
+
+    @staticmethod
+    def random_forest_param_selection(x: DataFrame, y: DataFrame = None,
+                                      n_folds: int = 10, metric: str = 'f1_macro',
+                                      thread: int = DEFAULT_THREAD):
+        """
+
+        :param x:
+        :param y:
+        :param n_folds:
+        :param metric:
+        :param thread:
+        :return:
+        """
+        param_grid = {
+            'criterion': ['entropy', 'gini'],
+            'max_depth': [80, 90],
+            'max_features': ['log2', 'sqrt', None],
+            'min_samples_leaf': [2, 5, 10],
+            'n_estimators': [100, 200, 300, 400]
         }
 
         grid_search = ms.GridSearchCV(
@@ -92,7 +144,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=-1
+            n_jobs=thread
         )
         grid_search.fit(x, y)
 
@@ -112,13 +164,15 @@ class Tuning(object):
 
     @staticmethod
     def multilayer_perceptron_param_selection(x: DataFrame, y: DataFrame = None,
-                                              n_folds: int = 10, metric: str = 'f1_macro'):
+                                              n_folds: int = 10, metric: str = 'f1_macro',
+                                              thread: int = DEFAULT_THREAD):
         """
-        Multi-layer perceptron param selection
+
         :param x:
         :param y:
         :param n_folds:
         :param metric:
+        :param thread:
         :return:
         """
         param_grid = {
@@ -135,7 +189,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=-1
+            n_jobs=thread
         )
         grid_search.fit(x, y)
 
@@ -155,13 +209,15 @@ class Tuning(object):
 
     @staticmethod
     def knearest_neighbors_param_selection(x: DataFrame, y: DataFrame = None,
-                                           n_folds: int = 10, metric: str = 'f1_macro'):
+                                           n_folds: int = 10, metric: str = 'f1_macro',
+                                           thread: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
+        :param thread:
         :return:
         """
         param_grid = {
@@ -176,7 +232,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=-1
+            n_jobs=thread
         )
         grid_search.fit(x, y)
 
@@ -196,13 +252,15 @@ class Tuning(object):
 
     @staticmethod
     def stochastic_gradient_descent_param_selection(x: DataFrame, y: DataFrame = None,
-                                                    n_folds: int = 10, metric: str = 'f1_macro'):
+                                                    n_folds: int = 10, metric: str = 'f1_macro',
+                                                    thread: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
+        :param thread:
         :return:
         """
         param_grid = {
@@ -218,7 +276,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=-1
+            n_jobs=thread
         )
         grid_search.fit(x, y)
 
@@ -238,13 +296,15 @@ class Tuning(object):
 
     @staticmethod
     def naive_bayes_param_selection(x: DataFrame, y: DataFrame = None,
-                                    n_folds: int = 10, metric: str = 'f1_macro'):
+                                    n_folds: int = 10, metric: str = 'f1_macro',
+                                    thread: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
+        :param thread:
         :return:
         """
         param_grid = {
@@ -258,7 +318,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=-1
+            n_jobs=thread
         )
         grid_search.fit(x, y)
 
@@ -278,13 +338,15 @@ class Tuning(object):
 
     @staticmethod
     def ada_boosting_param_selection(x: DataFrame, y: DataFrame = None,
-                                     n_folds: int = 10, metric: str = 'f1_macro'):
+                                     n_folds: int = 10, metric: str = 'f1_macro',
+                                     thread: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
+        :param thread:
         :return:
         """
         param_grid = {
@@ -305,7 +367,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=-1
+            n_jobs=thread
         )
         grid_search.fit(x, y)
 
@@ -325,13 +387,15 @@ class Tuning(object):
 
     @staticmethod
     def kmeans_param_selection(x: DataFrame, y: DataFrame = None,
-                               n_folds: int = 10, metric: str = 'f1_macro'):
+                               n_folds: int = 10, metric: str = 'f1_macro',
+                               thread: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
+        :param thread:
         :return:
         """
         # TODO - vedere se è necessario normalizzare meglio i dati

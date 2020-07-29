@@ -38,6 +38,7 @@ class MulticlassClassifier(AbstractClassifier):
     # current classifiers used
     _MULTILAYER_PERCEPTRON = 'Multi-Layer Perceptron'
     _SUPPORT_VECTOR_MACHINE = 'Support Vector Machine'
+    _DECISION_TREE = 'Decision Tree'
     _RANDOM_FOREST = 'Random Forest'
     _KNEAREST_NEIGHBORS = 'K-Nearest Neighbors'
     _STOCHASTIC_GRADIENT_DESCENT = 'Stochastic Gradient Descent'
@@ -66,6 +67,7 @@ class MulticlassClassifier(AbstractClassifier):
         self.__classifiers = {
             # MulticlassClassifier._MULTILAYER_PERCEPTRON: None,
             # MulticlassClassifier._SUPPORT_VECTOR_MACHINE: None,
+            # MulticlassClassifier._DECISION_TREE: None,
             # MulticlassClassifier._RANDOM_FOREST: None,
             # MulticlassClassifier._KNEAREST_NEIGHBORS: None,
             # MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT: None,
@@ -110,7 +112,8 @@ class MulticlassClassifier(AbstractClassifier):
         #########################
         if self.conf.pair_plot_compute:
             if self.conf.pair_plot_save:
-                self.__LOG.info(f"[DESCRIPTION] Computing and saving pair plot of '{self.conf.dataset}' in '{self.conf.tmp}'")
+                self.__LOG.info(
+                    f"[DESCRIPTION] Computing and saving pair plot of '{self.conf.dataset}' in '{self.conf.tmp}'")
                 Validation.can_write(
                     self.conf.tmp,
                     f"Directory '{self.conf.tmp}' *must* exists and be writable."
@@ -125,7 +128,8 @@ class MulticlassClassifier(AbstractClassifier):
         #########################
         ### splitting dataset ###
         #########################
-        self.__LOG.info(f"[DATA SPLIT] Splitting dataset into training and test set with ratio: {self.conf.dataset_test_ratio}")
+        self.__LOG.info(
+            f"[DATA SPLIT] Splitting dataset into training and test set with ratio: {self.conf.dataset_test_ratio}")
         # self.data.set_x = self.data.set_.iloc[:, 0:20].values
         # self.data.set_y = self.data.set_.iloc[:, 20].values
         # # split training/test set
@@ -295,28 +299,40 @@ class MulticlassClassifier(AbstractClassifier):
             self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {name}")
             if name == MulticlassClassifier._MULTILAYER_PERCEPTRON:
                 # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(self.training.set_x, self.training.set_y)
+                self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(
+                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
             elif name == MulticlassClassifier._SUPPORT_VECTOR_MACHINE:
                 # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.support_vector_machine_param_selection(self.training.set_x, self.training.set_y)
+                self.classifiers[name] = Tuning.support_vector_machine_param_selection(
+                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
+            elif name == MulticlassClassifier._DECISION_TREE:
+                # perform grid search and fit on best evaluator
+                self.classifiers[name] = Tuning.decision_tree_param_selection(
+                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
             elif name == MulticlassClassifier._RANDOM_FOREST:
                 # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.random_forest_param_selection(self.training.set_x, self.training.set_y)
+                self.classifiers[name] = Tuning.random_forest_param_selection(
+                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
             elif name == MulticlassClassifier._KNEAREST_NEIGHBORS:
                 # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.knearest_neighbors_param_selection(self.training.set_x, self.training.set_y)
+                self.classifiers[name] = Tuning.knearest_neighbors_param_selection(
+                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
             elif name == MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT:
                 # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(self.training.set_x, self.training.set_y)
+                self.classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(
+                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
             elif name == MulticlassClassifier._ADA_BOOST:
                 # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.ada_boosting_param_selection(self.training.set_x, self.training.set_y)
+                self.classifiers[name] = Tuning.ada_boosting_param_selection(
+                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
             elif name == MulticlassClassifier._NAIVE_BAYES:
                 # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.naive_bayes_param_selection(self.training.set_x, self.training.set_y)
+                self.classifiers[name] = Tuning.naive_bayes_param_selection(
+                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
             elif name == MulticlassClassifier._KMEANS:
                 # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.kmeans_param_selection(self.training.set_x, self.training.set_y)
+                self.classifiers[name] = Tuning.kmeans_param_selection(
+                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
 
     def evaluate(self) -> None:
         ###############################
