@@ -130,10 +130,10 @@ benchmark.threshold = (0.8906, '04/09/2020')
 
 # [opt] - Dataset for project evaluation (fully qualified path name)
 #   If tool shutdown without message error, probably the format of test set file is wrong.
-#   By default this tool manages test file without index column (so, saved from pandas.data_frame.to_csv('path', index=False))
+#   By default this tool manages test file without index column (so, saved from pandas.data_frame.to_csv('/path', index=False))
 #   If you want to input test set file with index column just go to Evaluator.__init__() and change line
 #     self.__test = Set(pd.read_csv(self.conf.dataset_test)) to self.__test = Set(pd.read_csv(self.conf.dataset_test, index_col=0))
-# [dft] -
+# [dft] - ''
 # dataset.test = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/test_set_index.csv
 # dataset.test = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/test_set_no_index.csv
 # dataset.test = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/test_set_no_index_features.csv
@@ -141,5 +141,8 @@ benchmark.threshold = (0.8906, '04/09/2020')
 
 ## 5. Note <a name="note"></a>
 
-In order to evaluate project using secret *test set* just use `dataset.test` option from `conf.ini` (see [usage](#usage)) and
-insert fully qualified path name of test file, then launch this tool as shown in [usage](#usage).
+In order to evaluate project using *secret test set* just use `dataset.test` option from `conf.ini` (see [usage](#usage) for configuration file example) and
+insert fully qualified path name of test file, then launch this tool normally as shown in [usage](#usage).
+
+Note that, *secret test set* to be inserted, **must** have same format of `training_set.csv`, so must have row for features name (F1-F20) and class (CLASS)
+and **must** not have index column, so a valid test file should be created from command `pandas.data_frame_object.to_csv('/absolute_path', index=False)`.

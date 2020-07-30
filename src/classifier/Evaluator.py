@@ -8,23 +8,19 @@ import sklearn
 import imblearn
 import scipy
 import sklearn.preprocessing as prep
-import sklearn.model_selection as ms
-import sklearn.metrics as metrics
-from imblearn.under_sampling import RandomUnderSampler
+from joblib import load
 from sklearn.feature_selection import SelectKBest, mutual_info_classif
 from imblearn.over_sampling import ADASYN, SMOTE, RandomOverSampler
-from scipy import stats
-from sklearn.neural_network import MLPClassifier
 
 from classifier import AbstractClassifier
 from model import Conf, Set
-from util import LogManager, Validation
-from util.helper import PreProcessing, Tuning, Evaluation
+from util import LogManager, Validation, Common
+from util.helper import PreProcessing, Evaluation, Tuning
 
 
 class Evaluator(AbstractClassifier):
     """
-
+    Class for evaluation of secret test set for MOBD project
     """
 
     __LOG: logging.Logger = None
@@ -41,6 +37,8 @@ class Evaluator(AbstractClassifier):
     _ADA_BOOST = 'Ada Boost'
     _NAIVE_BAYES = 'Naive Bayes'
     _KMEANS = 'K-Means'
+
+    _CLASSIFIER_REL_PATH = './res/classifier/'
 
     def __init__(self, conf: Conf):
         super().__init__()
@@ -61,7 +59,7 @@ class Evaluator(AbstractClassifier):
         # NOTE: if csv test set file has been saved using command pd.to_csv('/path', index=True), it is necessary
         #   using pd.read_csv(self.conf.dataset_test, index_col=0)), so just uncomment following line
         #   and comment previous one
-        # self.__test = Set(pd.read_csv(self.conf.dataset_test,r index_col=0))
+        # self.__test = Set(pd.read_csv(self.conf.dataset_test, index_col=0))
 
         # current classifiers used
         self.__classifiers = {
@@ -219,7 +217,6 @@ class Evaluator(AbstractClassifier):
             f"[SAMPLING] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
 
     def train(self) -> None:
-        # TODO - vedere se testare altre macchine
         # TODO - provare a modificare parametri di tuning (aumenta layer in MLP)
         ###############################
         ### hyper-parameters tuning ###
@@ -227,40 +224,58 @@ class Evaluator(AbstractClassifier):
         self.__LOG.info(f"[TUNING] Hyper-parameters tuning of: {', '.join(k for k in self.classifiers.keys())}")
 
         for name, classifier in self.classifiers.items():
-            self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {name}")
-            if name == Evaluator._MULTILAYER_PERCEPTRON:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(self.training.set_x, self.training.set_y)
-            elif name == Evaluator._SUPPORT_VECTOR_MACHINE:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.support_vector_machine_param_selection(self.training.set_x, self.training.set_y)
-            elif name == Evaluator._DECISION_TREE:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.decision_tree_param_selection(self.training.set_x, self.training.set_y)
-            elif name == Evaluator._RANDOM_FOREST:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.random_forest_param_selection(self.training.set_x, self.training.set_y)
-            elif name == Evaluator._KNEAREST_NEIGHBORS:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.knearest_neighbors_param_selection(self.training.set_x, self.training.set_y)
-            elif name == Evaluator._STOCHASTIC_GRADIENT_DESCENT:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(self.training.set_x, self.training.set_y)
-            elif name == Evaluator._ADA_BOOST:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.ada_boosting_param_selection(self.training.set_x, self.training.set_y)
-            elif name == Evaluator._NAIVE_BAYES:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.naive_bayes_param_selection(self.training.set_x, self.training.set_y)
-            elif name == Evaluator._KMEANS:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.kmeans_param_selection(self.training.set_x, self.training.set_y)
+            # if trained classifiers had been dumped, load from *.joblib file
+            if self.conf.classifier_dump:
+                filename = '_'.join(name.split()) + '.joblib'
+                classifier_path = Path(Common.get_root_path(), Evaluator._CLASSIFIER_REL_PATH, filename)
+                Validation.can_read(classifier_path, f"Classifier {classifier_path} *must* exists and be readable.")
+                self.__LOG.debug(f"[TUNING] Loading {classifier_path} for {name} classifier")
+                self.classifiers[name] = load(classifier_path)
+            # otherwise, retrain all classifiers
+            else:
+                self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {name}")
+                if name == Evaluator._MULTILAYER_PERCEPTRON:
+                    # perform grid search and fit on best evaluator
+                    self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(
+                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                elif name == Evaluator._SUPPORT_VECTOR_MACHINE:
+                    # perform grid search and fit on best evaluator
+                    self.classifiers[name] = Tuning.support_vector_machine_param_selection(
+                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                elif name == Evaluator._DECISION_TREE:
+                    # perform grid search and fit on best evaluator
+                    self.classifiers[name] = Tuning.decision_tree_param_selection(
+                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                elif name == Evaluator._RANDOM_FOREST:
+                    # perform grid search and fit on best evaluator
+                    self.classifiers[name] = Tuning.random_forest_param_selection(
+                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                elif name == Evaluator._KNEAREST_NEIGHBORS:
+                    # perform grid search and fit on best evaluator
+                    self.classifiers[name] = Tuning.knearest_neighbors_param_selection(
+                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                elif name == Evaluator._STOCHASTIC_GRADIENT_DESCENT:
+                    # perform grid search and fit on best evaluator
+                    self.classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(
+                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                elif name == Evaluator._ADA_BOOST:
+                    # perform grid search and fit on best evaluator
+                    self.classifiers[name] = Tuning.ada_boosting_param_selection(
+                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                elif name == Evaluator._NAIVE_BAYES:
+                    # perform grid search and fit on best evaluator
+                    self.classifiers[name] = Tuning.naive_bayes_param_selection(
+                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                elif name == Evaluator._KMEANS:
+                    # perform grid search and fit on best evaluator
+                    self.classifiers[name] = Tuning.kmeans_param_selection(
+                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
 
     def evaluate(self) -> None:
         ###############################
         ### classifiers' evaluation ###
         ###############################
-        self.__LOG.info(f"[EVAL] Computing evaluation for: {', '.join(k for k in self.classifiers.keys())}")
+        self.__LOG.info(f"[EVAL] Computing evaluation on test set for: {', '.join(k for k in self.classifiers.keys())}")
 
         for name, classifier in self.classifiers.items():
             accuracy, precision, recall, f1_score, confusion_matrix = Evaluation.evaluate(
@@ -282,6 +297,8 @@ class Evaluator(AbstractClassifier):
 
     def on_error(self, exception: Exception = None) -> None:
         super().on_error(exception)
+
+        self.__LOG.error(f"Something went wrong while training '{__name__}'.", exc_info=True)
 
     @property
     def conf(self) -> Conf:

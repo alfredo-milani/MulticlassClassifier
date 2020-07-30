@@ -48,6 +48,8 @@ class Conf(dict):
     V_DEFAULT_PAIR_PLOT_SAVE = False
     K_THREADS = "threads"
     V_DEFAULT_THREADS = 1
+    K_CLASSIFIER_DUMP = "classifier.dump"
+    V_DEFAULT_CLASSIFIER_DUMP = False
 
     # Section MOBD
     S_MOBD = "MOBD"
@@ -82,6 +84,7 @@ class Conf(dict):
         self.pair_plot_compute = Conf.V_DEFAULT_PAIR_PLOT_COMPUTE
         self.pair_plot_save = Conf.V_DEFAULT_PAIR_PLOT_SAVE
         self.threads = Conf.V_DEFAULT_THREADS
+        self.classifier_dump = Conf.V_DEFAULT_CLASSIFIER_DUMP
 
         # section MOBD
         self.benchmark_best_found = Conf.V_DEFAULT_BENCHMARK_BEST_FOUND
@@ -119,6 +122,7 @@ class Conf(dict):
         self.__put_bool(Conf.K_PAIR_PLOT_COMPUTE, Conf.S_TRAINING, Conf.K_PAIR_PLOT_COMPUTE, Conf.V_DEFAULT_PAIR_PLOT_COMPUTE)
         self.__put_bool(Conf.K_PAIR_PLOT_SAVE, Conf.S_TRAINING, Conf.K_PAIR_PLOT_SAVE, Conf.V_DEFAULT_PAIR_PLOT_SAVE)
         self.__put_int(Conf.K_THREADS, Conf.S_TRAINING, Conf.K_THREADS, Conf.V_DEFAULT_THREADS)
+        self.__put_bool(Conf.K_CLASSIFIER_DUMP, Conf.S_TRAINING, Conf.K_CLASSIFIER_DUMP, Conf.V_DEFAULT_CLASSIFIER_DUMP)
 
         # section MOBD
         self.__put_tuple(Conf.K_BENCHMARK_BEST_FOUND, Conf.S_MOBD, Conf.K_BENCHMARK_BEST_FOUND, Conf.V_DEFAULT_BENCHMARK_BEST_FOUND)
@@ -297,6 +301,14 @@ class Conf(dict):
     @threads.setter
     def threads(self, threads: int):
         self[Conf.K_THREADS] = threads
+
+    @property
+    def classifier_dump(self) -> bool:
+        return self[Conf.K_CLASSIFIER_DUMP]
+
+    @classifier_dump.setter
+    def classifier_dump(self, classifier_dump: bool):
+        self[Conf.K_CLASSIFIER_DUMP] = classifier_dump
 
     @property
     def benchmark_best_found(self) -> tuple:

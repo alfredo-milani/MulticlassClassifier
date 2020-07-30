@@ -14,9 +14,9 @@ class Client(object):
     Launcher
     """
 
-    __DEFAULT_CONF_PATH: str = "./res/conf/conf.ini"
-
     __LOG: logging.Logger = None
+
+    _DEFAULT_CONF_PATH: str = "./res/conf/conf.ini"
 
     def __init__(self):
         super().__init__()
@@ -29,7 +29,7 @@ class Client(object):
         if len(sys.argv) > 1:
             conf_path = sys.argv[1]
         else:
-            conf_path = f"{Path(Common.get_root_path(), Client.__DEFAULT_CONF_PATH)}"
+            conf_path = f"{Path(Common.get_root_path(), Client._DEFAULT_CONF_PATH)}"
 
         Validation.is_file_readable(
             conf_path,
@@ -73,7 +73,7 @@ class Client(object):
                 f"(deadline on {self.conf.benchmark_threshold[1]})."
             )
 
-            if Common.trim_all(self.conf.dataset_test):
+            if self.conf.dataset_test:
                 # perform evaluation on test set using best classifier found
                 Evaluator(self.conf).process()
             else:

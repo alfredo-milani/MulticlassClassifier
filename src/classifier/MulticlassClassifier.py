@@ -1,6 +1,5 @@
 import logging
 from pathlib import Path
-from statistics import mean
 
 import numpy as np
 import pandas as pd
@@ -9,26 +8,19 @@ import sklearn
 import imblearn
 import scipy
 import sklearn.preprocessing as prep
-import sklearn.model_selection as ms
-import sklearn.metrics as metrics
-from imblearn.pipeline import Pipeline
-from imblearn.under_sampling import RandomUnderSampler
-from numpy.ma import std
-from sklearn.feature_selection import SelectKBest, mutual_info_classif, RFE, RFECV
-from imblearn.over_sampling import ADASYN, SMOTE, RandomOverSampler
-from scipy import stats
-from sklearn.model_selection import RepeatedStratifiedKFold, cross_val_score
-from sklearn.tree import DecisionTreeClassifier
+from joblib import dump
+from sklearn.feature_selection import SelectKBest, mutual_info_classif
+from imblearn.over_sampling import RandomOverSampler, ADASYN, SMOTE
 
 from classifier import AbstractClassifier
 from model import Conf, Set
-from util import LogManager, Validation
+from util import LogManager, Validation, Common
 from util.helper import PreProcessing, Tuning, Evaluation
 
 
 class MulticlassClassifier(AbstractClassifier):
     """
-    Multi-class classifier
+    Class for parameter selection for various models of machine learning
     """
 
     __LOG: logging.Logger = None
@@ -45,6 +37,8 @@ class MulticlassClassifier(AbstractClassifier):
     _ADA_BOOST = 'Ada Boost'
     _NAIVE_BAYES = 'Naive Bayes'
     _KMEANS = 'K-Means'
+
+    _CLASSIFIER_REL_PATH = './res/classifier/'
 
     def __init__(self, conf: Conf):
         super().__init__()
@@ -130,16 +124,6 @@ class MulticlassClassifier(AbstractClassifier):
         #########################
         self.__LOG.info(
             f"[DATA SPLIT] Splitting dataset into training and test set with ratio: {self.conf.dataset_test_ratio}")
-        # self.data.set_x = self.data.set_.iloc[:, 0:20].values
-        # self.data.set_y = self.data.set_.iloc[:, 20].values
-        # # split training/test set
-        # self.training.set_x, self.test.set_x, self.training.set_y, self.test.set_y = \
-        #     ms.train_test_split(
-        #         self.data.set_x,
-        #         self.data.set_y,
-        #         test_size=self.conf.dataset_test_ratio,
-        #         random_state=self.conf.rng_seed
-        #     )
 
         # split training/test set
         self.training.set_ = self.data.set_.sample(
@@ -288,7 +272,6 @@ class MulticlassClassifier(AbstractClassifier):
             f"[SAMPLING] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
 
     def train(self) -> None:
-        # TODO - vedere se testare altre macchine
         # TODO - provare a modificare parametri di tuning (aumenta layer in MLP)
         ###############################
         ### hyper-parameters tuning ###
@@ -333,6 +316,13 @@ class MulticlassClassifier(AbstractClassifier):
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.kmeans_param_selection(
                     self.training.set_x, self.training.set_y, thread=self.conf.threads)
+
+            # dump classifier, if requested
+            if self.conf.classifier_dump:
+                filename = '_'.join(name.split()) + '.joblib'
+                destination_path = Path(Common.get_root_path(), MulticlassClassifier._CLASSIFIER_REL_PATH, filename)
+                self.__LOG.debug(f"[TUNING] Dump of {name} in {destination_path}")
+                dump(self.classifiers[name], destination_path)
 
     def evaluate(self) -> None:
         ###############################
