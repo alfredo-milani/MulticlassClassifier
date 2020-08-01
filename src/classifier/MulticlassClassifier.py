@@ -278,6 +278,15 @@ class MulticlassClassifier(AbstractClassifier):
         ###############################
         self.__LOG.info(f"[TUNING] Hyper-parameters tuning of: {', '.join(self.classifiers.keys())}")
 
+        # dump classifier, if requested
+        dump_directory_path = Path(Common.get_root_path(), MulticlassClassifier._CLASSIFIER_REL_PATH)
+        if self.conf.classifier_dump:
+            try:
+                Validation.is_dir(dump_directory_path)
+            except NotADirectoryError:
+                self.__LOG.debug(f"[TUNING] Creating folder '{dump_directory_path}'")
+                dump_directory_path.mkdir(parents=True, exist_ok=True)
+
         for name, classifier in self.classifiers.items():
             self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {name}")
             if name == MulticlassClassifier._MULTILAYER_PERCEPTRON:
@@ -320,9 +329,9 @@ class MulticlassClassifier(AbstractClassifier):
             # dump classifier, if requested
             if self.conf.classifier_dump:
                 filename = '_'.join(name.split()) + '.joblib'
-                destination_path = Path(Common.get_root_path(), MulticlassClassifier._CLASSIFIER_REL_PATH, filename)
-                self.__LOG.debug(f"[TUNING] Dump of {name} in {destination_path}")
-                dump(self.classifiers[name], destination_path)
+                filename_path = dump_directory_path.joinpath(filename)
+                self.__LOG.debug(f"[TUNING] Dump of {name} in {filename_path}")
+                dump(self.classifiers[name], filename_path)
 
     def evaluate(self) -> None:
         ###############################
