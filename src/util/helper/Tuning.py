@@ -268,7 +268,7 @@ class Tuning(object):
             'loss': ['hinge', 'log', 'squared_hinge', 'modified_huber', 'perceptron'],
             'max_iter': [1000],
             'l1_ratio': [0.08, 0.09, 0.1, 0.12, 0.13, 0.14, 0.15, 0.2],
-            'penality': ['l2', 'l1', 'elasticnet']
+            'penality': ['elasticnet', 'l2', 'l1']
         }
 
         grid_search = ms.GridSearchCV(

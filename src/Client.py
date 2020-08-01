@@ -37,7 +37,6 @@ class Client(object):
         )
 
         self.__conf = Conf.get_instance()
-        self.conf.load_from(conf_path)
 
         if self.conf.debug:
             self.__LOG_MANAGER.enable_debug_level()
