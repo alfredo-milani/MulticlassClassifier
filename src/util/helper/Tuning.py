@@ -33,6 +33,7 @@ class Tuning(object):
         :param thread:
         :return:
         """
+        # TODO - aggiungere entry con parametri per kernel polinomiale
         param_grid = [
             {
                 'kernel': ['linear'],
@@ -135,7 +136,7 @@ class Tuning(object):
             'max_depth': [80, 90],
             'max_features': ['log2', 'sqrt', None],
             'min_samples_leaf': [2, 5, 10],
-            'n_estimators': [100, 200, 300, 400]
+            'n_estimators': [100, 200, 300, 400, 500]
         }
 
         grid_search = ms.GridSearchCV(
@@ -264,14 +265,14 @@ class Tuning(object):
         :return:
         """
         param_grid = {
-            'loss': ['hinge', 'log', 'squared_hinge', 'modified_humber'],
+            'loss': ['hinge', 'log', 'squared_hinge', 'modified_huber', 'perceptron'],
             'max_iter': [1000],
             'l1_ratio': [0.08, 0.09, 0.1, 0.12, 0.13, 0.14, 0.15, 0.2],
             'penality': ['l2', 'l1', 'elasticnet']
         }
 
         grid_search = ms.GridSearchCV(
-            SGDClassifier(max_iter=6000),
+            SGDClassifier(max_iter=10000),
             param_grid=param_grid,
             scoring=metric,
             cv=n_folds,
@@ -398,10 +399,10 @@ class Tuning(object):
         :param thread:
         :return:
         """
-        # TODO - vedere se è necessario normalizzare meglio i dati
+        # TODO - vedere quali sono i parametri per usare k-means
         clf = KMeans(
             n_clusters=4,
-            max_iter=6000,
+            max_iter=10000,
             algorithm='auto',
             random_state=Conf.get_instance().rng_seed
         )

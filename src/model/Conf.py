@@ -180,8 +180,7 @@ class Conf(dict):
             input string (syntax error in key/value pairs type)
         """
         try:
-            string = self.__config_parser.get(section, section_key)
-            self[key] = ast.literal_eval(string)
+            self[key] = ast.literal_eval(self.__config_parser.get(section, section_key))
         except (configparser.NoOptionError, configparser.NoSectionError):
             if default is None:
                 raise Conf.NoValueError(key)

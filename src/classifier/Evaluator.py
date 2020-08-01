@@ -221,7 +221,7 @@ class Evaluator(AbstractClassifier):
         ###############################
         ### hyper-parameters tuning ###
         ###############################
-        self.__LOG.info(f"[TUNING] Hyper-parameters tuning of: {', '.join(k for k in self.classifiers.keys())}")
+        self.__LOG.info(f"[TUNING] Hyper-parameters tuning of: {', '.join(self.classifiers.keys())}")
 
         for name, classifier in self.classifiers.items():
             # if trained classifiers had been dumped, load from *.joblib file
@@ -275,7 +275,7 @@ class Evaluator(AbstractClassifier):
         ###############################
         ### classifiers' evaluation ###
         ###############################
-        self.__LOG.info(f"[EVAL] Computing evaluation on test set for: {', '.join(k for k in self.classifiers.keys())}")
+        self.__LOG.info(f"[EVAL] Computing evaluation on test set for: {', '.join(self.classifiers.keys())}")
 
         for name, classifier in self.classifiers.items():
             accuracy, precision, recall, f1_score, confusion_matrix = Evaluation.evaluate(
