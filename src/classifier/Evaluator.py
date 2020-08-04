@@ -63,15 +63,15 @@ class Evaluator(AbstractClassifier):
 
         # current classifiers used
         self.__classifiers = {
-            # Evaluator._MULTILAYER_PERCEPTRON: None,
-            # Evaluator._SUPPORT_VECTOR_MACHINE: None,
-            # Evaluator._DECISION_TREE: None,
-            # Evaluator._RANDOM_FOREST: None,
-            # Evaluator._KNEAREST_NEIGHBORS: None,
-            # Evaluator._STOCHASTIC_GRADIENT_DESCENT: None,
-            # Evaluator._ADA_BOOST: None,
-            # Evaluator._NAIVE_BAYES: None,
-            Evaluator._KMEANS: None
+             Evaluator._MULTILAYER_PERCEPTRON: None,
+             Evaluator._SUPPORT_VECTOR_MACHINE: None,
+             Evaluator._DECISION_TREE: None,
+             Evaluator._RANDOM_FOREST: None,
+             Evaluator._KNEAREST_NEIGHBORS: None,
+             #Evaluator._STOCHASTIC_GRADIENT_DESCENT: None,
+             Evaluator._ADA_BOOST: None,
+             Evaluator._NAIVE_BAYES: None,
+             Evaluator._KMEANS: None
         }
 
     def prepare(self) -> None:
@@ -180,27 +180,24 @@ class Evaluator(AbstractClassifier):
         ##########################
         ### features selection ###
         ##########################
-        if self.conf.classifier_dump:
-            # features selected from previous training (using MulticlassClassifier class)
-            mask = np.array([False, True, True, True, True, True, True, True, False, False,
-                             True, True, True, True, True, True, False, True, False, True])
-            self.training.set_x = self.training.set_x[:, mask]
-            self.test.set_x = self.test.set_x[:, mask]
-        else:
-            # TODO - provare un approccio di tipo wrapper, il Recursive Feature Elimination o il SelectFromModel di sklearn
-            # do not consider the 5 features that have less dependence on the target feature
-            # (i.e. the class to which they belong)
-            selector = SelectKBest(mutual_info_classif, k=15)
-            self.__LOG.info(f"[FEATURE SELECTION] Feature selection using {type(selector).__qualname__}")
-            selector.fit(self.training.set_x, self.training.set_y)
-            self.training.set_x = selector.transform(self.training.set_x)
-            self.__LOG.debug(
-                f"[FEATURE SELECTION] Feature index after SelectKBest: {selector.get_support(indices=True)}")
-            self.test.set_x = selector.transform(self.test.set_x)
-            self.__LOG.debug(
-                f"[FEATURE SELECTION] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
-            self.__LOG.debug(
-                f"[FEATURE SELECTION] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
+        # TODO - provare un approccio di tipo wrapper, il Recursive Feature Elimination o il SelectFromModel di sklearn
+        # do not consider the 5 features that have less dependence on the target feature
+        # (i.e. the class to which they belong)
+        selector = SelectKBest(mutual_info_classif, k=15)
+        self.__LOG.info(f"[FEATURE SELECTION] Feature selection using {type(selector).__qualname__}")
+        selector.fit(self.training.set_x, self.training.set_y)
+        self.training.set_x = selector.transform(self.training.set_x)
+        self.__LOG.debug(f"[FEATURE SELECTION] Feature index after SelectKBest: {selector.get_support(indices=True)}")
+        self.test.set_x = selector.transform(self.test.set_x)
+        self.__LOG.debug(
+            f"[FEATURE SELECTION] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
+        self.__LOG.debug(
+            f"[FEATURE SELECTION] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
+
+        # mask = np.array([False, True, True, True, True, True, True, True, False, False,
+        #                  True, True, True, True, True, True, False, True, False, True])
+        # self.training.set_x = self.training.set_x[:, mask]
+        # self.test.set_x = self.test.set_x[:, mask]
 
     def sample(self) -> None:
         ###############################
@@ -234,7 +231,6 @@ class Evaluator(AbstractClassifier):
                 Validation.can_read(classifier_path, f"Classifier {classifier_path} *must* exists and be readable.")
                 self.__LOG.debug(f"[TUNING] Loading {classifier_path} for {name} classifier")
                 self.classifiers[name] = load(classifier_path)
-                self.__LOG.debug(f"[TUNING] Best {name} classifier: {self.classifiers[name]}")
             # otherwise, retrain all classifiers
             else:
                 self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {name}")

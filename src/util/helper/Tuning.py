@@ -45,6 +45,13 @@ class Tuning(object):
                 'gamma': [1e-4, 1e-3, 1e-2, 1e-1, 1e+1, 1e+2, 1e+3, 1e+4],
                 'C': [0.1, 1, 10, 50, 100],
                 'decision_function_shape': ['ovo', 'ovr']
+            },
+            {
+                'kernel': ['poly'],
+                'degree': [2, 3, 4],
+                'gamma': ['scale'],
+                'C': [0.1, 1, 10],
+                'decision_function_shape': ['ovo', 'ovr']
             }
         ]
 
@@ -265,14 +272,14 @@ class Tuning(object):
         :return:
         """
         param_grid = {
-            'loss': ['hinge', 'log', 'squared_hinge', 'modified_huber', 'perceptron'],
+            'loss': ['hinge', 'log', 'squared_hinge', 'modified_huber'],
             'max_iter': [1000],
             'l1_ratio': [0.08, 0.09, 0.1, 0.12, 0.13, 0.14, 0.15, 0.2],
             'penality': ['elasticnet', 'l2', 'l1']
         }
 
         grid_search = ms.GridSearchCV(
-            SGDClassifier(max_iter=10000),
+            SGDClassifier(max_iter=6000),
             param_grid=param_grid,
             scoring=metric,
             cv=n_folds,
@@ -280,7 +287,6 @@ class Tuning(object):
             n_jobs=thread
         )
         grid_search.fit(x, y)
-
         print("Best parameters:")
         print()
         print(grid_search.best_params_)
