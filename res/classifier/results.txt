@@ -1,0 +1,262 @@
+[INFO   ] | 2020-08-04 20:25:36,396 | [root] start (Client:63) - v0.3.3
+[DEBUG  ] | 2020-08-04 20:25:36,397 | [root] start (Client:64) - 
+### Configuration - from Conf: 
+	{ version : 0.3.3 }
+	{ app_name : MulticlassClassifier }
+	{ tmp : /Volumes/Ramdisk/ }
+	{ debug : True }
+	{ dataset : C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\dataset\training_set.csv }
+	{ dataset.test_ratio : 0.2 }
+	{ rng.seed : 43531 }
+	{ pair_plot.compute : False }
+	{ pair_plot.save : False }
+	{ threads : 24 }
+	{ classifier.dump : True }
+	{ benchmark.best_found : (0.8444, 'Multi-Layer Perceptron') }
+	{ benchmark.threshold : (0.8906, '04/09/2020') }
+	{ dataset.test : C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\dataset\test_set_no_index.csv }
+[INFO   ] | 2020-08-04 20:25:36,397 | [root] start (Client:67) - [BENCHMARK] Current best value found for Multi-Layer Perceptron classifier, with F1-score: 0.8444.
+[INFO   ] | 2020-08-04 20:25:36,397 | [root] start (Client:71) - [BENCHMARK] Current threshold with F1-score: 0.8906 (deadline on 04/09/2020).
+[DEBUG  ] | 2020-08-04 20:25:36,436 | [eval] prepare (Evaluator:81) - [LIB VERSION] numpy : 1.19.1
+[DEBUG  ] | 2020-08-04 20:25:36,436 | [eval] prepare (Evaluator:82) - [LIB VERSION] pandas : 1.1.0
+[DEBUG  ] | 2020-08-04 20:25:36,436 | [eval] prepare (Evaluator:83) - [LIB VERSION] matplotlib : 3.3.0
+[DEBUG  ] | 2020-08-04 20:25:36,436 | [eval] prepare (Evaluator:84) - [LIB VERSION] sklearn : 0.23.1
+[DEBUG  ] | 2020-08-04 20:25:36,436 | [eval] prepare (Evaluator:85) - [LIB VERSION] imblearn : 0.7.0
+[DEBUG  ] | 2020-08-04 20:25:36,436 | [eval] prepare (Evaluator:86) - [LIB VERSION] scipy : 1.5.2
+[INFO   ] | 2020-08-04 20:25:36,436 | [eval] prepare (Evaluator:89) - [MODE] Classifier evaluation on test set (Evaluator)
+[DEBUG  ] | 2020-08-04 20:25:36,477 | [eval] prepare (Evaluator:92) - [DESCRIPTION] Training set description:
+                F1           F2  ...          F20        CLASS
+count  7994.000000  7994.000000  ...  7997.000000  8000.000000
+mean     -0.013077    -0.261413  ...    -0.355555     1.463375
+std       1.006235     1.852793  ...     1.794666     1.231198
+min      -4.181155    -6.980290  ...    -7.563245     0.000000
+25%      -0.698506    -1.441144  ...    -1.563262     0.000000
+50%      -0.028194    -0.261095  ...    -0.373514     2.000000
+75%       0.666096     0.944857  ...     0.825741     3.000000
+max       3.774161     7.155359  ...     6.774458     3.000000
+
+[8 rows x 21 columns]
+[DEBUG  ] | 2020-08-04 20:25:36,514 | [eval] prepare (Evaluator:93) - [DESCRIPTION] Test set description:
+                F1           F2  ...          F20       CLASS
+count  1599.000000  1597.000000  ...  1598.000000  1600.00000
+mean     -0.023197    -0.273549  ...    -0.318703     1.41875
+std       1.004392     1.843536  ...     1.833467     1.24071
+min      -4.181155    -6.730272  ...    -6.927696     0.00000
+25%      -0.692950    -1.441273  ...    -1.534206     0.00000
+50%      -0.076569    -0.270727  ...    -0.342223     1.00000
+75%       0.641261     0.856824  ...     0.854304     3.00000
+max       3.706560     6.784279  ...     6.774458     3.00000
+
+[8 rows x 21 columns]
+[INFO   ] | 2020-08-04 20:25:36,514 | [eval] manage_bad_values (Evaluator:108) - [MISSING DATA] Managing missing data
+[DEBUG  ] | 2020-08-04 20:25:36,515 | [eval] manage_bad_values (Evaluator:110) - [MISSING DATA] Training set x before processing (shape: (8000, 20)):
+F1      6
+F2      6
+F3      1
+F4      1
+F5      4
+F6      6
+F7      4
+F8      9
+F9      6
+F10     6
+F11     5
+F12     6
+F13     3
+F14    10
+F15     2
+F16     6
+F17     4
+F18     7
+F19     5
+F20     3
+dtype: int64
+[DEBUG  ] | 2020-08-04 20:25:36,516 | [eval] manage_bad_values (Evaluator:114) - [MISSING DATA] Test set x before processing (shape: (1600, 20)):
+F1     1
+F2     3
+F3     0
+F4     0
+F5     2
+F6     0
+F7     1
+F8     2
+F9     3
+F10    2
+F11    0
+F12    0
+F13    0
+F14    1
+F15    0
+F16    1
+F17    1
+F18    1
+F19    0
+F20    2
+dtype: int64
+[DEBUG  ] | 2020-08-04 20:25:36,524 | [eval] manage_bad_values (Evaluator:128) - [MISSING DATA] Training set x after processing (shape: (8000, 20)):
+F1     0
+F2     0
+F3     0
+F4     0
+F5     0
+F6     0
+F7     0
+F8     0
+F9     0
+F10    0
+F11    0
+F12    0
+F13    0
+F14    0
+F15    0
+F16    0
+F17    0
+F18    0
+F19    0
+F20    0
+dtype: int64
+[DEBUG  ] | 2020-08-04 20:25:36,524 | [eval] manage_bad_values (Evaluator:132) - [MISSING DATA] Test set x after processing (shape: (1600, 20)):
+F1     0
+F2     0
+F3     0
+F4     0
+F5     0
+F6     0
+F7     0
+F8     0
+F9     0
+F10    0
+F11    0
+F12    0
+F13    0
+F14    0
+F15    0
+F16    0
+F17    0
+F18    0
+F19    0
+F20    0
+dtype: int64
+[INFO   ] | 2020-08-04 20:25:36,524 | [eval] manage_bad_values (Evaluator:144) - [OUTLIER] Managing outlier using modified z-score method
+[DEBUG  ] | 2020-08-04 20:25:36,561 | [eval] manage_bad_values (Evaluator:146) - [DESCRIPTION] Training set x description before manage outlier:
+                F1           F2  ...          F19          F20
+count  8000.000000  8000.000000  ...  8000.000000  8000.000000
+mean     -0.013089    -0.261413  ...     0.001089    -0.355561
+std       1.005857     1.852098  ...     0.996292     1.794329
+min      -4.181155    -6.980290  ...    -4.013615    -7.563245
+25%      -0.697289    -1.440610  ...    -0.668816    -1.562957
+50%      -0.028194    -0.261095  ...    -0.004635    -0.373514
+75%       0.665193     0.944192  ...     0.675878     0.824602
+max       3.774161     7.155359  ...     3.606960     6.774458
+
+[8 rows x 20 columns]
+[DEBUG  ] | 2020-08-04 20:25:36,911 | [eval] manage_bad_values (Evaluator:161) - [DESCRIPTION] Training set x description after manage outlier:
+                F1           F2  ...          F19          F20
+count  8000.000000  8000.000000  ...  8000.000000  8000.000000
+mean     -0.014417    -0.261720  ...     0.002997    -0.356340
+std       1.001398     1.833666  ...     0.989347     1.779930
+min      -3.508639    -6.343826  ...    -3.236206    -5.999590
+25%      -0.696777    -1.434377  ...    -0.666867    -1.560402
+50%      -0.028194    -0.261095  ...    -0.004635    -0.373514
+75%       0.660691     0.931481  ...     0.675515     0.820427
+max       3.471496     5.835273  ...     3.291693     5.623552
+
+[8 rows x 20 columns]
+[INFO   ] | 2020-08-04 20:25:36,911 | [eval] normalize (Evaluator:174) - [SCALING] Data scaling using MinMaxScaler
+[INFO   ] | 2020-08-04 20:25:36,914 | [eval] feature_selection (Evaluator:187) - [FEATURE SELECTION] Feature selection using SelectKBest
+[DEBUG  ] | 2020-08-04 20:25:37,970 | [eval] feature_selection (Evaluator:190) - [FEATURE SELECTION] Feature index after SelectKBest: [ 1  2  3  4  5  6  7 10 11 12 13 14 15 17 19]
+[DEBUG  ] | 2020-08-04 20:25:37,971 | [eval] feature_selection (Evaluator:192) - [FEATURE SELECTION] Train shape after feature selection: (8000, 15) | (8000,)
+[DEBUG  ] | 2020-08-04 20:25:37,971 | [eval] feature_selection (Evaluator:194) - [FEATURE SELECTION] Test shape after feature selection: (1600, 15) | (1600,)
+[INFO   ] | 2020-08-04 20:25:37,971 | [eval] sample (Evaluator:212) - [SAMPLING] Data sampling using SMOTE
+[DEBUG  ] | 2020-08-04 20:25:38,128 | [eval] sample (Evaluator:214) - [SAMPLING] Train shape after feature selection: (10776, 15) | (10776,)
+[DEBUG  ] | 2020-08-04 20:25:38,128 | [eval] sample (Evaluator:216) - [SAMPLING] Test shape after feature selection: (1600, 15) | (1600,)
+[INFO   ] | 2020-08-04 20:25:38,129 | [eval] train (Evaluator:224) - [TUNING] Hyper-parameters tuning of: Multi-Layer Perceptron, Support Vector Machine, Decision Tree, Random Forest, K-Nearest Neighbors, Ada Boost, Naive Bayes, K-Means
+[DEBUG  ] | 2020-08-04 20:25:38,129 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Multi-Layer_Perceptron.joblib for Multi-Layer Perceptron classifier
+[DEBUG  ] | 2020-08-04 20:25:38,133 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Support_Vector_Machine.joblib for Support Vector Machine classifier
+[DEBUG  ] | 2020-08-04 20:25:38,134 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Decision_Tree.joblib for Decision Tree classifier
+[DEBUG  ] | 2020-08-04 20:25:38,136 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Random_Forest.joblib for Random Forest classifier
+[DEBUG  ] | 2020-08-04 20:25:38,315 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\K-Nearest_Neighbors.joblib for K-Nearest Neighbors classifier
+[DEBUG  ] | 2020-08-04 20:25:38,320 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Ada_Boost.joblib for Ada Boost classifier
+[DEBUG  ] | 2020-08-04 20:25:38,457 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Naive_Bayes.joblib for Naive Bayes classifier
+[DEBUG  ] | 2020-08-04 20:25:38,458 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\K-Means.joblib for K-Means classifier
+[INFO   ] | 2020-08-04 20:25:38,459 | [eval] evaluate (Evaluator:278) - [EVAL] Computing evaluation on test set for: Multi-Layer Perceptron, Support Vector Machine, Decision Tree, Random Forest, K-Nearest Neighbors, Ada Boost, Naive Bayes, K-Means
+[INFO   ] | 2020-08-04 20:25:38,493 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of Multi-Layer Perceptron:
+	- Accuracy: 0.905
+	- Precision: 0.8981042297305506
+	- Recall: 0.8938730141820604
+	- F1-score: 0.8959047317686998
+	- Confusion matrix: 
+[[530  15  11  17]
+ [ 24 204  10   9]
+ [ 16   7 284  10]
+ [ 10  12  11 430]]
+[INFO   ] | 2020-08-04 20:25:39,301 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of Support Vector Machine:
+	- Accuracy: 0.935625
+	- Precision: 0.9324026961805442
+	- Recall: 0.928551260701258
+	- F1-score: 0.9303492864890782
+	- Confusion matrix: 
+[[549   8   6  10]
+ [ 13 224   3   7]
+ [ 13   8 287   9]
+ [ 10   8   8 437]]
+[INFO   ] | 2020-08-04 20:25:39,306 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of Decision Tree:
+	- Accuracy: 0.831875
+	- Precision: 0.8193758341985334
+	- Recall: 0.8260182041573665
+	- F1-score: 0.8210124120568643
+	- Confusion matrix: 
+[[507  29  15  22]
+ [ 19 208   7  13]
+ [ 27  23 248  19]
+ [ 35  27  33 368]]
+[INFO   ] | 2020-08-04 20:25:39,888 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of Random Forest:
+	- Accuracy: 0.9425
+	- Precision: 0.9392050366215996
+	- Recall: 0.9360775669904016
+	- F1-score: 0.9375999059720689
+	- Confusion matrix: 
+[[550   7   6  10]
+ [  8 226   6   7]
+ [ 10   7 290  10]
+ [  8   3  10 442]]
+[INFO   ] | 2020-08-04 20:25:43,890 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of K-Nearest Neighbors:
+	- Accuracy: 0.86625
+	- Precision: 0.853287893004522
+	- Recall: 0.8648906965765859
+	- F1-score: 0.8582560085481659
+	- Confusion matrix: 
+[[501  28  21  23]
+ [ 14 214   8  11]
+ [ 16  19 271  11]
+ [ 24  16  23 400]]
+[INFO   ] | 2020-08-04 20:25:44,661 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of Ada Boost:
+	- Accuracy: 0.96375
+	- Precision: 0.9631249215572804
+	- Recall: 0.9588555675333281
+	- F1-score: 0.960930475930486
+	- Confusion matrix: 
+[[563   2   2   6]
+ [  4 234   3   6]
+ [  7   5 298   7]
+ [  7   2   7 447]]
+[INFO   ] | 2020-08-04 20:25:44,670 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of Naive Bayes:
+	- Accuracy: 0.534375
+	- Precision: 0.5257611385892479
+	- Recall: 0.5319264756135296
+	- F1-score: 0.5199458126166261
+	- Confusion matrix: 
+[[315  72 117  69]
+ [ 50 130  20  47]
+ [ 21  78 167  51]
+ [ 55 104  61 243]]
+[INFO   ] | 2020-08-04 20:25:44,676 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of K-Means:
+	- Accuracy: 0.3325
+	- Precision: 0.32740595979717463
+	- Recall: 0.32178713120915653
+	- F1-score: 0.32047860118343796
+	- Confusion matrix: 
+[[240  40 132 161]
+ [ 53  90  40  64]
+ [ 82  78  68  89]
+ [ 59 101 169 134]]
