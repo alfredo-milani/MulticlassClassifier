@@ -51,17 +51,27 @@ class Evaluator(AbstractClassifier):
         )
 
         self.__LOG = LogManager.get_instance().logger(LogManager.Logger.EVAL)
+        if self.__LOG is None:
+            # load base loggers
+            LogManager.get_instance().load()
+            self.__LOG = LogManager.get_instance().logger(LogManager.Logger.EVAL)
         self.__conf = conf
 
         # using full dataset as training set
         self.__training = Set(pd.read_csv(self.conf.dataset_train))
-        # load test set
+
+        # load test set if it has same format as training_set.csv provided
+        # as example file see ./res/dataset/test_set_no_index.csv
         self.__test = Set(pd.read_csv(self.conf.dataset_test))
-        # TODO - vedere se sistemare
-        # NOTE: if csv test set file has been saved using command pd.to_csv('/path', index=True), it is necessary
-        #   using pd.read_csv(self.conf.dataset_test, index_col=0)), so just uncomment following line
-        #   and comment previous one
+        # load test set if it has header (F1-20 and CLASS row) and index, so a test test saved using
+        #   command pd.to_csv('/path', index=True)
+        # as example file see ./res/dataset/test_set_index.csv
         # self.__test = Set(pd.read_csv(self.conf.dataset_test, index_col=0))
+        # load test set if it does not have header row (does not have F1-20 and CLASS row) and
+        #   it is was not saved using command pd.to_csv('/path', index=True), so it has not index
+        # as example file see ./res/dataset/test_set_no_index_features.csv
+        # self.__test = Set(pd.read_csv(self.conf.dataset_test, header=None,
+        #                               names=[f"F{i}" for i in range(1, 21)] + ["CLASS"]))
 
         # current classifiers used
         self.__classifiers = {
@@ -70,7 +80,7 @@ class Evaluator(AbstractClassifier):
              Evaluator._DECISION_TREE: None,
              Evaluator._RANDOM_FOREST: None,
              Evaluator._KNEAREST_NEIGHBORS: None,
-             #Evaluator._STOCHASTIC_GRADIENT_DESCENT: None,
+             # Evaluator._STOCHASTIC_GRADIENT_DESCENT: None,
              Evaluator._ADA_BOOST: None,
              Evaluator._NAIVE_BAYES: None,
              # Evaluator._KMEANS: None
@@ -101,6 +111,8 @@ class Evaluator(AbstractClassifier):
         """
         Split training/testing set features and labels
         """
+        self.__LOG.info(f"[DATA SPLIT] Separating training/test set in features and labels")
+
         # split features and label
         self.training.set_y = self.training.set_.pop('CLASS')
         self.training.set_x = self.training.set_
@@ -144,30 +156,31 @@ class Evaluator(AbstractClassifier):
             f"{PreProcessing.get_na_count(self.test.set_x)}"
         )
 
-        # manage outliers
-        zscore = 'z-score'
-        modified_zscore = 'modified z-score'
-        iqr = 'inter-quantile range'
+        # manage outliers on training se only if there are no classifiers' dump
+        if not self.conf.classifier_dump:
+            # manage outliers
+            # outliers_manager = 'z-score'
+            outliers_manager = 'modified z-score'
+            # outliers_manager = 'inter-quartile range'
 
-        self.__LOG.info(f"[OUTLIER] Managing outlier using {modified_zscore} method")
+            self.__LOG.info(f"[OUTLIERS] Managing outliers using {outliers_manager} method")
 
-        self.__LOG.debug(
-            f"[DESCRIPTION] Training set x description before manage outlier:\n"
-            f"{self.training.set_x.describe(include='all')}"
-        )
+            self.__LOG.debug(
+                f"[DESCRIPTION] Training set x description before manage outlier:\n"
+                f"{self.training.set_x.describe(include='all')}"
+            )
 
-        for feature in self.training.set_x.columns:
-            # outliers = PreProcessing.zscore(self.training.set_x[feature])
-            outliers = PreProcessing.modified_zscore(self.training.set_x[feature])
-            # outliers = PreProcessing.iqr(self.training.set_x[feature])
+            for feature in self.training.set_x.columns:
+                # outliers_mask = PreProcessing.zscore(self.training.set_x[feature])
+                outliers_mask = PreProcessing.modified_zscore(self.training.set_x[feature])
+                # outliers_mask = PreProcessing.iqr(self.training.set_x[feature])
+                # outliers approximation
+                self.training.set_x.loc[outliers_mask, feature] = feature_median_dict[feature]
 
-            # outliers approximation
-            self.training.set_x.loc[outliers, feature] = feature_median_dict[feature]
-
-        self.__LOG.debug(
-            f"[DESCRIPTION] Training set x description after manage outlier:\n"
-            f"{self.training.set_x.describe(include='all')}"
-        )
+            self.__LOG.debug(
+                f"[DESCRIPTION] Training set x description after manage outlier:\n"
+                f"{self.training.set_x.describe(include='all')}"
+            )
 
     def normalize(self) -> None:
         """
@@ -178,27 +191,43 @@ class Evaluator(AbstractClassifier):
         #  X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
         #  X_scaled = X_std * (max - min) + min
         self.__LOG.info(f"[SCALING] Data scaling using {type(scaler).__qualname__}")
-        scaler.fit(self.training.set_x)
-        self.training.set_x = scaler.transform(self.training.set_x)
-        self.test.set_x = scaler.transform(self.test.set_x)
+
+        # if there are classifiers' dump, scale using data set used previously for training
+        if self.conf.classifier_dump:
+            # TODO - vedere se normalizzare solo la parte usata nella fase di training
+            self.__LOG.debug(f"[SCALING] Data scaling fitted on same training set of training phase.")
+            # using same training set from previous training phase
+            scaler.fit(self.training.set_x.sample(
+                frac=1 - self.conf.dataset_test_ratio,
+                random_state=self.conf.rng_seed
+            ))
+            self.test.set_x = scaler.transform(self.test.set_x)
+        # if there are not classifiers' dump, scale using complete training set
+        else:
+            scaler.fit(self.training.set_x)
+            self.training.set_x = scaler.transform(self.training.set_x)
+            self.test.set_x = scaler.transform(self.test.set_x)
 
     def feature_selection(self) -> None:
         """
         Features selection
         """
-        # if trained classifiers had been dumped, use mask obtained from previous training
+        self.__LOG.info(f"[FEATURE SELECTION] Feature selection")
+
+        # if trained classifiers has been dumped, use mask obtained from previous training
         if self.conf.classifier_dump:
-            mask = np.array([False, True, True, True, True, True, True, True, False, False,
-                             True, True, True, True, True, True, False, True, False, True])
-            self.training.set_x = self.training.set_x[:, mask]
-            self.test.set_x = self.test.set_x[:, mask]
+            features_mask = np.array([False, True, True, True, True, True, True, True, False, False,
+                                      True, True, True, True, True, True, False, True, False, True])
+            self.__LOG.debug(f"[FEATURE SELECTION] Feature selection using boolean mask obtained "
+                             f"from previous training phase: {features_mask}")
+            self.test.set_x = self.test.set_x[:, features_mask]
         # otherwise, select best features
         else:
             # TODO - provare un approccio di tipo wrapper, il Recursive Feature Elimination o il SelectFromModel di sklearn
             # do not consider the 5 features that have less dependence on the target feature
             # (i.e. the class to which they belong)
             selector = SelectKBest(mutual_info_classif, k=15)
-            self.__LOG.info(f"[FEATURE SELECTION] Feature selection using {type(selector).__qualname__}")
+            self.__LOG.debug(f"[FEATURE SELECTION] Feature selection using {type(selector).__qualname__}")
             selector.fit(self.training.set_x, self.training.set_y)
             self.training.set_x = selector.transform(self.training.set_x)
             self.__LOG.debug(
@@ -213,17 +242,20 @@ class Evaluator(AbstractClassifier):
         """
         Data over/undersampling
         """
-        # oversampling with SMOTE
-        sampler = SMOTE(random_state=self.conf.rng_seed)
-        # sampler = RandomUnderSampler()
-        # sampler = RandomOverSampler()
-        # sampler = ADASYN(sampling_strategy='auto', random_state=self.conf.rng_seed)
-        self.__LOG.info(f"[SAMPLING] Data sampling using {type(sampler).__qualname__}")
-        self.training.set_x, self.training.set_y = sampler.fit_resample(self.training.set_x, self.training.set_y)
-        self.__LOG.debug(
-            f"[SAMPLING] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
-        self.__LOG.debug(
-            f"[SAMPLING] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
+        # if there are not dumps for classifiers, sample training set
+        if not self.conf.classifier_dump:
+            # TODO - vedere se usando altri sampler i classificatori performano meglio
+            # oversampling with SMOTE
+            sampler = SMOTE(random_state=self.conf.rng_seed)
+            # sampler = RandomUnderSampler()
+            # sampler = RandomOverSampler()
+            # sampler = ADASYN(sampling_strategy='auto', random_state=self.conf.rng_seed)
+            self.__LOG.info(f"[SAMPLING] Data sampling using {type(sampler).__qualname__}")
+            self.training.set_x, self.training.set_y = sampler.fit_resample(self.training.set_x, self.training.set_y)
+            self.__LOG.debug(
+                f"[SAMPLING] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
+            self.__LOG.debug(
+                f"[SAMPLING] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
 
     def train(self) -> None:
         """
@@ -247,39 +279,39 @@ class Evaluator(AbstractClassifier):
                 if name == Evaluator._MULTILAYER_PERCEPTRON:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
                 elif name == Evaluator._SUPPORT_VECTOR_MACHINE:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.support_vector_machine_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
                 elif name == Evaluator._DECISION_TREE:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.decision_tree_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
                 elif name == Evaluator._RANDOM_FOREST:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.random_forest_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
                 elif name == Evaluator._KNEAREST_NEIGHBORS:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.knearest_neighbors_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
                 elif name == Evaluator._STOCHASTIC_GRADIENT_DESCENT:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
                 elif name == Evaluator._ADA_BOOST:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.ada_boosting_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
                 elif name == Evaluator._NAIVE_BAYES:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.naive_bayes_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
                 elif name == Evaluator._KMEANS:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.kmeans_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
 
     def evaluate(self) -> None:
         """
@@ -304,6 +336,8 @@ class Evaluator(AbstractClassifier):
 
     def on_success(self) -> None:
         super().on_success()
+
+        self.__LOG.info(f"Successfully evaluated all specified classifiers")
 
     def on_error(self, exception: Exception = None) -> None:
         super().on_error(exception)

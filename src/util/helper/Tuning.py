@@ -23,14 +23,14 @@ class Tuning(object):
     @staticmethod
     def support_vector_machine_param_selection(x: DataFrame, y: DataFrame = None,
                                                n_folds: int = 10, metric: str = 'f1_macro',
-                                               thread: int = DEFAULT_THREAD):
+                                               jobs: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
-        :param thread:
+        :param jobs:
         :return:
         """
         param_grid = [
@@ -60,7 +60,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=thread
+            n_jobs=jobs
         )
         grid_search.fit(x, y)
 
@@ -82,14 +82,14 @@ class Tuning(object):
     @staticmethod
     def decision_tree_param_selection(x: DataFrame, y: DataFrame = None,
                                       n_folds: int = 10, metric: str = 'f1_macro',
-                                      thread: int = DEFAULT_THREAD):
+                                      jobs: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
-        :param thread:
+        :param jobs:
         :return:
         """
         param_grid = {
@@ -106,7 +106,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=thread
+            n_jobs=jobs
         )
         grid_search.fit(x, y)
 
@@ -127,14 +127,14 @@ class Tuning(object):
     @staticmethod
     def random_forest_param_selection(x: DataFrame, y: DataFrame = None,
                                       n_folds: int = 10, metric: str = 'f1_macro',
-                                      thread: int = DEFAULT_THREAD):
+                                      jobs: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
-        :param thread:
+        :param jobs:
         :return:
         """
         param_grid = {
@@ -151,7 +151,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=thread
+            n_jobs=jobs
         )
         grid_search.fit(x, y)
 
@@ -172,14 +172,14 @@ class Tuning(object):
     @staticmethod
     def multilayer_perceptron_param_selection(x: DataFrame, y: DataFrame = None,
                                               n_folds: int = 10, metric: str = 'f1_macro',
-                                              thread: int = DEFAULT_THREAD):
+                                              jobs: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
-        :param thread:
+        :param jobs:
         :return:
         """
         param_grid = {
@@ -197,7 +197,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=thread
+            n_jobs=jobs
         )
         grid_search.fit(x, y)
 
@@ -218,14 +218,14 @@ class Tuning(object):
     @staticmethod
     def knearest_neighbors_param_selection(x: DataFrame, y: DataFrame = None,
                                            n_folds: int = 10, metric: str = 'f1_macro',
-                                           thread: int = DEFAULT_THREAD):
+                                           jobs: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
-        :param thread:
+        :param jobs:
         :return:
         """
         param_grid = {
@@ -240,7 +240,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=thread
+            n_jobs=jobs
         )
         grid_search.fit(x, y)
 
@@ -261,14 +261,14 @@ class Tuning(object):
     @staticmethod
     def stochastic_gradient_descent_param_selection(x: DataFrame, y: DataFrame = None,
                                                     n_folds: int = 10, metric: str = 'f1_macro',
-                                                    thread: int = DEFAULT_THREAD):
+                                                    jobs: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
-        :param thread:
+        :param jobs:
         :return:
         """
         param_grid = {
@@ -284,7 +284,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=thread
+            n_jobs=jobs
         )
         grid_search.fit(x, y)
         print("Best parameters:")
@@ -304,14 +304,14 @@ class Tuning(object):
     @staticmethod
     def naive_bayes_param_selection(x: DataFrame, y: DataFrame = None,
                                     n_folds: int = 10, metric: str = 'f1_macro',
-                                    thread: int = DEFAULT_THREAD):
+                                    jobs: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
-        :param thread:
+        :param jobs:
         :return:
         """
         param_grid = {
@@ -325,7 +325,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=thread
+            n_jobs=jobs
         )
         grid_search.fit(x, y)
 
@@ -346,14 +346,14 @@ class Tuning(object):
     @staticmethod
     def ada_boosting_param_selection(x: DataFrame, y: DataFrame = None,
                                      n_folds: int = 10, metric: str = 'f1_macro',
-                                     thread: int = DEFAULT_THREAD):
+                                     jobs: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
-        :param thread:
+        :param jobs:
         :return:
         """
         param_grid = {
@@ -374,7 +374,7 @@ class Tuning(object):
             scoring=metric,
             cv=n_folds,
             refit=True,
-            n_jobs=thread
+            n_jobs=jobs
         )
         grid_search.fit(x, y)
 
@@ -395,17 +395,16 @@ class Tuning(object):
     @staticmethod
     def kmeans_param_selection(x: DataFrame, y: DataFrame = None,
                                n_folds: int = 10, metric: str = 'f1_macro',
-                               thread: int = DEFAULT_THREAD):
+                               jobs: int = DEFAULT_THREAD):
         """
 
         :param x:
         :param y:
         :param n_folds:
         :param metric:
-        :param thread:
+        :param jobs:
         :return:
         """
-        # TODO - vedere quali sono i parametri per usare k-means
         clf = KMeans(
             n_clusters=4,
             max_iter=10000,

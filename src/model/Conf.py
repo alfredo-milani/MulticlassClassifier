@@ -69,9 +69,9 @@ class Conf(dict):
         Conf.__INSTANCE = self
         self.__config_parser = configparser.ConfigParser(interpolation=configparser.ExtendedInterpolation())
 
-        # default values
-        self.version = Conf.V_DEFAULT_VERSION
-        self.app_name = Conf.V_DEFAULT_APP_NAME
+        # intern values
+        self[Conf.K_VERSION] = Conf.V_DEFAULT_VERSION
+        self[Conf.K_APP_NAME] = Conf.V_DEFAULT_APP_NAME
 
         # section GENERAL
         self.tmp = Conf.V_DEFAULT_TMP
@@ -225,17 +225,9 @@ class Conf(dict):
     def version(self):
         return self[Conf.K_VERSION]
 
-    @version.setter
-    def version(self, version: str):
-        self[Conf.K_VERSION] = version
-
     @property
     def app_name(self) -> str:
         return self[Conf.K_APP_NAME]
-
-    @app_name.setter
-    def app_name(self, app_name: str):
-        self[Conf.K_APP_NAME] = app_name
 
     @property
     def tmp(self) -> str:

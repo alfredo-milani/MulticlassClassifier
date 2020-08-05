@@ -51,6 +51,10 @@ class MulticlassClassifier(AbstractClassifier):
         )
 
         self.__LOG = LogManager.get_instance().logger(LogManager.Logger.MCC)
+        if self.__LOG is None:
+            # load base loggers
+            LogManager.get_instance().load()
+            self.__LOG = LogManager.get_instance().logger(LogManager.Logger.MCC)
         self.__conf = conf
 
         self.__data = Set(pd.read_csv(self.conf.dataset_train))
@@ -73,7 +77,7 @@ class MulticlassClassifier(AbstractClassifier):
     def prepare(self) -> None:
         """
         Print library version, classifier type, training set description, class percentage and
-         compute pair-plot if requested
+          compute pair-plot if requested
         """
         super().prepare()
 
@@ -177,12 +181,11 @@ class MulticlassClassifier(AbstractClassifier):
         )
 
         # manage outliers
-        # TODO - vedere se la rimozione degli outliers è necessaria/utile se si dopo si sua MinMaxScaler
-        zscore = 'z-score'
-        modified_zscore = 'modified z-score'
-        iqr = 'inter-quantile range'
+        # outliers_manager = 'z-score'
+        outliers_manager = 'modified z-score'
+        # outliers_manager = 'inter-quartile range'
 
-        self.__LOG.info(f"[OUTLIER] Managing outlier using {modified_zscore} method")
+        self.__LOG.info(f"[OUTLIER] Managing outliers using {outliers_manager} method")
 
         self.__LOG.debug(
             f"[DESCRIPTION] Training set x description before manage outlier:\n"
@@ -190,12 +193,11 @@ class MulticlassClassifier(AbstractClassifier):
         )
 
         for feature in self.training.set_x.columns:
-            # outliers = PreProcessing.zscore(self.training.set_x[feature])
-            outliers = PreProcessing.modified_zscore(self.training.set_x[feature])
-            # outliers = PreProcessing.iqr(self.training.set_x[feature])
-
+            # outliers_mask = PreProcessing.zscore(self.training.set_x[feature])
+            outliers_mask = PreProcessing.modified_zscore(self.training.set_x[feature])
+            # outliers_mask = PreProcessing.iqr(self.training.set_x[feature])
             # outliers approximation
-            self.training.set_x.loc[outliers, feature] = feature_median_dict[feature]
+            self.training.set_x.loc[outliers_mask, feature] = feature_median_dict[feature]
 
         self.__LOG.debug(
             f"[DESCRIPTION] Training set x description after manage outlier:\n"
@@ -206,6 +208,7 @@ class MulticlassClassifier(AbstractClassifier):
         """
         Data scaling/normalization
         """
+        # TODO - vedere se gestione outliers è utile anche se si usa MinMaxScaler
         scaler = prep.MinMaxScaler(feature_range=(0, 1))
         # using following transformation:
         #  X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
@@ -255,6 +258,7 @@ class MulticlassClassifier(AbstractClassifier):
         """
         Data over/undersampling
         """
+        # TODO - vedere se usando altri sampler i classificatori performano meglio
         # oversampling with SMOTE
         sampler = SMOTE(random_state=self.conf.rng_seed)
         # sampler = RandomUnderSampler()
@@ -288,39 +292,39 @@ class MulticlassClassifier(AbstractClassifier):
             if name == MulticlassClassifier._MULTILAYER_PERCEPTRON:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                    self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
             elif name == MulticlassClassifier._SUPPORT_VECTOR_MACHINE:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.support_vector_machine_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                    self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
             elif name == MulticlassClassifier._DECISION_TREE:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.decision_tree_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                    self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
             elif name == MulticlassClassifier._RANDOM_FOREST:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.random_forest_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                    self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
             elif name == MulticlassClassifier._KNEAREST_NEIGHBORS:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.knearest_neighbors_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                    self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
             elif name == MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                    self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
             elif name == MulticlassClassifier._ADA_BOOST:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.ada_boosting_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                    self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
             elif name == MulticlassClassifier._NAIVE_BAYES:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.naive_bayes_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                    self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
             elif name == MulticlassClassifier._KMEANS:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.kmeans_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
+                    self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
 
             # dump classifier, if requested
             if self.conf.classifier_dump:
@@ -352,6 +356,8 @@ class MulticlassClassifier(AbstractClassifier):
 
     def on_success(self) -> None:
         super().on_success()
+
+        self.__LOG.info(f"Successfully trained all specified classifiers")
 
     def on_error(self, exception: Exception = None) -> None:
         super().on_error(exception)
