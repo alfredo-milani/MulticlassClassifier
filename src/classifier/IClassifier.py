@@ -3,22 +3,20 @@ from abc import abstractmethod
 
 class IClassifier(object):
     """
-
+    Interface for classificator
     """
 
     @abstractmethod
     def split(self) -> None:
         """
-
-        :return:
+        Dataset split
         """
         raise NotImplementedError
 
     @abstractmethod
     def manage_bad_values(self) -> None:
         """
-
-        :return:
+        Manage bad values
         """
         raise NotImplementedError
 
@@ -26,38 +24,33 @@ class IClassifier(object):
     def normalize(self) -> None:
         """
         Normalize, Scale features
-        :return:
         """
         raise NotImplementedError
 
     @abstractmethod
     def feature_selection(self) -> None:
         """
-
-        :return:
+        Features selection
         """
         raise NotImplementedError
 
     @abstractmethod
     def sample(self) -> None:
         """
-
-        :return:
+        Data sampling
         """
         raise NotImplementedError
 
     @abstractmethod
     def train(self) -> None:
         """
-
-        :return:
+        Training phase
         """
         raise NotImplementedError
 
     @abstractmethod
     def evaluate(self) -> None:
         """
-
-        :return:
+        Evaluation phase
         """
         raise NotImplementedError

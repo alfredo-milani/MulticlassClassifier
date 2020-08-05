@@ -53,24 +53,28 @@ class MulticlassClassifier(AbstractClassifier):
         self.__LOG = LogManager.get_instance().logger(LogManager.Logger.MCC)
         self.__conf = conf
 
-        self.__data = Set(pd.read_csv(self.conf.dataset))
+        self.__data = Set(pd.read_csv(self.conf.dataset_train))
         self.__training = Set()
         self.__test = Set()
 
         # current classifiers used
         self.__classifiers = {
-             MulticlassClassifier._MULTILAYER_PERCEPTRON: None,
-             MulticlassClassifier._SUPPORT_VECTOR_MACHINE: None,
-             MulticlassClassifier._DECISION_TREE: None,
-             MulticlassClassifier._RANDOM_FOREST: None,
-             MulticlassClassifier._KNEAREST_NEIGHBORS: None,
-             #MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT: None,
-             MulticlassClassifier._ADA_BOOST: None,
-             MulticlassClassifier._NAIVE_BAYES: None,
-             MulticlassClassifier._KMEANS: None
+            MulticlassClassifier._MULTILAYER_PERCEPTRON: None,
+            MulticlassClassifier._SUPPORT_VECTOR_MACHINE: None,
+            MulticlassClassifier._DECISION_TREE: None,
+            MulticlassClassifier._RANDOM_FOREST: None,
+            MulticlassClassifier._KNEAREST_NEIGHBORS: None,
+            # MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT: None,
+            MulticlassClassifier._ADA_BOOST: None,
+            MulticlassClassifier._NAIVE_BAYES: None,
+            MulticlassClassifier._KMEANS: None
         }
 
     def prepare(self) -> None:
+        """
+        Print library version, classifier type, training set description, class percentage and
+         compute pair-plot if requested
+        """
         super().prepare()
 
         # print libs' version
@@ -101,27 +105,25 @@ class MulticlassClassifier(AbstractClassifier):
             f"\tC4: {round(class4 / (class1 + class2 + class3 + class4) * 100, 2)} %"
         )
 
-        #########################
-        ### compute pair plot ###
-        #########################
+        # compute pair plot
         if self.conf.pair_plot_compute:
             if self.conf.pair_plot_save:
                 self.__LOG.info(
-                    f"[DESCRIPTION] Computing and saving pair plot of '{self.conf.dataset}' in '{self.conf.tmp}'")
+                    f"[DESCRIPTION] Computing and saving pair plot of '{self.conf.dataset_train}' in '{self.conf.tmp}'")
                 Validation.can_write(
                     self.conf.tmp,
                     f"Directory '{self.conf.tmp}' *must* exists and be writable."
                 )
-                destination_file = Path(self.conf.tmp, Path(self.conf.dataset).stem).with_suffix('.png')
+                destination_file = Path(self.conf.tmp, Path(self.conf.dataset_train).stem).with_suffix('.png')
                 PreProcessing.compute_pairplot(self.data.set_, str(destination_file.resolve()))
             else:
-                self.__LOG.info(f"[DESCRIPTION] Computing pair plot of '{self.conf.dataset}'")
+                self.__LOG.info(f"[DESCRIPTION] Computing pair plot of '{self.conf.dataset_train}'")
                 PreProcessing.compute_pairplot(self.data.set_)
 
     def split(self) -> None:
-        #########################
-        ### splitting dataset ###
-        #########################
+        """
+        Split training/testing set features and labels
+        """
         self.__LOG.info(
             f"[DATA SPLIT] Splitting dataset into training and test set with ratio: {self.conf.dataset_test_ratio}")
 
@@ -141,9 +143,10 @@ class MulticlassClassifier(AbstractClassifier):
         self.test.set_ = None
 
     def manage_bad_values(self) -> None:
-        ###########################
-        ### manage missing data ###
-        ###########################
+        """
+        Replace missing data with median (as it is not affected by outliers) and
+          outliers detected using modified z-score
+        """
         self.__LOG.info(f"[MISSING DATA] Managing missing data")
 
         self.__LOG.debug(
@@ -160,7 +163,6 @@ class MulticlassClassifier(AbstractClassifier):
         for feature in self.training.set_x.columns:
             # using feature median from training set to manage missing values for training and test set
             # it is not used mean as it is affected by outliers
-            # TODO - provare sia con media che con mediana
             feature_median_dict[feature] = self.training.set_x[feature].median()
             self.training.set_x[feature].fillna(feature_median_dict[feature], inplace=True)
             self.test.set_x[feature].fillna(feature_median_dict[feature], inplace=True)
@@ -174,11 +176,8 @@ class MulticlassClassifier(AbstractClassifier):
             f"{PreProcessing.get_na_count(self.test.set_x)}"
         )
 
-        #######################
-        ### manage outliers ###
-        #######################
-        # TODO - vedere se la rimozione degli outliers è necessaria/utile se
-        #        si dopo si sua MinMaxScaler
+        # manage outliers
+        # TODO - vedere se la rimozione degli outliers è necessaria/utile se si dopo si sua MinMaxScaler
         zscore = 'z-score'
         modified_zscore = 'modified z-score'
         iqr = 'inter-quantile range'
@@ -190,9 +189,7 @@ class MulticlassClassifier(AbstractClassifier):
             f"{self.training.set_x.describe(include='all')}"
         )
 
-        # TODO - vedere se, usando RobustScaler e modifica di outlier con mediana, i risultati sono simili
         for feature in self.training.set_x.columns:
-            # TODO - devono essere gestiti anche gli outliers del test set ?
             # outliers = PreProcessing.zscore(self.training.set_x[feature])
             outliers = PreProcessing.modified_zscore(self.training.set_x[feature])
             # outliers = PreProcessing.iqr(self.training.set_x[feature])
@@ -206,9 +203,9 @@ class MulticlassClassifier(AbstractClassifier):
         )
 
     def normalize(self) -> None:
-        ##################################
-        ### data scaling/normalization ###
-        ##################################
+        """
+        Data scaling/normalization
+        """
         scaler = prep.MinMaxScaler(feature_range=(0, 1))
         # using following transformation:
         #  X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
@@ -219,9 +216,9 @@ class MulticlassClassifier(AbstractClassifier):
         self.test.set_x = scaler.transform(self.test.set_x)
 
     def feature_selection(self) -> None:
-        ##########################
-        ### features selection ###
-        ##########################
+        """
+        Features selection
+        """
         # TODO - provare un approccio di tipo wrapper, il Recursive Feature Elimination o il SelectFromModel di sklearn
         # do not consider the 5 features that have less dependence on the target feature
         #   (i.e. the class to which they belong)
@@ -255,10 +252,9 @@ class MulticlassClassifier(AbstractClassifier):
         #     print('Column: %d, Selected %s, Rank: %.3f' % (i, rfe.support_[i], rfe.ranking_[i]))
 
     def sample(self) -> None:
-        ###############################
-        ### data over/undersampling ###
-        ###############################
-
+        """
+        Data over/undersampling
+        """
         # oversampling with SMOTE
         sampler = SMOTE(random_state=self.conf.rng_seed)
         # sampler = RandomUnderSampler()
@@ -272,10 +268,10 @@ class MulticlassClassifier(AbstractClassifier):
             f"[SAMPLING] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
 
     def train(self) -> None:
-        # TODO - provare a modificare parametri di tuning (aumenta layer in MLP)
-        ###############################
-        ### hyper-parameters tuning ###
-        ###############################
+        """
+        Perform Cross-Validation using GridSearchCV to find best hyper-parameter and refit classifiers on
+          complete training set
+        """
         self.__LOG.info(f"[TUNING] Hyper-parameters tuning of: {', '.join(self.classifiers.keys())}")
 
         # dump classifier, if requested
@@ -292,39 +288,39 @@ class MulticlassClassifier(AbstractClassifier):
             if name == MulticlassClassifier._MULTILAYER_PERCEPTRON:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
             elif name == MulticlassClassifier._SUPPORT_VECTOR_MACHINE:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.support_vector_machine_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
             elif name == MulticlassClassifier._DECISION_TREE:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.decision_tree_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
             elif name == MulticlassClassifier._RANDOM_FOREST:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.random_forest_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
             elif name == MulticlassClassifier._KNEAREST_NEIGHBORS:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.knearest_neighbors_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
             elif name == MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
             elif name == MulticlassClassifier._ADA_BOOST:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.ada_boosting_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
             elif name == MulticlassClassifier._NAIVE_BAYES:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.naive_bayes_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
             elif name == MulticlassClassifier._KMEANS:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.kmeans_param_selection(
-                    self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                    self.training.set_x, self.training.set_y, thread=self.conf.jobs)
 
             # dump classifier, if requested
             if self.conf.classifier_dump:
@@ -334,13 +330,11 @@ class MulticlassClassifier(AbstractClassifier):
                 dump(self.classifiers[name], filename_path)
 
     def evaluate(self) -> None:
-        ###############################
-        ### classifiers' evaluation ###
-        ###############################
+        """
+        Evaluate all specified classifiers
+        """
         self.__LOG.info(f"[EVAL] Computing evaluation for: {', '.join(self.classifiers.keys())}")
 
-        # TODO - è necessario testare con vari seed del RNG (dato che se cambia il seed, cambia il test set
-        #           ottenuto dal training set) ?
         for name, classifier in self.classifiers.items():
             accuracy, precision, recall, f1_score, confusion_matrix = Evaluation.evaluate(
                 self.classifiers[name],

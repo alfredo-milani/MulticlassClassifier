@@ -33,7 +33,6 @@ class Tuning(object):
         :param thread:
         :return:
         """
-        # TODO - aggiungere entry con parametri per kernel polinomiale
         param_grid = [
             {
                 'kernel': ['linear'],
@@ -184,10 +183,11 @@ class Tuning(object):
         :return:
         """
         param_grid = {
-            'hidden_layer_sizes': [(100, 50, 25), (100, 50), (100,)],
+            # 'hidden_layer_sizes': [(100, 50, 25), (100, 50), (100,), (75,), (45,)],
+            'hidden_layer_sizes': [(150, 100), (120, 60), (60, 30), (75,), (45,)],
             'activation': ['tanh', 'relu'],
             'solver': ['sgd', 'adam'],
-            'learning_rate_init': [0.1, 0.01, 10 ** -3, 10 ** -4],
+            'learning_rate_init': [1e-1, 1e-2, 1e-3, 1e-4],
             'learning_rate': ['constant', 'adaptive']
         }
 

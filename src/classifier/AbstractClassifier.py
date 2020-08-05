@@ -5,7 +5,7 @@ from classifier import IClassifier
 
 class AbstractClassifier(ABC, IClassifier):
     """
-
+    Base class to train models
     """
 
     def __init__(self):
@@ -33,10 +33,20 @@ class AbstractClassifier(ABC, IClassifier):
         return self.on_success()
 
     def prepare(self) -> None:
+        """
+        Used to initialize processing state
+        """
         pass
 
     def on_success(self) -> None:
+        """
+        Called on success
+        """
         pass
 
     def on_error(self, exception: Exception = None) -> None:
+        """
+        Called on error
+        :param exception: exception raised by caller
+        """
         pass

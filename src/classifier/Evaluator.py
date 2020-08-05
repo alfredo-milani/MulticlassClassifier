@@ -54,8 +54,10 @@ class Evaluator(AbstractClassifier):
         self.__conf = conf
 
         # using full dataset as training set
-        self.__training = Set(pd.read_csv(self.conf.dataset))
+        self.__training = Set(pd.read_csv(self.conf.dataset_train))
+        # load test set
         self.__test = Set(pd.read_csv(self.conf.dataset_test))
+        # TODO - vedere se sistemare
         # NOTE: if csv test set file has been saved using command pd.to_csv('/path', index=True), it is necessary
         #   using pd.read_csv(self.conf.dataset_test, index_col=0)), so just uncomment following line
         #   and comment previous one
@@ -71,10 +73,13 @@ class Evaluator(AbstractClassifier):
              #Evaluator._STOCHASTIC_GRADIENT_DESCENT: None,
              Evaluator._ADA_BOOST: None,
              Evaluator._NAIVE_BAYES: None,
-             Evaluator._KMEANS: None
+             # Evaluator._KMEANS: None
         }
 
     def prepare(self) -> None:
+        """
+        Print library version, classifier type, training set description
+        """
         super().prepare()
 
         # print libs' version
@@ -93,6 +98,9 @@ class Evaluator(AbstractClassifier):
         self.__LOG.debug(f"[DESCRIPTION] Test set description:\n{self.test.set_.describe(include='all')}")
 
     def split(self) -> None:
+        """
+        Split training/testing set features and labels
+        """
         # split features and label
         self.training.set_y = self.training.set_.pop('CLASS')
         self.training.set_x = self.training.set_
@@ -102,9 +110,11 @@ class Evaluator(AbstractClassifier):
         self.test.set_ = None
 
     def manage_bad_values(self) -> None:
-        ###########################
-        ### manage missing data ###
-        ###########################
+        """
+        Replace missing data with median (as it is not affected by outliers) and
+          outliers detected using modified z-score
+        """
+        # manage missing data
         self.__LOG.info(f"[MISSING DATA] Managing missing data")
 
         self.__LOG.debug(
@@ -134,9 +144,7 @@ class Evaluator(AbstractClassifier):
             f"{PreProcessing.get_na_count(self.test.set_x)}"
         )
 
-        #######################
-        ### manage outliers ###
-        #######################
+        # manage outliers
         zscore = 'z-score'
         modified_zscore = 'modified z-score'
         iqr = 'inter-quantile range'
@@ -148,9 +156,7 @@ class Evaluator(AbstractClassifier):
             f"{self.training.set_x.describe(include='all')}"
         )
 
-        # TODO - vedere se, usando RobustScaler e modifica di outlier con mediana, i risultati sono simili
         for feature in self.training.set_x.columns:
-            # TODO - devono essere gestiti anche gli outliers del test set ?
             # outliers = PreProcessing.zscore(self.training.set_x[feature])
             outliers = PreProcessing.modified_zscore(self.training.set_x[feature])
             # outliers = PreProcessing.iqr(self.training.set_x[feature])
@@ -164,9 +170,9 @@ class Evaluator(AbstractClassifier):
         )
 
     def normalize(self) -> None:
-        ##################################
-        ### data scaling/normalization ###
-        ##################################
+        """
+        Data scaling/normalization
+        """
         scaler = prep.MinMaxScaler(feature_range=(0, 1))
         # using following transformation:
         #  X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
@@ -177,33 +183,36 @@ class Evaluator(AbstractClassifier):
         self.test.set_x = scaler.transform(self.test.set_x)
 
     def feature_selection(self) -> None:
-        ##########################
-        ### features selection ###
-        ##########################
-        # TODO - provare un approccio di tipo wrapper, il Recursive Feature Elimination o il SelectFromModel di sklearn
-        # do not consider the 5 features that have less dependence on the target feature
-        # (i.e. the class to which they belong)
-        selector = SelectKBest(mutual_info_classif, k=15)
-        self.__LOG.info(f"[FEATURE SELECTION] Feature selection using {type(selector).__qualname__}")
-        selector.fit(self.training.set_x, self.training.set_y)
-        self.training.set_x = selector.transform(self.training.set_x)
-        self.__LOG.debug(f"[FEATURE SELECTION] Feature index after SelectKBest: {selector.get_support(indices=True)}")
-        self.test.set_x = selector.transform(self.test.set_x)
-        self.__LOG.debug(
-            f"[FEATURE SELECTION] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
-        self.__LOG.debug(
-            f"[FEATURE SELECTION] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
-
-        # mask = np.array([False, True, True, True, True, True, True, True, False, False,
-        #                  True, True, True, True, True, True, False, True, False, True])
-        # self.training.set_x = self.training.set_x[:, mask]
-        # self.test.set_x = self.test.set_x[:, mask]
+        """
+        Features selection
+        """
+        # if trained classifiers had been dumped, use mask obtained from previous training
+        if self.conf.classifier_dump:
+            mask = np.array([False, True, True, True, True, True, True, True, False, False,
+                             True, True, True, True, True, True, False, True, False, True])
+            self.training.set_x = self.training.set_x[:, mask]
+            self.test.set_x = self.test.set_x[:, mask]
+        # otherwise, select best features
+        else:
+            # TODO - provare un approccio di tipo wrapper, il Recursive Feature Elimination o il SelectFromModel di sklearn
+            # do not consider the 5 features that have less dependence on the target feature
+            # (i.e. the class to which they belong)
+            selector = SelectKBest(mutual_info_classif, k=15)
+            self.__LOG.info(f"[FEATURE SELECTION] Feature selection using {type(selector).__qualname__}")
+            selector.fit(self.training.set_x, self.training.set_y)
+            self.training.set_x = selector.transform(self.training.set_x)
+            self.__LOG.debug(
+                f"[FEATURE SELECTION] Feature index after SelectKBest: {selector.get_support(indices=True)}")
+            self.test.set_x = selector.transform(self.test.set_x)
+            self.__LOG.debug(
+                f"[FEATURE SELECTION] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
+            self.__LOG.debug(
+                f"[FEATURE SELECTION] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
 
     def sample(self) -> None:
-        ###############################
-        ### data over/undersampling ###
-        ###############################
-
+        """
+        Data over/undersampling
+        """
         # oversampling with SMOTE
         sampler = SMOTE(random_state=self.conf.rng_seed)
         # sampler = RandomUnderSampler()
@@ -217,10 +226,10 @@ class Evaluator(AbstractClassifier):
             f"[SAMPLING] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
 
     def train(self) -> None:
-        # TODO - provare a modificare parametri di tuning (aumenta layer in MLP)
-        ###############################
-        ### hyper-parameters tuning ###
-        ###############################
+        """
+        Perform Cross-Validation using GridSearchCV to find best hyper-parameter and refit classifiers on
+          complete training set
+        """
         self.__LOG.info(f"[TUNING] Hyper-parameters tuning of: {', '.join(self.classifiers.keys())}")
 
         for name, classifier in self.classifiers.items():
@@ -231,50 +240,51 @@ class Evaluator(AbstractClassifier):
                 Validation.can_read(classifier_path, f"Classifier {classifier_path} *must* exists and be readable.")
                 self.__LOG.debug(f"[TUNING] Loading {classifier_path} for {name} classifier")
                 self.classifiers[name] = load(classifier_path)
+                self.__LOG.debug(f"[TUNING] Best {name} classifier: {self.classifiers[name]}")
             # otherwise, retrain all classifiers
             else:
                 self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {name}")
                 if name == Evaluator._MULTILAYER_PERCEPTRON:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
                 elif name == Evaluator._SUPPORT_VECTOR_MACHINE:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.support_vector_machine_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
                 elif name == Evaluator._DECISION_TREE:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.decision_tree_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
                 elif name == Evaluator._RANDOM_FOREST:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.random_forest_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
                 elif name == Evaluator._KNEAREST_NEIGHBORS:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.knearest_neighbors_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
                 elif name == Evaluator._STOCHASTIC_GRADIENT_DESCENT:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
                 elif name == Evaluator._ADA_BOOST:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.ada_boosting_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
                 elif name == Evaluator._NAIVE_BAYES:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.naive_bayes_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
                 elif name == Evaluator._KMEANS:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.kmeans_param_selection(
-                        self.training.set_x, self.training.set_y, thread=self.conf.threads)
+                        self.training.set_x, self.training.set_y, thread=self.conf.jobs)
 
     def evaluate(self) -> None:
-        ###############################
-        ### classifiers' evaluation ###
-        ###############################
+        """
+        Evaluate all specified classifiers
+        """
         self.__LOG.info(f"[EVAL] Computing evaluation on test set for: {', '.join(self.classifiers.keys())}")
 
         for name, classifier in self.classifiers.items():

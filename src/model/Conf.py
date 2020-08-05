@@ -36,8 +36,8 @@ class Conf(dict):
     # Section TRAINING
     S_TRAINING = "TRAINING"
     # Keys
-    K_DATASET = "dataset"
-    V_DEFAULT_DATASET = None
+    K_DATASET_TRAIN = "dataset.train"
+    V_DEFAULT_DATASET_TRAIN = None
     K_DATASET_TEST_RATIO = "dataset.test_ratio"
     V_DEFAULT_DATASET_TEST_RATIO = 0.2
     K_RNG_SEED = "rng.seed"
@@ -46,8 +46,8 @@ class Conf(dict):
     V_DEFAULT_PAIR_PLOT_COMPUTE = False
     K_PAIR_PLOT_SAVE = "pair_plot.save"
     V_DEFAULT_PAIR_PLOT_SAVE = False
-    K_THREADS = "threads"
-    V_DEFAULT_THREADS = 1
+    K_JOBS = "jobs"
+    V_DEFAULT_JOBS = 1
     K_CLASSIFIER_DUMP = "classifier.dump"
     V_DEFAULT_CLASSIFIER_DUMP = False
 
@@ -55,7 +55,7 @@ class Conf(dict):
     S_MOBD = "MOBD"
     # Keys
     K_BENCHMARK_BEST_FOUND = "benchmark.best_found"
-    V_DEFAULT_BENCHMARK_BEST_FOUND = (0.0, None)
+    V_DEFAULT_BENCHMARK_BEST_FOUND = (0.0, "")
     K_BENCHMARK_THRESHOLD = "benchmark.threshold"
     V_DEFAULT_BENCHMARK_THRESHOLD = (0.0, str(date.today()))
     K_DATASET_TEST = "dataset.test"
@@ -78,12 +78,12 @@ class Conf(dict):
         self.debug = Conf.V_DEFAULT_DEBUG
 
         # section TRAINING
-        self.dataset = Conf.V_DEFAULT_DATASET
+        self.dataset_train = Conf.V_DEFAULT_DATASET_TRAIN
         self.dataset_test_ratio = Conf.V_DEFAULT_DATASET_TEST_RATIO
         self.rng_seed = Conf.V_DEFAULT_RNG_SEED
         self.pair_plot_compute = Conf.V_DEFAULT_PAIR_PLOT_COMPUTE
         self.pair_plot_save = Conf.V_DEFAULT_PAIR_PLOT_SAVE
-        self.threads = Conf.V_DEFAULT_THREADS
+        self.jobs = Conf.V_DEFAULT_JOBS
         self.classifier_dump = Conf.V_DEFAULT_CLASSIFIER_DUMP
 
         # section MOBD
@@ -116,12 +116,12 @@ class Conf(dict):
         self.__put_bool(Conf.K_DEBUG, Conf.S_GENERAL, Conf.K_DEBUG, Conf.V_DEFAULT_DEBUG)
 
         # section TRAINING
-        self.__put_str(Conf.K_DATASET, Conf.S_TRAINING, Conf.K_DATASET, Conf.V_DEFAULT_DATASET)
+        self.__put_str(Conf.K_DATASET_TRAIN, Conf.S_TRAINING, Conf.K_DATASET_TRAIN, Conf.V_DEFAULT_DATASET_TRAIN)
         self.__put_float(Conf.K_DATASET_TEST_RATIO, Conf.S_TRAINING, Conf.K_DATASET_TEST_RATIO, Conf.V_DEFAULT_DATASET_TEST_RATIO)
         self.__put_int(Conf.K_RNG_SEED, Conf.S_TRAINING, Conf.K_RNG_SEED, Conf.V_DEFAULT_RNG_SEED)
         self.__put_bool(Conf.K_PAIR_PLOT_COMPUTE, Conf.S_TRAINING, Conf.K_PAIR_PLOT_COMPUTE, Conf.V_DEFAULT_PAIR_PLOT_COMPUTE)
         self.__put_bool(Conf.K_PAIR_PLOT_SAVE, Conf.S_TRAINING, Conf.K_PAIR_PLOT_SAVE, Conf.V_DEFAULT_PAIR_PLOT_SAVE)
-        self.__put_int(Conf.K_THREADS, Conf.S_TRAINING, Conf.K_THREADS, Conf.V_DEFAULT_THREADS)
+        self.__put_int(Conf.K_JOBS, Conf.S_TRAINING, Conf.K_JOBS, Conf.V_DEFAULT_JOBS)
         self.__put_bool(Conf.K_CLASSIFIER_DUMP, Conf.S_TRAINING, Conf.K_CLASSIFIER_DUMP, Conf.V_DEFAULT_CLASSIFIER_DUMP)
 
         # section MOBD
@@ -254,12 +254,12 @@ class Conf(dict):
         self[Conf.K_DEBUG] = debug
 
     @property
-    def dataset(self) -> str:
-        return self[Conf.K_DATASET]
+    def dataset_train(self) -> str:
+        return self[Conf.K_DATASET_TRAIN]
 
-    @dataset.setter
-    def dataset(self, dataset: str):
-        self[Conf.K_DATASET] = dataset
+    @dataset_train.setter
+    def dataset_train(self, dataset_train: str):
+        self[Conf.K_DATASET_TRAIN] = dataset_train
 
     @property
     def dataset_test_ratio(self) -> float:
@@ -294,12 +294,12 @@ class Conf(dict):
         self[Conf.K_PAIR_PLOT_SAVE] = pair_plot_save
 
     @property
-    def threads(self) -> int:
-        return self[Conf.K_THREADS]
+    def jobs(self) -> int:
+        return self[Conf.K_JOBS]
 
-    @threads.setter
-    def threads(self, threads: int):
-        self[Conf.K_THREADS] = threads
+    @jobs.setter
+    def jobs(self, jobs: int):
+        self[Conf.K_JOBS] = jobs
 
     @property
     def classifier_dump(self) -> bool:

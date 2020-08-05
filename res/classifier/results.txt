@@ -1,30 +1,30 @@
-[INFO   ] | 2020-08-04 20:25:36,396 | [root] start (Client:63) - v0.3.3
-[DEBUG  ] | 2020-08-04 20:25:36,397 | [root] start (Client:64) - 
+[INFO   ] | 2020-08-04 22:45:06,833 | [root] start (Client:63) - v0.3.5
+[DEBUG  ] | 2020-08-04 22:45:06,833 | [root] start (Client:64) - 
 ### Configuration - from Conf: 
-	{ version : 0.3.3 }
+	{ version : 0.3.5 }
 	{ app_name : MulticlassClassifier }
 	{ tmp : /Volumes/Ramdisk/ }
 	{ debug : True }
-	{ dataset : C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\dataset\training_set.csv }
+	{ dataset.train : /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/training_set.csv }
 	{ dataset.test_ratio : 0.2 }
 	{ rng.seed : 43531 }
 	{ pair_plot.compute : False }
 	{ pair_plot.save : False }
-	{ threads : 24 }
+	{ jobs : 4 }
 	{ classifier.dump : True }
 	{ benchmark.best_found : (0.8444, 'Multi-Layer Perceptron') }
 	{ benchmark.threshold : (0.8906, '04/09/2020') }
-	{ dataset.test : C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\dataset\test_set_no_index.csv }
-[INFO   ] | 2020-08-04 20:25:36,397 | [root] start (Client:67) - [BENCHMARK] Current best value found for Multi-Layer Perceptron classifier, with F1-score: 0.8444.
-[INFO   ] | 2020-08-04 20:25:36,397 | [root] start (Client:71) - [BENCHMARK] Current threshold with F1-score: 0.8906 (deadline on 04/09/2020).
-[DEBUG  ] | 2020-08-04 20:25:36,436 | [eval] prepare (Evaluator:81) - [LIB VERSION] numpy : 1.19.1
-[DEBUG  ] | 2020-08-04 20:25:36,436 | [eval] prepare (Evaluator:82) - [LIB VERSION] pandas : 1.1.0
-[DEBUG  ] | 2020-08-04 20:25:36,436 | [eval] prepare (Evaluator:83) - [LIB VERSION] matplotlib : 3.3.0
-[DEBUG  ] | 2020-08-04 20:25:36,436 | [eval] prepare (Evaluator:84) - [LIB VERSION] sklearn : 0.23.1
-[DEBUG  ] | 2020-08-04 20:25:36,436 | [eval] prepare (Evaluator:85) - [LIB VERSION] imblearn : 0.7.0
-[DEBUG  ] | 2020-08-04 20:25:36,436 | [eval] prepare (Evaluator:86) - [LIB VERSION] scipy : 1.5.2
-[INFO   ] | 2020-08-04 20:25:36,436 | [eval] prepare (Evaluator:89) - [MODE] Classifier evaluation on test set (Evaluator)
-[DEBUG  ] | 2020-08-04 20:25:36,477 | [eval] prepare (Evaluator:92) - [DESCRIPTION] Training set description:
+	{ dataset.test :  }
+[INFO   ] | 2020-08-04 22:45:06,833 | [root] start (Client:68) - [BENCHMARK] Current best value found for Multi-Layer Perceptron classifier, with F1-score: 0.8444.
+[INFO   ] | 2020-08-04 22:45:06,833 | [root] start (Client:72) - [BENCHMARK] Current threshold with F1-score: 0.8906 (deadline on 04/09/2020).
+[DEBUG  ] | 2020-08-04 22:45:06,871 | [mcc] prepare (MulticlassClassifier:77) - [LIB VERSION] numpy : 1.19.0
+[DEBUG  ] | 2020-08-04 22:45:06,872 | [mcc] prepare (MulticlassClassifier:78) - [LIB VERSION] pandas : 1.0.5
+[DEBUG  ] | 2020-08-04 22:45:06,872 | [mcc] prepare (MulticlassClassifier:79) - [LIB VERSION] matplotlib : 3.2.2
+[DEBUG  ] | 2020-08-04 22:45:06,872 | [mcc] prepare (MulticlassClassifier:80) - [LIB VERSION] sklearn : 0.23.1
+[DEBUG  ] | 2020-08-04 22:45:06,872 | [mcc] prepare (MulticlassClassifier:81) - [LIB VERSION] imblearn : 0.7.0
+[DEBUG  ] | 2020-08-04 22:45:06,872 | [mcc] prepare (MulticlassClassifier:82) - [LIB VERSION] scipy : 1.5.1
+[INFO   ] | 2020-08-04 22:45:06,872 | [mcc] prepare (MulticlassClassifier:85) - [MODE] Finding best classifier on data set (MulticlassClassifier)
+[DEBUG  ] | 2020-08-04 22:45:06,958 | [mcc] prepare (MulticlassClassifier:88) - [DESCRIPTION] Dataset description:
                 F1           F2  ...          F20        CLASS
 count  7994.000000  7994.000000  ...  7997.000000  8000.000000
 mean     -0.013077    -0.261413  ...    -0.355555     1.463375
@@ -36,64 +36,58 @@ min      -4.181155    -6.980290  ...    -7.563245     0.000000
 max       3.774161     7.155359  ...     6.774458     3.000000
 
 [8 rows x 21 columns]
-[DEBUG  ] | 2020-08-04 20:25:36,514 | [eval] prepare (Evaluator:93) - [DESCRIPTION] Test set description:
-                F1           F2  ...          F20       CLASS
-count  1599.000000  1597.000000  ...  1598.000000  1600.00000
-mean     -0.023197    -0.273549  ...    -0.318703     1.41875
-std       1.004392     1.843536  ...     1.833467     1.24071
-min      -4.181155    -6.730272  ...    -6.927696     0.00000
-25%      -0.692950    -1.441273  ...    -1.534206     0.00000
-50%      -0.076569    -0.270727  ...    -0.342223     1.00000
-75%       0.641261     0.856824  ...     0.854304     3.00000
-max       3.706560     6.784279  ...     6.774458     3.00000
-
-[8 rows x 21 columns]
-[INFO   ] | 2020-08-04 20:25:36,514 | [eval] manage_bad_values (Evaluator:108) - [MISSING DATA] Managing missing data
-[DEBUG  ] | 2020-08-04 20:25:36,515 | [eval] manage_bad_values (Evaluator:110) - [MISSING DATA] Training set x before processing (shape: (8000, 20)):
-F1      6
-F2      6
-F3      1
-F4      1
-F5      4
-F6      6
-F7      4
-F8      9
-F9      6
-F10     6
-F11     5
-F12     6
-F13     3
-F14    10
-F15     2
-F16     6
-F17     4
-F18     7
-F19     5
-F20     3
-dtype: int64
-[DEBUG  ] | 2020-08-04 20:25:36,516 | [eval] manage_bad_values (Evaluator:114) - [MISSING DATA] Test set x before processing (shape: (1600, 20)):
-F1     1
-F2     3
-F3     0
+[DEBUG  ] | 2020-08-04 22:45:06,960 | [mcc] prepare (MulticlassClassifier:97) - [DESCRIPTION] Class percentage in dataset :
+	C1: 33.67 %
+	C2: 15.99 %
+	C3: 20.66 %
+	C4: 29.68 %
+[INFO   ] | 2020-08-04 22:45:06,960 | [mcc] split (MulticlassClassifier:126) - [DATA SPLIT] Splitting dataset into training and test set with ratio: 0.2
+[INFO   ] | 2020-08-04 22:45:06,964 | [mcc] manage_bad_values (MulticlassClassifier:147) - [MISSING DATA] Managing missing data
+[DEBUG  ] | 2020-08-04 22:45:06,966 | [mcc] manage_bad_values (MulticlassClassifier:150) - [MISSING DATA] Training set x before processing (shape: (6400, 20)):
+F1     5
+F2     5
+F3     1
 F4     0
-F5     2
-F6     0
-F7     1
-F8     2
-F9     3
-F10    2
-F11    0
-F12    0
-F13    0
-F14    1
-F15    0
-F16    1
-F17    1
-F18    1
-F19    0
+F5     3
+F6     5
+F7     4
+F8     9
+F9     4
+F10    4
+F11    4
+F12    4
+F13    3
+F14    8
+F15    2
+F16    6
+F17    4
+F18    6
+F19    5
 F20    2
 dtype: int64
-[DEBUG  ] | 2020-08-04 20:25:36,524 | [eval] manage_bad_values (Evaluator:128) - [MISSING DATA] Training set x after processing (shape: (8000, 20)):
+[DEBUG  ] | 2020-08-04 22:45:06,967 | [mcc] manage_bad_values (MulticlassClassifier:154) - [MISSING DATA] Test set x before processing (shape: (1600, 20)):
+F1     1
+F2     1
+F3     0
+F4     1
+F5     1
+F6     1
+F7     0
+F8     0
+F9     2
+F10    2
+F11    1
+F12    2
+F13    0
+F14    2
+F15    0
+F16    0
+F17    0
+F18    1
+F19    0
+F20    1
+dtype: int64
+[DEBUG  ] | 2020-08-04 22:45:06,982 | [mcc] manage_bad_values (MulticlassClassifier:168) - [MISSING DATA] Training set x after processing (shape: (6400, 20)):
 F1     0
 F2     0
 F3     0
@@ -115,7 +109,7 @@ F18    0
 F19    0
 F20    0
 dtype: int64
-[DEBUG  ] | 2020-08-04 20:25:36,524 | [eval] manage_bad_values (Evaluator:132) - [MISSING DATA] Test set x after processing (shape: (1600, 20)):
+[DEBUG  ] | 2020-08-04 22:45:06,984 | [mcc] manage_bad_values (MulticlassClassifier:172) - [MISSING DATA] Test set x after processing (shape: (1600, 20)):
 F1     0
 F2     0
 F3     0
@@ -137,126 +131,139 @@ F18    0
 F19    0
 F20    0
 dtype: int64
-[INFO   ] | 2020-08-04 20:25:36,524 | [eval] manage_bad_values (Evaluator:144) - [OUTLIER] Managing outlier using modified z-score method
-[DEBUG  ] | 2020-08-04 20:25:36,561 | [eval] manage_bad_values (Evaluator:146) - [DESCRIPTION] Training set x description before manage outlier:
+[INFO   ] | 2020-08-04 22:45:06,984 | [mcc] manage_bad_values (MulticlassClassifier:184) - [OUTLIER] Managing outlier using modified z-score method
+[DEBUG  ] | 2020-08-04 22:45:07,072 | [mcc] manage_bad_values (MulticlassClassifier:187) - [DESCRIPTION] Training set x description before manage outlier:
                 F1           F2  ...          F19          F20
-count  8000.000000  8000.000000  ...  8000.000000  8000.000000
-mean     -0.013089    -0.261413  ...     0.001089    -0.355561
-std       1.005857     1.852098  ...     0.996292     1.794329
-min      -4.181155    -6.980290  ...    -4.013615    -7.563245
-25%      -0.697289    -1.440610  ...    -0.668816    -1.562957
-50%      -0.028194    -0.261095  ...    -0.004635    -0.373514
-75%       0.665193     0.944192  ...     0.675878     0.824602
+count  6400.000000  6400.000000  ...  6400.000000  6400.000000
+mean     -0.016422    -0.272141  ...     0.002108    -0.349239
+std       1.007336     1.856364  ...     0.997279     1.794146
+min      -4.181155    -6.980290  ...    -3.854103    -7.563245
+25%      -0.706740    -1.446657  ...    -0.664509    -1.552750
+50%      -0.030842    -0.265420  ...    -0.010748    -0.359182
+75%       0.664343     0.918865  ...     0.672995     0.828487
 max       3.774161     7.155359  ...     3.606960     6.774458
 
 [8 rows x 20 columns]
-[DEBUG  ] | 2020-08-04 20:25:36,911 | [eval] manage_bad_values (Evaluator:161) - [DESCRIPTION] Training set x description after manage outlier:
+[DEBUG  ] | 2020-08-04 22:45:07,503 | [mcc] manage_bad_values (MulticlassClassifier:201) - [DESCRIPTION] Training set x description after manage outlier:
                 F1           F2  ...          F19          F20
-count  8000.000000  8000.000000  ...  8000.000000  8000.000000
-mean     -0.014417    -0.261720  ...     0.002997    -0.356340
-std       1.001398     1.833666  ...     0.989347     1.779930
-min      -3.508639    -6.343826  ...    -3.236206    -5.999590
-25%      -0.696777    -1.434377  ...    -0.666867    -1.560402
-50%      -0.028194    -0.261095  ...    -0.004635    -0.373514
-75%       0.660691     0.931481  ...     0.675515     0.820427
+count  6400.000000  6400.000000  ...  6400.000000  6400.000000
+mean     -0.017525    -0.271383  ...     0.002736    -0.350192
+std       1.002755     1.835655  ...     0.991934     1.776129
+min      -3.508639    -6.343826  ...    -3.229380    -5.999590
+25%      -0.706491    -1.442337  ...    -0.662566    -1.548472
+50%      -0.030842    -0.265420  ...    -0.010748    -0.359182
+75%       0.659591     0.916347  ...     0.670954     0.824141
 max       3.471496     5.835273  ...     3.291693     5.623552
 
 [8 rows x 20 columns]
-[INFO   ] | 2020-08-04 20:25:36,911 | [eval] normalize (Evaluator:174) - [SCALING] Data scaling using MinMaxScaler
-[INFO   ] | 2020-08-04 20:25:36,914 | [eval] feature_selection (Evaluator:187) - [FEATURE SELECTION] Feature selection using SelectKBest
-[DEBUG  ] | 2020-08-04 20:25:37,970 | [eval] feature_selection (Evaluator:190) - [FEATURE SELECTION] Feature index after SelectKBest: [ 1  2  3  4  5  6  7 10 11 12 13 14 15 17 19]
-[DEBUG  ] | 2020-08-04 20:25:37,971 | [eval] feature_selection (Evaluator:192) - [FEATURE SELECTION] Train shape after feature selection: (8000, 15) | (8000,)
-[DEBUG  ] | 2020-08-04 20:25:37,971 | [eval] feature_selection (Evaluator:194) - [FEATURE SELECTION] Test shape after feature selection: (1600, 15) | (1600,)
-[INFO   ] | 2020-08-04 20:25:37,971 | [eval] sample (Evaluator:212) - [SAMPLING] Data sampling using SMOTE
-[DEBUG  ] | 2020-08-04 20:25:38,128 | [eval] sample (Evaluator:214) - [SAMPLING] Train shape after feature selection: (10776, 15) | (10776,)
-[DEBUG  ] | 2020-08-04 20:25:38,128 | [eval] sample (Evaluator:216) - [SAMPLING] Test shape after feature selection: (1600, 15) | (1600,)
-[INFO   ] | 2020-08-04 20:25:38,129 | [eval] train (Evaluator:224) - [TUNING] Hyper-parameters tuning of: Multi-Layer Perceptron, Support Vector Machine, Decision Tree, Random Forest, K-Nearest Neighbors, Ada Boost, Naive Bayes, K-Means
-[DEBUG  ] | 2020-08-04 20:25:38,129 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Multi-Layer_Perceptron.joblib for Multi-Layer Perceptron classifier
-[DEBUG  ] | 2020-08-04 20:25:38,133 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Support_Vector_Machine.joblib for Support Vector Machine classifier
-[DEBUG  ] | 2020-08-04 20:25:38,134 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Decision_Tree.joblib for Decision Tree classifier
-[DEBUG  ] | 2020-08-04 20:25:38,136 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Random_Forest.joblib for Random Forest classifier
-[DEBUG  ] | 2020-08-04 20:25:38,315 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\K-Nearest_Neighbors.joblib for K-Nearest Neighbors classifier
-[DEBUG  ] | 2020-08-04 20:25:38,320 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Ada_Boost.joblib for Ada Boost classifier
-[DEBUG  ] | 2020-08-04 20:25:38,457 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Naive_Bayes.joblib for Naive Bayes classifier
-[DEBUG  ] | 2020-08-04 20:25:38,458 | [eval] train (Evaluator:232) - [TUNING] Loading C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\K-Means.joblib for K-Means classifier
-[INFO   ] | 2020-08-04 20:25:38,459 | [eval] evaluate (Evaluator:278) - [EVAL] Computing evaluation on test set for: Multi-Layer Perceptron, Support Vector Machine, Decision Tree, Random Forest, K-Nearest Neighbors, Ada Boost, Naive Bayes, K-Means
-[INFO   ] | 2020-08-04 20:25:38,493 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of Multi-Layer Perceptron:
-	- Accuracy: 0.905
-	- Precision: 0.8981042297305506
-	- Recall: 0.8938730141820604
-	- F1-score: 0.8959047317686998
+[INFO   ] | 2020-08-04 22:45:07,504 | [mcc] normalize (MulticlassClassifier:213) - [SCALING] Data scaling using MinMaxScaler
+[INFO   ] | 2020-08-04 22:45:07,510 | [mcc] feature_selection (MulticlassClassifier:226) - [FEATURE SELECTION] Feature selection using SelectKBest
+[DEBUG  ] | 2020-08-04 22:45:08,401 | [mcc] feature_selection (MulticlassClassifier:229) - [FEATURE SELECTION] Feature index after SelectKBest: [ 1  2  3  4  5  6  7 10 11 12 13 14 15 17 19]
+[DEBUG  ] | 2020-08-04 22:45:08,401 | [mcc] feature_selection (MulticlassClassifier:232) - [FEATURE SELECTION] Train shape after feature selection: (6400, 15) | (6400,)
+[DEBUG  ] | 2020-08-04 22:45:08,401 | [mcc] feature_selection (MulticlassClassifier:234) - [FEATURE SELECTION] Test shape after feature selection: (1600, 15) | (1600,)
+[INFO   ] | 2020-08-04 22:45:08,401 | [mcc] sample (MulticlassClassifier:264) - [SAMPLING] Data sampling using SMOTE
+[DEBUG  ] | 2020-08-04 22:45:08,512 | [mcc] sample (MulticlassClassifier:267) - [SAMPLING] Train shape after feature selection: (8716, 15) | (8716,)
+[DEBUG  ] | 2020-08-04 22:45:08,512 | [mcc] sample (MulticlassClassifier:269) - [SAMPLING] Test shape after feature selection: (1600, 15) | (1600,)
+[INFO   ] | 2020-08-04 22:45:08,512 | [mcc] evaluate (MulticlassClassifier:336) - [EVAL] Computing evaluation for: Multi-Layer Perceptron, Support Vector Machine, Decision Tree, Random Forest, K-Nearest Neighbors, Ada Boost, Naive Bayes, K-Means
+[DEBUG  ] | 2020-08-04 22:45:08,513 | [mcc] evaluate (MulticlassClassifier:346) - [TUNING] Loading /Volumes/Data/Projects/Python/MulticlassClassifier/res/classifier/Multi-Layer_Perceptron.joblib for Multi-Layer Perceptron classifier
+[DEBUG  ] | 2020-08-04 22:45:08,519 | [mcc] evaluate (MulticlassClassifier:349) - [TUNING] Best Multi-Layer Perceptron classifier: MLPClassifier(hidden_layer_sizes=(100, 50), learning_rate='adaptive',
+              learning_rate_init=0.01, max_iter=10000, solver='sgd')
+[INFO   ] | 2020-08-04 22:45:08,572 | [mcc] evaluate (MulticlassClassifier:358) - [EVAL] Evaluation of Multi-Layer Perceptron:
+	- Accuracy: 0.893125
+	- Precision: 0.8900633689050478
+	- Recall: 0.8835480826671052
+	- F1-score: 0.8865711002345363
 	- Confusion matrix: 
-[[530  15  11  17]
- [ 24 204  10   9]
- [ 16   7 284  10]
- [ 10  12  11 430]]
-[INFO   ] | 2020-08-04 20:25:39,301 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of Support Vector Machine:
-	- Accuracy: 0.935625
-	- Precision: 0.9324026961805442
-	- Recall: 0.928551260701258
-	- F1-score: 0.9303492864890782
+[[477  15   9  14]
+ [ 17 218  13  17]
+ [ 16   6 297  19]
+ [ 19  11  15 437]]
+[DEBUG  ] | 2020-08-04 22:45:08,573 | [mcc] evaluate (MulticlassClassifier:346) - [TUNING] Loading /Volumes/Data/Projects/Python/MulticlassClassifier/res/classifier/Support_Vector_Machine.joblib for Support Vector Machine classifier
+[DEBUG  ] | 2020-08-04 22:45:08,578 | [mcc] evaluate (MulticlassClassifier:349) - [TUNING] Best Support Vector Machine classifier: SVC(C=10, decision_function_shape='ovo', gamma=10.0)
+[INFO   ] | 2020-08-04 22:45:09,634 | [mcc] evaluate (MulticlassClassifier:358) - [EVAL] Evaluation of Support Vector Machine:
+	- Accuracy: 0.809375
+	- Precision: 0.7992110895725195
+	- Recall: 0.7911362718224779
+	- F1-score: 0.7946067648423335
 	- Confusion matrix: 
-[[549   8   6  10]
- [ 13 224   3   7]
- [ 13   8 287   9]
- [ 10   8   8 437]]
-[INFO   ] | 2020-08-04 20:25:39,306 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of Decision Tree:
-	- Accuracy: 0.831875
-	- Precision: 0.8193758341985334
-	- Recall: 0.8260182041573665
-	- F1-score: 0.8210124120568643
+[[448  22  18  27]
+ [ 39 180  26  20]
+ [ 27  20 262  29]
+ [ 30  19  28 405]]
+[DEBUG  ] | 2020-08-04 22:45:09,634 | [mcc] evaluate (MulticlassClassifier:346) - [TUNING] Loading /Volumes/Data/Projects/Python/MulticlassClassifier/res/classifier/Decision_Tree.joblib for Decision Tree classifier
+[DEBUG  ] | 2020-08-04 22:45:09,635 | [mcc] evaluate (MulticlassClassifier:349) - [TUNING] Best Decision Tree classifier: DecisionTreeClassifier(criterion='entropy', max_depth=90, min_samples_leaf=2)
+[INFO   ] | 2020-08-04 22:45:09,642 | [mcc] evaluate (MulticlassClassifier:358) - [EVAL] Evaluation of Decision Tree:
+	- Accuracy: 0.6225
+	- Precision: 0.608632481181582
+	- Recall: 0.610876561149511
+	- F1-score: 0.6074565842649818
 	- Confusion matrix: 
-[[507  29  15  22]
- [ 19 208   7  13]
- [ 27  23 248  19]
- [ 35  27  33 368]]
-[INFO   ] | 2020-08-04 20:25:39,888 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of Random Forest:
-	- Accuracy: 0.9425
-	- Precision: 0.9392050366215996
-	- Recall: 0.9360775669904016
-	- F1-score: 0.9375999059720689
+[[369  58  43  45]
+ [ 45 152  32  36]
+ [ 57  50 190  41]
+ [ 83  52  62 285]]
+[DEBUG  ] | 2020-08-04 22:45:09,643 | [mcc] evaluate (MulticlassClassifier:346) - [TUNING] Loading /Volumes/Data/Projects/Python/MulticlassClassifier/res/classifier/Random_Forest.joblib for Random Forest classifier
+[DEBUG  ] | 2020-08-04 22:45:09,991 | [mcc] evaluate (MulticlassClassifier:349) - [TUNING] Best Random Forest classifier: RandomForestClassifier(criterion='entropy', max_depth=90, max_features='log2',
+                       min_samples_leaf=2, n_estimators=400)
+[INFO   ] | 2020-08-04 22:45:10,720 | [mcc] evaluate (MulticlassClassifier:358) - [EVAL] Evaluation of Random Forest:
+	- Accuracy: 0.820625
+	- Precision: 0.8178627825228761
+	- Recall: 0.8030607057462199
+	- F1-score: 0.8089365455787811
 	- Confusion matrix: 
-[[550   7   6  10]
- [  8 226   6   7]
- [ 10   7 290  10]
- [  8   3  10 442]]
-[INFO   ] | 2020-08-04 20:25:43,890 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of K-Nearest Neighbors:
-	- Accuracy: 0.86625
-	- Precision: 0.853287893004522
-	- Recall: 0.8648906965765859
-	- F1-score: 0.8582560085481659
+[[455  19  18  23]
+ [ 29 183  27  26]
+ [ 30   9 269  30]
+ [ 39  14  23 406]]
+[DEBUG  ] | 2020-08-04 22:45:10,720 | [mcc] evaluate (MulticlassClassifier:346) - [TUNING] Loading /Volumes/Data/Projects/Python/MulticlassClassifier/res/classifier/K-Nearest_Neighbors.joblib for K-Nearest Neighbors classifier
+[DEBUG  ] | 2020-08-04 22:45:10,723 | [mcc] evaluate (MulticlassClassifier:349) - [TUNING] Best K-Nearest Neighbors classifier: KNeighborsClassifier(n_neighbors=3, p=4)
+[INFO   ] | 2020-08-04 22:45:14,866 | [mcc] evaluate (MulticlassClassifier:358) - [EVAL] Evaluation of K-Nearest Neighbors:
+	- Accuracy: 0.78125
+	- Precision: 0.7685487481373567
+	- Recall: 0.7701424035728838
+	- F1-score: 0.7688813328765458
 	- Confusion matrix: 
-[[501  28  21  23]
- [ 14 214   8  11]
- [ 16  19 271  11]
- [ 24  16  23 400]]
-[INFO   ] | 2020-08-04 20:25:44,661 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of Ada Boost:
-	- Accuracy: 0.96375
-	- Precision: 0.9631249215572804
-	- Recall: 0.9588555675333281
-	- F1-score: 0.960930475930486
+[[428  37  19  31]
+ [ 35 185  21  24]
+ [ 31  25 260  22]
+ [ 38  37  30 377]]
+[DEBUG  ] | 2020-08-04 22:45:14,866 | [mcc] evaluate (MulticlassClassifier:346) - [TUNING] Loading /Volumes/Data/Projects/Python/MulticlassClassifier/res/classifier/Ada_Boost.joblib for Ada Boost classifier
+[DEBUG  ] | 2020-08-04 22:45:15,113 | [mcc] evaluate (MulticlassClassifier:349) - [TUNING] Best Ada Boost classifier: AdaBoostClassifier(base_estimator=DecisionTreeClassifier(class_weight='balanced',
+                                                         max_depth=90,
+                                                         max_features=3,
+                                                         min_samples_leaf=4),
+                   n_estimators=300)
+[INFO   ] | 2020-08-04 22:45:15,960 | [mcc] evaluate (MulticlassClassifier:358) - [EVAL] Evaluation of Ada Boost:
+	- Accuracy: 0.83375
+	- Precision: 0.8386475090125316
+	- Recall: 0.8145043599541065
+	- F1-score: 0.8234744106310197
 	- Confusion matrix: 
-[[563   2   2   6]
- [  4 234   3   6]
- [  7   5 298   7]
- [  7   2   7 447]]
-[INFO   ] | 2020-08-04 20:25:44,670 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of Naive Bayes:
-	- Accuracy: 0.534375
-	- Precision: 0.5257611385892479
-	- Recall: 0.5319264756135296
-	- F1-score: 0.5199458126166261
+[[465  10  15  25]
+ [ 31 183  22  29]
+ [ 27   8 273  30]
+ [ 39   9  21 413]]
+[DEBUG  ] | 2020-08-04 22:45:15,961 | [mcc] evaluate (MulticlassClassifier:346) - [TUNING] Loading /Volumes/Data/Projects/Python/MulticlassClassifier/res/classifier/Naive_Bayes.joblib for Naive Bayes classifier
+[DEBUG  ] | 2020-08-04 22:45:15,963 | [mcc] evaluate (MulticlassClassifier:349) - [TUNING] Best Naive Bayes classifier: GaussianNB(var_smoothing=1e-08)
+[INFO   ] | 2020-08-04 22:45:15,972 | [mcc] evaluate (MulticlassClassifier:358) - [EVAL] Evaluation of Naive Bayes:
+	- Accuracy: 0.5625
+	- Precision: 0.5539476624446867
+	- Recall: 0.5569879764924119
+	- F1-score: 0.5509342124261007
 	- Confusion matrix: 
-[[315  72 117  69]
- [ 50 130  20  47]
- [ 21  78 167  51]
- [ 55 104  61 243]]
-[INFO   ] | 2020-08-04 20:25:44,676 | [eval] evaluate (Evaluator:286) - [EVAL] Evaluation of K-Means:
-	- Accuracy: 0.3325
-	- Precision: 0.32740595979717463
-	- Recall: 0.32178713120915653
-	- F1-score: 0.32047860118343796
+[[299  64  80  72]
+ [ 51 140  24  50]
+ [ 24  68 184  62]
+ [ 50  94  61 277]]
+[DEBUG  ] | 2020-08-04 22:45:15,972 | [mcc] evaluate (MulticlassClassifier:346) - [TUNING] Loading /Volumes/Data/Projects/Python/MulticlassClassifier/res/classifier/K-Means.joblib for K-Means classifier
+[DEBUG  ] | 2020-08-04 22:45:15,974 | [mcc] evaluate (MulticlassClassifier:349) - [TUNING] Best K-Means classifier: KMeans(max_iter=10000, n_clusters=4, random_state=43531)
+[INFO   ] | 2020-08-04 22:45:15,987 | [mcc] evaluate (MulticlassClassifier:358) - [EVAL] Evaluation of K-Means:
+	- Accuracy: 0.3525
+	- Precision: 0.3500453100475224
+	- Recall: 0.34416670687167833
+	- F1-score: 0.34473098907034644
 	- Confusion matrix: 
-[[240  40 132 161]
- [ 53  90  40  64]
- [ 82  78  68  89]
- [ 59 101 169 134]]
+[[222  32 140 121]
+ [ 53  89  41  82]
+ [ 84  77  96  81]
+ [ 71  88 166 157]]

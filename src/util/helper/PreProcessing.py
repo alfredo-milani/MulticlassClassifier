@@ -59,7 +59,7 @@ class PreProcessing(object):
     @staticmethod
     def modified_zscore(dataset: ndarray, threshold: int = DEFAULT_MODIFIED_ZSCORE_THRESHOLD):
         """
-
+        https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h.htm
         :param dataset: column of a dataset (1-dimension array)
         :param threshold:
         :return: mask with True values iif abs(modified_zscore) > threshold
