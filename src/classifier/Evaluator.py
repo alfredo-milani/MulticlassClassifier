@@ -166,7 +166,7 @@ class Evaluator(AbstractClassifier):
             self.__LOG.info(f"[OUTLIERS] Managing outliers using {outliers_manager} method")
 
             self.__LOG.debug(
-                f"[DESCRIPTION] Training set x description before manage outlier:\n"
+                f"[OUTLIERS] Training set x description before manage outlier:\n"
                 f"{self.training.set_x.describe(include='all')}"
             )
 
@@ -178,7 +178,7 @@ class Evaluator(AbstractClassifier):
                 self.training.set_x.loc[outliers_mask, feature] = feature_median_dict[feature]
 
             self.__LOG.debug(
-                f"[DESCRIPTION] Training set x description after manage outlier:\n"
+                f"[OUTLIERS] Training set x description after manage outlier:\n"
                 f"{self.training.set_x.describe(include='all')}"
             )
 

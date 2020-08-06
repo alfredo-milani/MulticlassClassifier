@@ -71,7 +71,7 @@ class MulticlassClassifier(AbstractClassifier):
             # MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT: None,
             MulticlassClassifier._ADA_BOOST: None,
             MulticlassClassifier._NAIVE_BAYES: None,
-            MulticlassClassifier._KMEANS: None
+            # MulticlassClassifier._KMEANS: None
         }
 
     def prepare(self) -> None:
@@ -185,10 +185,10 @@ class MulticlassClassifier(AbstractClassifier):
         outliers_manager = 'modified z-score'
         # outliers_manager = 'inter-quartile range'
 
-        self.__LOG.info(f"[OUTLIER] Managing outliers using {outliers_manager} method")
+        self.__LOG.info(f"[OUTLIERS] Managing outliers using {outliers_manager} method")
 
         self.__LOG.debug(
-            f"[DESCRIPTION] Training set x description before manage outlier:\n"
+            f"[OUTLIERS] Training set x description before manage outlier:\n"
             f"{self.training.set_x.describe(include='all')}"
         )
 
@@ -200,7 +200,7 @@ class MulticlassClassifier(AbstractClassifier):
             self.training.set_x.loc[outliers_mask, feature] = feature_median_dict[feature]
 
         self.__LOG.debug(
-            f"[DESCRIPTION] Training set x description after manage outlier:\n"
+            f"[OUTLIERS] Training set x description after manage outlier:\n"
             f"{self.training.set_x.describe(include='all')}"
         )
 
@@ -261,9 +261,9 @@ class MulticlassClassifier(AbstractClassifier):
         # TODO - vedere se usando altri sampler i classificatori performano meglio
         # oversampling with SMOTE
         sampler = SMOTE(random_state=self.conf.rng_seed)
-        # sampler = RandomUnderSampler()
-        # sampler = RandomOverSampler()
-        # sampler = ADASYN(sampling_strategy='auto', random_state=self.conf.rng_seed)
+        # sampler = RandomUnderSampler(random_state=self.conf.rng_seed)
+        # sampler = RandomOverSampler(random_state=self.conf.rng_seed)
+        # sampler = ADASYN(sampling_strategy="auto", random_state=self.conf.rng_seed)
         self.__LOG.info(f"[SAMPLING] Data sampling using {type(sampler).__qualname__}")
         self.training.set_x, self.training.set_y = sampler.fit_resample(self.training.set_x, self.training.set_y)
         self.__LOG.debug(
@@ -353,6 +353,7 @@ class MulticlassClassifier(AbstractClassifier):
                 f"\t- F1-score: {f1_score}\n"
                 f"\t- Confusion matrix: \n{confusion_matrix}"
             )
+            self.__LOG.debug(f"[EVAL] Best parameters for {name}: {self.classifiers[name]}")
 
     def on_success(self) -> None:
         super().on_success()
