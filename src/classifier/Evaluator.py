@@ -160,6 +160,8 @@ class Evaluator(AbstractClassifier):
         if not self.conf.classifier_dump:
             # manage outliers
             # outliers_manager = 'z-score'
+            # https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h.htm
+            # http://colingorrie.github.io/outlier-detection.html#fn:2
             outliers_manager = 'modified z-score'
             # outliers_manager = 'inter-quartile range'
 
@@ -170,12 +172,22 @@ class Evaluator(AbstractClassifier):
                 f"{self.training.set_x.describe(include='all')}"
             )
 
+            outliers_count = 0
             for feature in self.training.set_x.columns:
                 # outliers_mask = PreProcessing.zscore(self.training.set_x[feature])
                 outliers_mask = PreProcessing.modified_zscore(self.training.set_x[feature])
                 # outliers_mask = PreProcessing.iqr(self.training.set_x[feature])
+
                 # outliers approximation
                 self.training.set_x.loc[outliers_mask, feature] = feature_median_dict[feature]
+
+                # update outliers_count
+                outliers_count += sum(outliers_mask)
+
+            samples_training_set_x = self.training.set_x.shape[0] * self.training.set_x.shape[1]
+            self.__LOG.debug(f"[OUTLIERS] Outliers detected on all features (F1-F20): "
+                             f"{outliers_count} out of {samples_training_set_x} "
+                             f"samples ({round(outliers_count / samples_training_set_x * 100, 2)} %)")
 
             self.__LOG.debug(
                 f"[OUTLIERS] Training set x description after manage outlier:\n"

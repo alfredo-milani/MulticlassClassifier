@@ -53,7 +53,7 @@ class PreProcessing(object):
         """
         # using z-score method to detect outliers
         zscore = stats.zscore(dataset, nan_policy='raise')
-        # outlier is replaced with feature mean
+        # return outliers mask iif score > threshold
         return np.array(np.abs(zscore) > threshold)
 
     @staticmethod
@@ -70,7 +70,7 @@ class PreProcessing(object):
         median = np.median(dataset)
         median_abs_deviation = np.median([np.abs(x - median) for x in dataset])
         modified_zscore = [0.6745 * (x - median) / median_abs_deviation for x in dataset]
-        # outlier is replaced with feature mean
+        # return outliers mask iif score > threshold
         return np.array(np.abs(modified_zscore) > threshold)
 
     @staticmethod
@@ -85,7 +85,7 @@ class PreProcessing(object):
         iqr = quartile_3 - quartile_1
         lower_bound = quartile_1 - (iqr * 1.5)
         upper_bound = quartile_3 + (iqr * 1.5)
-        # outlier is replaced with feature mean
+        # return outliers mask iif value > upper_bound and < lower_bound
         return np.array((dataset > upper_bound) | (dataset < lower_bound))
 
     @staticmethod
