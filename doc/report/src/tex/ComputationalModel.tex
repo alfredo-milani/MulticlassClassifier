@@ -28,16 +28,16 @@
                     
                         Lo \textit{Z-score} di una osservazione è definito come:
                         \begin{displaymath}
-                                z_i = \frac{x_i - \mu_x}{\sigma}
+                                z_i = \frac{x_i - \mu_x}{\sigma_x}
                         \end{displaymath}
-                        essendo $\mu_x$ e $\sigma$, rispettivamente, la media e la deviazione standard del campione di dati. Sono considerati \textit{outliers} i campioni con uno score maggiore di $3$.
+                        essendo $\mu_x$ e $\sigma_x$, rispettivamente, la media e la deviazione standard del campione di dati. Sono considerati \textit{outliers} i campioni con il valore assoluto dello score maggiore di $3$.
                         \smallbreak
                         
                         Lo \textit{Z-score modificato} (\textit{Iglewicz and Hoaglin}) è definito come:
                         \begin{displaymath}
                                 m_i = \frac{0.6745 \cdot (x_i - \tilde{x})}{MAD}
                         \end{displaymath}
-                        essendo $MAD$ la median absolute deviation e $\tilde{x}$ la mediana. Sono considerati \textit{outliers} i campioni con uno score maggiore di $3.5$.
+                        essendo $MAD$ la median absolute deviation e $\tilde{x}$ la mediana. Sono considerati \textit{outliers} i campioni con il valore assoluto dello score maggiore di $3.5$.
                         \smallbreak
                         
                         L'\textit{inter-quartile range} è definito come:
