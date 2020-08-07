@@ -51,10 +51,6 @@ class MulticlassClassifier(AbstractClassifier):
         )
 
         self.__LOG = LogManager.get_instance().logger(LogManager.Logger.MCC)
-        if self.__LOG is None:
-            # load base loggers
-            LogManager.get_instance().load()
-            self.__LOG = LogManager.get_instance().logger(LogManager.Logger.MCC)
         self.__conf = conf
 
         self.__data = Set(pd.read_csv(self.conf.dataset_train))

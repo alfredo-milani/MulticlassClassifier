@@ -49,12 +49,14 @@ class Evaluator(AbstractClassifier):
             f"Unsupported Python version.\n"
             f"Required Python {Evaluator.REQUIRED_PYTHON[0]}.{Evaluator.REQUIRED_PYTHON[1]} or higher."
         )
+        Validation.can_read(
+            conf.dataset_test,
+            f"Test set file *must* exists and be readable. "
+            f"Current file: '{conf.dataset_test}'.\n"
+            f"Test set path (fully qualified) can be specified in conf.ini file or using Conf object."
+        )
 
         self.__LOG = LogManager.get_instance().logger(LogManager.Logger.EVAL)
-        if self.__LOG is None:
-            # load base loggers
-            LogManager.get_instance().load()
-            self.__LOG = LogManager.get_instance().logger(LogManager.Logger.EVAL)
         self.__conf = conf
 
         # using full dataset as training set
@@ -101,7 +103,7 @@ class Evaluator(AbstractClassifier):
         self.__LOG.debug(f"[LIB VERSION] {scipy.__name__} : {scipy.__version__}")
 
         # mode
-        self.__LOG.info(f"[MODE] Classifier evaluation on test set ({Evaluator.__qualname__})")
+        self.__LOG.info(f"[MODE] Classifiers evaluation on test set ({Evaluator.__qualname__})")
 
         # dataset description
         self.__LOG.debug(f"[DESCRIPTION] Training set description:\n{self.training.set_.describe(include='all')}")
@@ -259,9 +261,9 @@ class Evaluator(AbstractClassifier):
             # TODO - vedere se usando altri sampler i classificatori performano meglio
             # oversampling with SMOTE
             sampler = SMOTE(random_state=self.conf.rng_seed)
-            # sampler = RandomUnderSampler()
-            # sampler = RandomOverSampler()
-            # sampler = ADASYN(sampling_strategy='auto', random_state=self.conf.rng_seed)
+            # sampler = RandomUnderSampler(random_state=self.conf.rng_seed)
+            # sampler = RandomOverSampler(random_state=self.conf.rng_seed)
+            # sampler = ADASYN(sampling_strategy="auto", random_state=self.conf.rng_seed)
             self.__LOG.info(f"[SAMPLING] Data sampling using {type(sampler).__qualname__}")
             self.training.set_x, self.training.set_y = sampler.fit_resample(self.training.set_x, self.training.set_y)
             self.__LOG.debug(

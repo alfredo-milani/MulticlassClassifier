@@ -15,7 +15,7 @@ class LogManager(object):
     """
 
     __INSTANCE: "LogManager" = None
-    __LOCK: threading.Lock = threading.Lock()
+    __R_LOCK: threading.Lock = threading.RLock()
 
     __FORMATTER: logging.Formatter = None
 
@@ -35,14 +35,14 @@ class LogManager(object):
     @classmethod
     def get_instance(cls) -> "LogManager":
         if cls.__INSTANCE is None:
-            with cls.__LOCK:
+            with cls.__R_LOCK:
                 if cls.__INSTANCE is None:
-                    LogManager()
+                    LogManager().load()
         return cls.__INSTANCE
 
     @classmethod
     def load(cls) -> None:
-        with cls.__LOCK:
+        with cls.__R_LOCK:
             # formatters
             cls.__FORMATTER = LogManager.__configure_formatter()
 

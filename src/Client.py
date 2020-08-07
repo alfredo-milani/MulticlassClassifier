@@ -44,8 +44,6 @@ class Client(object):
 
     def __init_logging(self):
         self.__LOG_MANAGER = LogManager.get_instance()
-        # create formatter, handler, logger for logging purpose
-        self.__LOG_MANAGER.load()
         # get root logger
         self.__LOG = self.__LOG_MANAGER.logger(LogManager.Logger.ROOT)
 
