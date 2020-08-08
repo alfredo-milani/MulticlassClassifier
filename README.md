@@ -85,7 +85,7 @@ Configurations file example:
 [GENERAL]
 # [opt] - Directory for temporary files.
 # [dft] - /tmp
-tmp = /Volumes/Ramdisk/
+# tmp = /tmp
 
 # [opt] - Set verbose level to debug.
 # [dft] - False
@@ -94,7 +94,7 @@ debug = True
 
 [TRAINING]
 # [mnd] - Dataset for training purpose (fully qualified path name).
-dataset.train = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/training_set.csv
+dataset.train = /ABS_PATH_TRAINING_SET.csv
 
 # [opt] - Set test ratio from dataset.
 # [dft] - 0.2
@@ -117,6 +117,7 @@ rng.seed = 43531
 # [dft] - 1
 jobs = 4
 # jobs = 24
+# jobs = -1
 
 # [opt] - Best classifier dump. Set to True, to not recompute training.
 # [dft] - False
@@ -132,14 +133,23 @@ benchmark.best_found = (0.8444, 'Multi-Layer Perceptron')
 benchmark.threshold = (0.8906, '04/09/2020')
 
 # [opt] - Dataset for project evaluation (fully qualified path name).
-#   If tool shutdown without message error, probably the format of test set file is wrong.
-#   By default this tool manages test file without index column (so, saved from pandas.data_frame.to_csv('path', index=False)).
-#   If you want to input test set file with index column just go to Evaluator.__init__() and change line
-#     self.__test = Set(pd.read_csv(self.conf.dataset_test)) to self.__test = Set(pd.read_csv(self.conf.dataset_test, index_col=0)).
 # [dft] - ''
-# dataset.test = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/test_set_no_index.csv
-# dataset.test = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/test_set_index.csv
-# dataset.test = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/test_set_no_index_features.csv
+#   If you specify option dataset.test, this tool will perform evaluation on specified test set file once launched,
+#     so no further actions are needed.
+#
+#   If tool shutdown without message error, probably the format of test set file is wrong.
+#   By default this tool manages test file without index column (so, saved with command
+#     pandas.data_frame.to_csv('/abs_path', index=False); see ./res/dataset/test_set_no_index.csv for example file).
+#   If you want to input test set file with index column (saved with command
+#     pandas.data_frame.to_csv('/abs_path', index=True); see ./res/dataset/test_set_index.csv for example file)
+#     just go to Evaluator.__init__() and change line self.__test = Set(pd.read_csv(self.conf.dataset_test)) to
+#     self.__test = Set(pd.read_csv(self.conf.dataset_test, index_col=0)).
+#   If you want to input test set file without index column and without header row (does not have F1-20 and CLASS row;
+#     see ./res/dataset/test_set_no_index_features.csv for example file), just go to Evaluator.__init__() and change
+#     line self.__test = Set(pd.read_csv(self.conf.dataset_test)) to
+#     self.__test = Set(pd.read_csv(self.conf.dataset_test, header=None,
+#                                   names=[f"F{i}" for i in range(1, 21)] + ["CLASS"]))
+dataset.test = /ABS_PATH_TEST_SET.csv
 ```
 
 If you want to run this tool in a python console (or in a custom python script):

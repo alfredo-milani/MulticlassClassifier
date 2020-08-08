@@ -49,6 +49,12 @@ class MulticlassClassifier(AbstractClassifier):
             f"Unsupported Python version.\n"
             f"Required Python {MulticlassClassifier.REQUIRED_PYTHON[0]}.{MulticlassClassifier.REQUIRED_PYTHON[1]} or higher."
         )
+        Validation.can_read(
+            conf.dataset_train,
+            f"Training set file *must* exists and be readable. "
+            f"Current file: '{conf.dataset_train}'.\n"
+            f"Training set path (fully qualified) can be specified in conf.ini file or using Conf object."
+        )
 
         self.__LOG = LogManager.get_instance().logger(LogManager.Logger.MCC)
         self.__conf = conf

@@ -50,6 +50,12 @@ class Evaluator(AbstractClassifier):
             f"Required Python {Evaluator.REQUIRED_PYTHON[0]}.{Evaluator.REQUIRED_PYTHON[1]} or higher."
         )
         Validation.can_read(
+            conf.dataset_train,
+            f"Training set file *must* exists and be readable. "
+            f"Current file: '{conf.dataset_train}'.\n"
+            f"Training set path (fully qualified) can be specified in conf.ini file or using Conf object."
+        )
+        Validation.can_read(
             conf.dataset_test,
             f"Test set file *must* exists and be readable. "
             f"Current file: '{conf.dataset_test}'.\n"
