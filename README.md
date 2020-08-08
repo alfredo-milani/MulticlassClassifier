@@ -13,7 +13,9 @@
 ## 1. Introduction <a name="introduction"></a>
 
 This tool shows performance of several machine learning models in a multi-class classification problem.
-The dataset used to train the models is under `./res/dataset/` folder.
+The dataset used to train the models is `./res/dataset/training_set.csv`.
+
+Under `./doc` folder there are the requirements (`./doc/MOBD_2019-2020.pdf`) and the report (`./doc/[MOBD] Project 2019-2020.pdf`) for this project.
 
 ## 2. Requirements <a name="requirements"></a>
 
@@ -140,6 +142,25 @@ benchmark.threshold = (0.8906, '04/09/2020')
 # dataset.test = /Volumes/Data/Projects/Python/MulticlassClassifier/res/dataset/test_set_no_index_features.csv
 ```
 
+If you want to run this tool in a python console (or in a custom python script):
+```python
+from model.Conf import Conf
+from classifier.Evaluator import Evaluator
+
+# create configuration instance
+conf = Conf.get_instance()
+# load parameter from a file using fully qualified path name
+conf.load_from('/ABS_PATH_HERE')
+# once configuration has been loaded, if you want to modify some parameter, there are many getters/setters
+# e.g. to enable classifiers evaluation using dump files, use:
+# conf.classifier_dump = True
+# however it is not recommended because default values in conf.ini should be fine in order to evaluate MOBD project
+#   using secret test set
+
+# start evaluation
+Evaluator(conf).process()
+```
+
 ## 5. Note <a name="note"></a>
 
 In order to evaluate project using *secret test set* just use `dataset.test` option from `conf.ini` (see [usage](#usage) for configuration file example) and
@@ -162,23 +183,4 @@ self.__test = Set(pd.read_csv(self.conf.dataset_test))
 # as example file see ./res/dataset/test_set_no_index_features.csv
 # self.__test = Set(pd.read_csv(self.conf.dataset_test, header=None,
 #                               names=[f"F{i}" for i in range(1, 21)] + ["CLASS"]))
-```
-
-If you want to run this tool in a python console (or in a custom python script):
-```python
-from model.Conf import Conf
-from classifier.Evaluator import Evaluator
-
-# create configuration instance
-conf = Conf.get_instance()
-# load parameter from a file using fully qualified path name
-conf.load_from('/ABS_PATH_HERE')
-# once configuration has been loaded, if you want to modify some parameter, there are many getters/setters
-# e.g. to enable classifiers evaluation using dump files, use:
-# conf.classifier_dump = True
-# however it is not recommended because default values in conf.ini should be fine in order to evaluate MOBD project
-#   using secret test set
-
-# start evaluation
-Evaluator(conf).process()
 ```

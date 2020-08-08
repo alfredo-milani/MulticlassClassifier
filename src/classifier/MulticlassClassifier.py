@@ -216,7 +216,6 @@ class MulticlassClassifier(AbstractClassifier):
         """
         Data scaling/normalization
         """
-        # TODO - vedere se gestione outliers è utile anche se si usa MinMaxScaler
         scaler = prep.MinMaxScaler(feature_range=(0, 1))
         # using following transformation:
         #  X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
