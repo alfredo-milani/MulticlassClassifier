@@ -1,0 +1,880 @@
+[INFO   ] | 2020-08-07 13:31:48,826 | [root] start (Client:63) - v0.3.7
+[DEBUG  ] | 2020-08-07 13:31:48,826 | [root] start (Client:64) - 
+### Configuration - from Conf: 
+	{ version : 0.3.7 }
+	{ app_name : MulticlassClassifier }
+	{ tmp : /Volumes/Ramdisk/ }
+	{ debug : True }
+	{ dataset.train : C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\dataset\training_set.csv }
+	{ dataset.test_ratio : 0.2 }
+	{ rng.seed : 43531 }
+	{ pair_plot.compute : False }
+	{ pair_plot.save : False }
+	{ jobs : 12 }
+	{ classifier.dump : True }
+	{ benchmark.best_found : (0.8444, 'Multi-Layer Perceptron') }
+	{ benchmark.threshold : (0.8906, '04/09/2020') }
+	{ dataset.test :  }
+[INFO   ] | 2020-08-07 13:31:48,827 | [root] start (Client:67) - [BENCHMARK] Current best value found for Multi-Layer Perceptron classifier, with F1-score: 0.8444.
+[INFO   ] | 2020-08-07 13:31:48,827 | [root] start (Client:71) - [BENCHMARK] Current threshold with F1-score: 0.8906 (deadline on 04/09/2020).
+[DEBUG  ] | 2020-08-07 13:31:48,854 | [mcc] prepare (MulticlassClassifier:86) - [LIB VERSION] numpy : 1.19.1
+[DEBUG  ] | 2020-08-07 13:31:48,854 | [mcc] prepare (MulticlassClassifier:87) - [LIB VERSION] pandas : 1.1.0
+[DEBUG  ] | 2020-08-07 13:31:48,855 | [mcc] prepare (MulticlassClassifier:88) - [LIB VERSION] matplotlib : 3.3.0
+[DEBUG  ] | 2020-08-07 13:31:48,855 | [mcc] prepare (MulticlassClassifier:89) - [LIB VERSION] sklearn : 0.23.1
+[DEBUG  ] | 2020-08-07 13:31:48,855 | [mcc] prepare (MulticlassClassifier:90) - [LIB VERSION] imblearn : 0.7.0
+[DEBUG  ] | 2020-08-07 13:31:48,855 | [mcc] prepare (MulticlassClassifier:91) - [LIB VERSION] scipy : 1.5.2
+[INFO   ] | 2020-08-07 13:31:48,855 | [mcc] prepare (MulticlassClassifier:94) - [MODE] Finding best classifier on data set (MulticlassClassifier)
+[DEBUG  ] | 2020-08-07 13:31:48,896 | [mcc] prepare (MulticlassClassifier:97) - [DESCRIPTION] Dataset description:
+                F1           F2  ...          F20        CLASS
+count  7994.000000  7994.000000  ...  7997.000000  8000.000000
+mean     -0.013077    -0.261413  ...    -0.355555     1.463375
+std       1.006235     1.852793  ...     1.794666     1.231198
+min      -4.181155    -6.980290  ...    -7.563245     0.000000
+25%      -0.698506    -1.441144  ...    -1.563262     0.000000
+50%      -0.028194    -0.261095  ...    -0.373514     2.000000
+75%       0.666096     0.944857  ...     0.825741     3.000000
+max       3.774161     7.155359  ...     6.774458     3.000000
+
+[8 rows x 21 columns]
+[DEBUG  ] | 2020-08-07 13:31:48,896 | [mcc] prepare (MulticlassClassifier:105) - [DESCRIPTION] Class percentage in dataset :
+	C1: 33.67 %
+	C2: 15.99 %
+	C3: 20.66 %
+	C4: 29.68 %
+[INFO   ] | 2020-08-07 13:31:48,896 | [mcc] split (MulticlassClassifier:132) - [DATA SPLIT] Splitting dataset into training and test set with ratio: 0.2
+[INFO   ] | 2020-08-07 13:31:48,899 | [mcc] manage_bad_values (MulticlassClassifier:155) - [MISSING DATA] Managing missing data
+[DEBUG  ] | 2020-08-07 13:31:48,900 | [mcc] manage_bad_values (MulticlassClassifier:157) - [MISSING DATA] Training set x before processing (shape: (6400, 20)):
+F1     5
+F2     5
+F3     1
+F4     0
+F5     3
+F6     5
+F7     4
+F8     9
+F9     4
+F10    4
+F11    4
+F12    4
+F13    3
+F14    8
+F15    2
+F16    6
+F17    4
+F18    6
+F19    5
+F20    2
+dtype: int64
+[DEBUG  ] | 2020-08-07 13:31:48,900 | [mcc] manage_bad_values (MulticlassClassifier:161) - [MISSING DATA] Test set x before processing (shape: (1600, 20)):
+F1     1
+F2     1
+F3     0
+F4     1
+F5     1
+F6     1
+F7     0
+F8     0
+F9     2
+F10    2
+F11    1
+F12    2
+F13    0
+F14    2
+F15    0
+F16    0
+F17    0
+F18    1
+F19    0
+F20    1
+dtype: int64
+[DEBUG  ] | 2020-08-07 13:31:48,910 | [mcc] manage_bad_values (MulticlassClassifier:175) - [MISSING DATA] Training set x after processing (shape: (6400, 20)):
+F1     0
+F2     0
+F3     0
+F4     0
+F5     0
+F6     0
+F7     0
+F8     0
+F9     0
+F10    0
+F11    0
+F12    0
+F13    0
+F14    0
+F15    0
+F16    0
+F17    0
+F18    0
+F19    0
+F20    0
+dtype: int64
+[DEBUG  ] | 2020-08-07 13:31:48,910 | [mcc] manage_bad_values (MulticlassClassifier:179) - [MISSING DATA] Test set x after processing (shape: (1600, 20)):
+F1     0
+F2     0
+F3     0
+F4     0
+F5     0
+F6     0
+F7     0
+F8     0
+F9     0
+F10    0
+F11    0
+F12    0
+F13    0
+F14    0
+F15    0
+F16    0
+F17    0
+F18    0
+F19    0
+F20    0
+dtype: int64
+[INFO   ] | 2020-08-07 13:31:48,910 | [mcc] manage_bad_values (MulticlassClassifier:189) - [OUTLIER] Managing outliers using modified z-score method
+[DEBUG  ] | 2020-08-07 13:31:48,946 | [mcc] manage_bad_values (MulticlassClassifier:191) - [DESCRIPTION] Training set x description before manage outlier:
+                F1           F2  ...          F19          F20
+count  6400.000000  6400.000000  ...  6400.000000  6400.000000
+mean     -0.016422    -0.272141  ...     0.002108    -0.349239
+std       1.007336     1.856364  ...     0.997279     1.794146
+min      -4.181155    -6.980290  ...    -3.854103    -7.563245
+25%      -0.706740    -1.446657  ...    -0.664509    -1.552750
+50%      -0.030842    -0.265420  ...    -0.010748    -0.359182
+75%       0.664343     0.918865  ...     0.672995     0.828487
+max       3.774161     7.155359  ...     3.606960     6.774458
+
+[8 rows x 20 columns]
+[DEBUG  ] | 2020-08-07 13:31:49,231 | [mcc] manage_bad_values (MulticlassClassifier:203) - [DESCRIPTION] Training set x description after manage outlier:
+                F1           F2  ...          F19          F20
+count  6400.000000  6400.000000  ...  6400.000000  6400.000000
+mean     -0.017525    -0.271383  ...     0.002736    -0.350192
+std       1.002755     1.835655  ...     0.991934     1.776129
+min      -3.508639    -6.343826  ...    -3.229380    -5.999590
+25%      -0.706491    -1.442337  ...    -0.662566    -1.548472
+50%      -0.030842    -0.265420  ...    -0.010748    -0.359182
+75%       0.659591     0.916347  ...     0.670954     0.824141
+max       3.471496     5.835273  ...     3.291693     5.623552
+
+[8 rows x 20 columns]
+[INFO   ] | 2020-08-07 13:31:49,231 | [mcc] normalize (MulticlassClassifier:217) - [SCALING] Data scaling using MinMaxScaler
+[INFO   ] | 2020-08-07 13:31:49,234 | [mcc] feature_selection (MulticlassClassifier:230) - [FEATURE SELECTION] Feature selection using SelectKBest
+[DEBUG  ] | 2020-08-07 13:31:50,141 | [mcc] feature_selection (MulticlassClassifier:233) - [FEATURE SELECTION] Feature index after SelectKBest: [ 1  2  3  4  5  6  7 10 11 12 13 14 15 17 19]
+[DEBUG  ] | 2020-08-07 13:31:50,141 | [mcc] feature_selection (MulticlassClassifier:235) - [FEATURE SELECTION] Train shape after feature selection: (6400, 15) | (6400,)
+[DEBUG  ] | 2020-08-07 13:31:50,141 | [mcc] feature_selection (MulticlassClassifier:237) - [FEATURE SELECTION] Test shape after feature selection: (1600, 15) | (1600,)
+[INFO   ] | 2020-08-07 13:31:50,141 | [mcc] sample (MulticlassClassifier:268) - [SAMPLING] Data sampling using ADASYN
+[DEBUG  ] | 2020-08-07 13:31:50,688 | [mcc] sample (MulticlassClassifier:270) - [SAMPLING] Train shape after feature selection: (8568, 15) | (8568,)
+[DEBUG  ] | 2020-08-07 13:31:50,688 | [mcc] sample (MulticlassClassifier:272) - [SAMPLING] Test shape after feature selection: (1600, 15) | (1600,)
+[INFO   ] | 2020-08-07 13:31:50,688 | [mcc] train (MulticlassClassifier:280) - [TUNING] Hyper-parameters tuning of: Multi-Layer Perceptron, Support Vector Machine, Decision Tree, Random Forest, K-Nearest Neighbors, Ada Boost, Naive Bayes, K-Means
+[DEBUG  ] | 2020-08-07 13:31:50,688 | [mcc] train (MulticlassClassifier:292) - [TUNING] Hyper-parameter tuning using Multi-Layer Perceptron
+Best parameters:
+
+{'activation': 'relu', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+
+Grid scores:
+
+0.4787 (+/-0.070) for {'activation': 'identity', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.4455 (+/-0.088) for {'activation': 'identity', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.4787 (+/-0.071) for {'activation': 'identity', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.4615 (+/-0.047) for {'activation': 'identity', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.4768 (+/-0.071) for {'activation': 'identity', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.4694 (+/-0.073) for {'activation': 'identity', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.4658 (+/-0.076) for {'activation': 'identity', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.4773 (+/-0.072) for {'activation': 'identity', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.4786 (+/-0.071) for {'activation': 'identity', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.4508 (+/-0.058) for {'activation': 'identity', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.4786 (+/-0.072) for {'activation': 'identity', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.4692 (+/-0.057) for {'activation': 'identity', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.4781 (+/-0.071) for {'activation': 'identity', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.4742 (+/-0.069) for {'activation': 'identity', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.4648 (+/-0.069) for {'activation': 'identity', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.4786 (+/-0.065) for {'activation': 'identity', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.4791 (+/-0.071) for {'activation': 'identity', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.4452 (+/-0.097) for {'activation': 'identity', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.4790 (+/-0.072) for {'activation': 'identity', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.4631 (+/-0.056) for {'activation': 'identity', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.4761 (+/-0.071) for {'activation': 'identity', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.4699 (+/-0.074) for {'activation': 'identity', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.4663 (+/-0.075) for {'activation': 'identity', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.4788 (+/-0.069) for {'activation': 'identity', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.4791 (+/-0.071) for {'activation': 'identity', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.4421 (+/-0.076) for {'activation': 'identity', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.4782 (+/-0.069) for {'activation': 'identity', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.4587 (+/-0.069) for {'activation': 'identity', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.4763 (+/-0.070) for {'activation': 'identity', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.4745 (+/-0.075) for {'activation': 'identity', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.4538 (+/-0.063) for {'activation': 'identity', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.4777 (+/-0.067) for {'activation': 'identity', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.4786 (+/-0.071) for {'activation': 'identity', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.4441 (+/-0.075) for {'activation': 'identity', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.4783 (+/-0.069) for {'activation': 'identity', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.4609 (+/-0.071) for {'activation': 'identity', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.4760 (+/-0.072) for {'activation': 'identity', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.4765 (+/-0.070) for {'activation': 'identity', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.4481 (+/-0.058) for {'activation': 'identity', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.4768 (+/-0.073) for {'activation': 'identity', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8279 (+/-0.074) for {'activation': 'logistic', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.0994 (+/-0.007) for {'activation': 'logistic', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.1064 (+/-0.000) for {'activation': 'logistic', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.8329 (+/-0.031) for {'activation': 'logistic', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.1064 (+/-0.000) for {'activation': 'logistic', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.8223 (+/-0.079) for {'activation': 'logistic', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.1064 (+/-0.000) for {'activation': 'logistic', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.4654 (+/-0.066) for {'activation': 'logistic', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8265 (+/-0.079) for {'activation': 'logistic', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.1020 (+/-0.008) for {'activation': 'logistic', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.1071 (+/-0.004) for {'activation': 'logistic', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.8282 (+/-0.042) for {'activation': 'logistic', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.1064 (+/-0.000) for {'activation': 'logistic', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.8142 (+/-0.085) for {'activation': 'logistic', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.1064 (+/-0.000) for {'activation': 'logistic', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.4669 (+/-0.070) for {'activation': 'logistic', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8224 (+/-0.068) for {'activation': 'logistic', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.4276 (+/-0.661) for {'activation': 'logistic', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.1400 (+/-0.201) for {'activation': 'logistic', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.8116 (+/-0.070) for {'activation': 'logistic', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.1064 (+/-0.000) for {'activation': 'logistic', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.8124 (+/-0.091) for {'activation': 'logistic', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.1064 (+/-0.000) for {'activation': 'logistic', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.3889 (+/-0.289) for {'activation': 'logistic', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8073 (+/-0.084) for {'activation': 'logistic', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.6666 (+/-0.379) for {'activation': 'logistic', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.4759 (+/-0.071) for {'activation': 'logistic', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.7864 (+/-0.085) for {'activation': 'logistic', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.4636 (+/-0.072) for {'activation': 'logistic', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.6554 (+/-0.304) for {'activation': 'logistic', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.1064 (+/-0.000) for {'activation': 'logistic', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.4669 (+/-0.073) for {'activation': 'logistic', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8056 (+/-0.090) for {'activation': 'logistic', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.7477 (+/-0.124) for {'activation': 'logistic', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.5058 (+/-0.135) for {'activation': 'logistic', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.7974 (+/-0.100) for {'activation': 'logistic', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.3959 (+/-0.275) for {'activation': 'logistic', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.7626 (+/-0.090) for {'activation': 'logistic', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.1066 (+/-0.002) for {'activation': 'logistic', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.4656 (+/-0.071) for {'activation': 'logistic', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8463 (+/-0.013) for {'activation': 'tanh', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.0982 (+/-0.009) for {'activation': 'tanh', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.8370 (+/-0.036) for {'activation': 'tanh', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.8104 (+/-0.058) for {'activation': 'tanh', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.5442 (+/-0.313) for {'activation': 'tanh', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.8183 (+/-0.036) for {'activation': 'tanh', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.4665 (+/-0.070) for {'activation': 'tanh', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.8253 (+/-0.059) for {'activation': 'tanh', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8373 (+/-0.022) for {'activation': 'tanh', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.1001 (+/-0.010) for {'activation': 'tanh', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.8192 (+/-0.068) for {'activation': 'tanh', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.8053 (+/-0.093) for {'activation': 'tanh', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.8184 (+/-0.087) for {'activation': 'tanh', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.8205 (+/-0.069) for {'activation': 'tanh', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.4625 (+/-0.073) for {'activation': 'tanh', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.8229 (+/-0.079) for {'activation': 'tanh', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8205 (+/-0.043) for {'activation': 'tanh', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.1012 (+/-0.010) for {'activation': 'tanh', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.8282 (+/-0.080) for {'activation': 'tanh', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.8164 (+/-0.070) for {'activation': 'tanh', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.8119 (+/-0.086) for {'activation': 'tanh', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.8164 (+/-0.084) for {'activation': 'tanh', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.4620 (+/-0.071) for {'activation': 'tanh', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.8173 (+/-0.088) for {'activation': 'tanh', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8154 (+/-0.082) for {'activation': 'tanh', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.7703 (+/-0.096) for {'activation': 'tanh', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.8031 (+/-0.088) for {'activation': 'tanh', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.7962 (+/-0.088) for {'activation': 'tanh', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.4786 (+/-0.074) for {'activation': 'tanh', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.7803 (+/-0.104) for {'activation': 'tanh', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.4504 (+/-0.059) for {'activation': 'tanh', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.4780 (+/-0.071) for {'activation': 'tanh', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8143 (+/-0.090) for {'activation': 'tanh', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.7724 (+/-0.132) for {'activation': 'tanh', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.7989 (+/-0.086) for {'activation': 'tanh', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.7939 (+/-0.084) for {'activation': 'tanh', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.6361 (+/-0.291) for {'activation': 'tanh', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.7822 (+/-0.095) for {'activation': 'tanh', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.4463 (+/-0.063) for {'activation': 'tanh', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.6071 (+/-0.299) for {'activation': 'tanh', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8785 (+/-0.017) for {'activation': 'relu', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.4251 (+/-0.434) for {'activation': 'relu', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.8486 (+/-0.066) for {'activation': 'relu', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.8154 (+/-0.057) for {'activation': 'relu', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.8298 (+/-0.091) for {'activation': 'relu', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.8321 (+/-0.044) for {'activation': 'relu', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.7728 (+/-0.091) for {'activation': 'relu', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.8325 (+/-0.083) for {'activation': 'relu', 'hidden_layer_sizes': (150, 100), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8607 (+/-0.025) for {'activation': 'relu', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.4355 (+/-0.273) for {'activation': 'relu', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.8382 (+/-0.076) for {'activation': 'relu', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.8093 (+/-0.069) for {'activation': 'relu', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.8281 (+/-0.090) for {'activation': 'relu', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.8307 (+/-0.070) for {'activation': 'relu', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.7706 (+/-0.109) for {'activation': 'relu', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.8276 (+/-0.086) for {'activation': 'relu', 'hidden_layer_sizes': (120, 60), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8322 (+/-0.048) for {'activation': 'relu', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.3803 (+/-0.382) for {'activation': 'relu', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.8322 (+/-0.089) for {'activation': 'relu', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.8027 (+/-0.075) for {'activation': 'relu', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.8212 (+/-0.092) for {'activation': 'relu', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.8195 (+/-0.082) for {'activation': 'relu', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.7158 (+/-0.216) for {'activation': 'relu', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.8196 (+/-0.096) for {'activation': 'relu', 'hidden_layer_sizes': (60, 30), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8233 (+/-0.084) for {'activation': 'relu', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.4914 (+/-0.240) for {'activation': 'relu', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.8255 (+/-0.086) for {'activation': 'relu', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.8097 (+/-0.090) for {'activation': 'relu', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.8095 (+/-0.095) for {'activation': 'relu', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.8209 (+/-0.086) for {'activation': 'relu', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.4534 (+/-0.077) for {'activation': 'relu', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.8126 (+/-0.094) for {'activation': 'relu', 'hidden_layer_sizes': (75,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+0.8251 (+/-0.089) for {'activation': 'relu', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'sgd'}
+0.4512 (+/-0.218) for {'activation': 'relu', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'solver': 'adam'}
+0.8219 (+/-0.089) for {'activation': 'relu', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'sgd'}
+0.8058 (+/-0.076) for {'activation': 'relu', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.01, 'solver': 'adam'}
+0.7980 (+/-0.095) for {'activation': 'relu', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'sgd'}
+0.8213 (+/-0.088) for {'activation': 'relu', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.001, 'solver': 'adam'}
+0.4503 (+/-0.071) for {'activation': 'relu', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'sgd'}
+0.7993 (+/-0.102) for {'activation': 'relu', 'hidden_layer_sizes': (45,), 'learning_rate': 'adaptive', 'learning_rate_init': 0.0001, 'solver': 'adam'}
+
+[DEBUG  ] | 2020-08-07 14:56:57,313 | [mcc] train (MulticlassClassifier:334) - [TUNING] Dump of Multi-Layer Perceptron in C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Multi-Layer_Perceptron.joblib
+[DEBUG  ] | 2020-08-07 14:56:57,324 | [mcc] train (MulticlassClassifier:292) - [TUNING] Hyper-parameter tuning using Support Vector Machine
+Best parameters:
+
+{'C': 10, 'decision_function_shape': 'ovo', 'gamma': 10.0, 'kernel': 'rbf'}
+
+Grid scores:
+
+0.4974 (+/-0.072) for {'C': 0.1, 'decision_function_shape': 'ovo', 'kernel': 'linear'}
+0.4974 (+/-0.072) for {'C': 0.1, 'decision_function_shape': 'ovr', 'kernel': 'linear'}
+0.5150 (+/-0.072) for {'C': 1, 'decision_function_shape': 'ovo', 'kernel': 'linear'}
+0.5150 (+/-0.072) for {'C': 1, 'decision_function_shape': 'ovr', 'kernel': 'linear'}
+0.5178 (+/-0.073) for {'C': 10, 'decision_function_shape': 'ovo', 'kernel': 'linear'}
+0.5178 (+/-0.073) for {'C': 10, 'decision_function_shape': 'ovr', 'kernel': 'linear'}
+0.1064 (+/-0.000) for {'C': 0.1, 'decision_function_shape': 'ovo', 'gamma': 0.0001, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 0.1, 'decision_function_shape': 'ovo', 'gamma': 0.001, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 0.1, 'decision_function_shape': 'ovo', 'gamma': 0.01, 'kernel': 'rbf'}
+0.4532 (+/-0.069) for {'C': 0.1, 'decision_function_shape': 'ovo', 'gamma': 0.1, 'kernel': 'rbf'}
+0.7576 (+/-0.086) for {'C': 0.1, 'decision_function_shape': 'ovo', 'gamma': 10.0, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 0.1, 'decision_function_shape': 'ovo', 'gamma': 100.0, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 0.1, 'decision_function_shape': 'ovo', 'gamma': 1000.0, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 0.1, 'decision_function_shape': 'ovo', 'gamma': 10000.0, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 0.1, 'decision_function_shape': 'ovr', 'gamma': 0.0001, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 0.1, 'decision_function_shape': 'ovr', 'gamma': 0.001, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 0.1, 'decision_function_shape': 'ovr', 'gamma': 0.01, 'kernel': 'rbf'}
+0.4532 (+/-0.069) for {'C': 0.1, 'decision_function_shape': 'ovr', 'gamma': 0.1, 'kernel': 'rbf'}
+0.7576 (+/-0.086) for {'C': 0.1, 'decision_function_shape': 'ovr', 'gamma': 10.0, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 0.1, 'decision_function_shape': 'ovr', 'gamma': 100.0, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 0.1, 'decision_function_shape': 'ovr', 'gamma': 1000.0, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 0.1, 'decision_function_shape': 'ovr', 'gamma': 10000.0, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 1, 'decision_function_shape': 'ovo', 'gamma': 0.0001, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 1, 'decision_function_shape': 'ovo', 'gamma': 0.001, 'kernel': 'rbf'}
+0.4510 (+/-0.066) for {'C': 1, 'decision_function_shape': 'ovo', 'gamma': 0.01, 'kernel': 'rbf'}
+0.5545 (+/-0.080) for {'C': 1, 'decision_function_shape': 'ovo', 'gamma': 0.1, 'kernel': 'rbf'}
+0.8356 (+/-0.077) for {'C': 1, 'decision_function_shape': 'ovo', 'gamma': 10.0, 'kernel': 'rbf'}
+0.6425 (+/-0.186) for {'C': 1, 'decision_function_shape': 'ovo', 'gamma': 100.0, 'kernel': 'rbf'}
+0.3609 (+/-0.087) for {'C': 1, 'decision_function_shape': 'ovo', 'gamma': 1000.0, 'kernel': 'rbf'}
+0.1560 (+/-0.034) for {'C': 1, 'decision_function_shape': 'ovo', 'gamma': 10000.0, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 1, 'decision_function_shape': 'ovr', 'gamma': 0.0001, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 1, 'decision_function_shape': 'ovr', 'gamma': 0.001, 'kernel': 'rbf'}
+0.4510 (+/-0.066) for {'C': 1, 'decision_function_shape': 'ovr', 'gamma': 0.01, 'kernel': 'rbf'}
+0.5545 (+/-0.080) for {'C': 1, 'decision_function_shape': 'ovr', 'gamma': 0.1, 'kernel': 'rbf'}
+0.8356 (+/-0.077) for {'C': 1, 'decision_function_shape': 'ovr', 'gamma': 10.0, 'kernel': 'rbf'}
+0.6425 (+/-0.186) for {'C': 1, 'decision_function_shape': 'ovr', 'gamma': 100.0, 'kernel': 'rbf'}
+0.3609 (+/-0.087) for {'C': 1, 'decision_function_shape': 'ovr', 'gamma': 1000.0, 'kernel': 'rbf'}
+0.1560 (+/-0.034) for {'C': 1, 'decision_function_shape': 'ovr', 'gamma': 10000.0, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 10, 'decision_function_shape': 'ovo', 'gamma': 0.0001, 'kernel': 'rbf'}
+0.4506 (+/-0.066) for {'C': 10, 'decision_function_shape': 'ovo', 'gamma': 0.001, 'kernel': 'rbf'}
+0.5101 (+/-0.076) for {'C': 10, 'decision_function_shape': 'ovo', 'gamma': 0.01, 'kernel': 'rbf'}
+0.6643 (+/-0.103) for {'C': 10, 'decision_function_shape': 'ovo', 'gamma': 0.1, 'kernel': 'rbf'}
+0.8793 (+/-0.021) for {'C': 10, 'decision_function_shape': 'ovo', 'gamma': 10.0, 'kernel': 'rbf'}
+0.6718 (+/-0.185) for {'C': 10, 'decision_function_shape': 'ovo', 'gamma': 100.0, 'kernel': 'rbf'}
+0.3738 (+/-0.094) for {'C': 10, 'decision_function_shape': 'ovo', 'gamma': 1000.0, 'kernel': 'rbf'}
+0.1619 (+/-0.039) for {'C': 10, 'decision_function_shape': 'ovo', 'gamma': 10000.0, 'kernel': 'rbf'}
+0.1064 (+/-0.000) for {'C': 10, 'decision_function_shape': 'ovr', 'gamma': 0.0001, 'kernel': 'rbf'}
+0.4506 (+/-0.066) for {'C': 10, 'decision_function_shape': 'ovr', 'gamma': 0.001, 'kernel': 'rbf'}
+0.5101 (+/-0.076) for {'C': 10, 'decision_function_shape': 'ovr', 'gamma': 0.01, 'kernel': 'rbf'}
+0.6643 (+/-0.103) for {'C': 10, 'decision_function_shape': 'ovr', 'gamma': 0.1, 'kernel': 'rbf'}
+0.8793 (+/-0.021) for {'C': 10, 'decision_function_shape': 'ovr', 'gamma': 10.0, 'kernel': 'rbf'}
+0.6718 (+/-0.185) for {'C': 10, 'decision_function_shape': 'ovr', 'gamma': 100.0, 'kernel': 'rbf'}
+0.3738 (+/-0.094) for {'C': 10, 'decision_function_shape': 'ovr', 'gamma': 1000.0, 'kernel': 'rbf'}
+0.1619 (+/-0.039) for {'C': 10, 'decision_function_shape': 'ovr', 'gamma': 10000.0, 'kernel': 'rbf'}
+0.3662 (+/-0.042) for {'C': 50, 'decision_function_shape': 'ovo', 'gamma': 0.0001, 'kernel': 'rbf'}
+0.4973 (+/-0.071) for {'C': 50, 'decision_function_shape': 'ovo', 'gamma': 0.001, 'kernel': 'rbf'}
+0.5340 (+/-0.072) for {'C': 50, 'decision_function_shape': 'ovo', 'gamma': 0.01, 'kernel': 'rbf'}
+0.7322 (+/-0.099) for {'C': 50, 'decision_function_shape': 'ovo', 'gamma': 0.1, 'kernel': 'rbf'}
+0.8722 (+/-0.020) for {'C': 50, 'decision_function_shape': 'ovo', 'gamma': 10.0, 'kernel': 'rbf'}
+0.6718 (+/-0.185) for {'C': 50, 'decision_function_shape': 'ovo', 'gamma': 100.0, 'kernel': 'rbf'}
+0.3738 (+/-0.094) for {'C': 50, 'decision_function_shape': 'ovo', 'gamma': 1000.0, 'kernel': 'rbf'}
+0.1619 (+/-0.039) for {'C': 50, 'decision_function_shape': 'ovo', 'gamma': 10000.0, 'kernel': 'rbf'}
+0.3662 (+/-0.042) for {'C': 50, 'decision_function_shape': 'ovr', 'gamma': 0.0001, 'kernel': 'rbf'}
+0.4973 (+/-0.071) for {'C': 50, 'decision_function_shape': 'ovr', 'gamma': 0.001, 'kernel': 'rbf'}
+0.5340 (+/-0.072) for {'C': 50, 'decision_function_shape': 'ovr', 'gamma': 0.01, 'kernel': 'rbf'}
+0.7322 (+/-0.099) for {'C': 50, 'decision_function_shape': 'ovr', 'gamma': 0.1, 'kernel': 'rbf'}
+0.8722 (+/-0.020) for {'C': 50, 'decision_function_shape': 'ovr', 'gamma': 10.0, 'kernel': 'rbf'}
+0.6718 (+/-0.185) for {'C': 50, 'decision_function_shape': 'ovr', 'gamma': 100.0, 'kernel': 'rbf'}
+0.3738 (+/-0.094) for {'C': 50, 'decision_function_shape': 'ovr', 'gamma': 1000.0, 'kernel': 'rbf'}
+0.1619 (+/-0.039) for {'C': 50, 'decision_function_shape': 'ovr', 'gamma': 10000.0, 'kernel': 'rbf'}
+0.4506 (+/-0.066) for {'C': 100, 'decision_function_shape': 'ovo', 'gamma': 0.0001, 'kernel': 'rbf'}
+0.5047 (+/-0.076) for {'C': 100, 'decision_function_shape': 'ovo', 'gamma': 0.001, 'kernel': 'rbf'}
+0.5531 (+/-0.073) for {'C': 100, 'decision_function_shape': 'ovo', 'gamma': 0.01, 'kernel': 'rbf'}
+0.7553 (+/-0.097) for {'C': 100, 'decision_function_shape': 'ovo', 'gamma': 0.1, 'kernel': 'rbf'}
+0.8698 (+/-0.021) for {'C': 100, 'decision_function_shape': 'ovo', 'gamma': 10.0, 'kernel': 'rbf'}
+0.6718 (+/-0.185) for {'C': 100, 'decision_function_shape': 'ovo', 'gamma': 100.0, 'kernel': 'rbf'}
+0.3738 (+/-0.094) for {'C': 100, 'decision_function_shape': 'ovo', 'gamma': 1000.0, 'kernel': 'rbf'}
+0.1619 (+/-0.039) for {'C': 100, 'decision_function_shape': 'ovo', 'gamma': 10000.0, 'kernel': 'rbf'}
+0.4506 (+/-0.066) for {'C': 100, 'decision_function_shape': 'ovr', 'gamma': 0.0001, 'kernel': 'rbf'}
+0.5047 (+/-0.076) for {'C': 100, 'decision_function_shape': 'ovr', 'gamma': 0.001, 'kernel': 'rbf'}
+0.5531 (+/-0.073) for {'C': 100, 'decision_function_shape': 'ovr', 'gamma': 0.01, 'kernel': 'rbf'}
+0.7553 (+/-0.097) for {'C': 100, 'decision_function_shape': 'ovr', 'gamma': 0.1, 'kernel': 'rbf'}
+0.8698 (+/-0.021) for {'C': 100, 'decision_function_shape': 'ovr', 'gamma': 10.0, 'kernel': 'rbf'}
+0.6718 (+/-0.185) for {'C': 100, 'decision_function_shape': 'ovr', 'gamma': 100.0, 'kernel': 'rbf'}
+0.3738 (+/-0.094) for {'C': 100, 'decision_function_shape': 'ovr', 'gamma': 1000.0, 'kernel': 'rbf'}
+0.1619 (+/-0.039) for {'C': 100, 'decision_function_shape': 'ovr', 'gamma': 10000.0, 'kernel': 'rbf'}
+0.7231 (+/-0.100) for {'C': 0.1, 'decision_function_shape': 'ovo', 'degree': 2, 'gamma': 'scale', 'kernel': 'poly'}
+0.7891 (+/-0.093) for {'C': 0.1, 'decision_function_shape': 'ovo', 'degree': 3, 'gamma': 'scale', 'kernel': 'poly'}
+0.7231 (+/-0.100) for {'C': 0.1, 'decision_function_shape': 'ovr', 'degree': 2, 'gamma': 'scale', 'kernel': 'poly'}
+0.7891 (+/-0.093) for {'C': 0.1, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 'scale', 'kernel': 'poly'}
+0.7764 (+/-0.100) for {'C': 1, 'decision_function_shape': 'ovo', 'degree': 2, 'gamma': 'scale', 'kernel': 'poly'}
+0.7976 (+/-0.083) for {'C': 1, 'decision_function_shape': 'ovo', 'degree': 3, 'gamma': 'scale', 'kernel': 'poly'}
+0.7764 (+/-0.100) for {'C': 1, 'decision_function_shape': 'ovr', 'degree': 2, 'gamma': 'scale', 'kernel': 'poly'}
+0.7976 (+/-0.083) for {'C': 1, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 'scale', 'kernel': 'poly'}
+0.7926 (+/-0.092) for {'C': 10, 'decision_function_shape': 'ovo', 'degree': 2, 'gamma': 'scale', 'kernel': 'poly'}
+0.7901 (+/-0.077) for {'C': 10, 'decision_function_shape': 'ovo', 'degree': 3, 'gamma': 'scale', 'kernel': 'poly'}
+0.7926 (+/-0.092) for {'C': 10, 'decision_function_shape': 'ovr', 'degree': 2, 'gamma': 'scale', 'kernel': 'poly'}
+0.7901 (+/-0.077) for {'C': 10, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 'scale', 'kernel': 'poly'}
+
+[DEBUG  ] | 2020-08-07 15:08:16,703 | [mcc] train (MulticlassClassifier:334) - [TUNING] Dump of Support Vector Machine in C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Support_Vector_Machine.joblib
+[DEBUG  ] | 2020-08-07 15:08:16,705 | [mcc] train (MulticlassClassifier:292) - [TUNING] Hyper-parameter tuning using Decision Tree
+Best parameters:
+
+{'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'splitter': 'best'}
+
+Grid scores:
+
+0.6270 (+/-0.029) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 2, 'splitter': 'best'}
+0.5600 (+/-0.031) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 2, 'splitter': 'random'}
+0.5978 (+/-0.039) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 5, 'splitter': 'best'}
+0.5214 (+/-0.048) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 5, 'splitter': 'random'}
+0.5866 (+/-0.078) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 10, 'splitter': 'best'}
+0.4933 (+/-0.080) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 10, 'splitter': 'random'}
+0.6160 (+/-0.021) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'splitter': 'best'}
+0.5632 (+/-0.038) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'splitter': 'random'}
+0.6009 (+/-0.046) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'splitter': 'best'}
+0.5153 (+/-0.076) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'splitter': 'random'}
+0.5874 (+/-0.061) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'splitter': 'best'}
+0.4908 (+/-0.087) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'splitter': 'random'}
+0.6530 (+/-0.031) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 2, 'splitter': 'best'}
+0.6309 (+/-0.060) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 2, 'splitter': 'random'}
+0.6438 (+/-0.055) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 5, 'splitter': 'best'}
+0.5987 (+/-0.065) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 5, 'splitter': 'random'}
+0.6238 (+/-0.047) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 10, 'splitter': 'best'}
+0.5910 (+/-0.059) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 10, 'splitter': 'random'}
+0.6229 (+/-0.039) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 2, 'splitter': 'best'}
+0.5652 (+/-0.030) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 2, 'splitter': 'random'}
+0.6004 (+/-0.039) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 5, 'splitter': 'best'}
+0.5289 (+/-0.049) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 5, 'splitter': 'random'}
+0.5857 (+/-0.054) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 10, 'splitter': 'best'}
+0.5111 (+/-0.066) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 10, 'splitter': 'random'}
+0.6230 (+/-0.045) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'splitter': 'best'}
+0.5681 (+/-0.043) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'splitter': 'random'}
+0.6132 (+/-0.048) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'splitter': 'best'}
+0.5290 (+/-0.054) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'splitter': 'random'}
+0.5879 (+/-0.049) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'splitter': 'best'}
+0.5006 (+/-0.054) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'splitter': 'random'}
+0.6530 (+/-0.026) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'splitter': 'best'}
+0.6267 (+/-0.037) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'splitter': 'random'}
+0.6423 (+/-0.058) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 5, 'splitter': 'best'}
+0.6059 (+/-0.053) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 5, 'splitter': 'random'}
+0.6233 (+/-0.048) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 10, 'splitter': 'best'}
+0.5855 (+/-0.065) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 10, 'splitter': 'random'}
+0.6063 (+/-0.042) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 2, 'splitter': 'best'}
+0.5622 (+/-0.038) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 2, 'splitter': 'random'}
+0.5991 (+/-0.045) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 5, 'splitter': 'best'}
+0.5390 (+/-0.044) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 5, 'splitter': 'random'}
+0.5892 (+/-0.063) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 10, 'splitter': 'best'}
+0.5000 (+/-0.064) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 10, 'splitter': 'random'}
+0.6136 (+/-0.040) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'splitter': 'best'}
+0.5655 (+/-0.041) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'splitter': 'random'}
+0.6084 (+/-0.030) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'splitter': 'best'}
+0.5276 (+/-0.043) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'splitter': 'random'}
+0.5786 (+/-0.033) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'splitter': 'best'}
+0.4914 (+/-0.070) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'splitter': 'random'}
+0.6482 (+/-0.045) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 2, 'splitter': 'best'}
+0.6228 (+/-0.029) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 2, 'splitter': 'random'}
+0.6365 (+/-0.043) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 5, 'splitter': 'best'}
+0.5871 (+/-0.035) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 5, 'splitter': 'random'}
+0.6216 (+/-0.053) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 10, 'splitter': 'best'}
+0.5904 (+/-0.057) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 10, 'splitter': 'random'}
+0.6231 (+/-0.029) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 2, 'splitter': 'best'}
+0.5767 (+/-0.034) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 2, 'splitter': 'random'}
+0.6051 (+/-0.054) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 5, 'splitter': 'best'}
+0.5339 (+/-0.040) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 5, 'splitter': 'random'}
+0.5765 (+/-0.050) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 10, 'splitter': 'best'}
+0.4959 (+/-0.071) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 10, 'splitter': 'random'}
+0.6108 (+/-0.034) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'splitter': 'best'}
+0.5665 (+/-0.058) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'splitter': 'random'}
+0.6084 (+/-0.043) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'splitter': 'best'}
+0.5239 (+/-0.049) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'splitter': 'random'}
+0.5861 (+/-0.049) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'splitter': 'best'}
+0.4943 (+/-0.065) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'splitter': 'random'}
+0.6458 (+/-0.048) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'splitter': 'best'}
+0.6131 (+/-0.036) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'splitter': 'random'}
+0.6366 (+/-0.041) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 5, 'splitter': 'best'}
+0.5982 (+/-0.058) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 5, 'splitter': 'random'}
+0.6220 (+/-0.052) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 10, 'splitter': 'best'}
+0.5864 (+/-0.051) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 10, 'splitter': 'random'}
+
+[DEBUG  ] | 2020-08-07 15:08:20,759 | [mcc] train (MulticlassClassifier:334) - [TUNING] Dump of Decision Tree in C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Decision_Tree.joblib
+[DEBUG  ] | 2020-08-07 15:08:20,761 | [mcc] train (MulticlassClassifier:292) - [TUNING] Hyper-parameter tuning using Random Forest
+Best parameters:
+
+{'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 500}
+
+Grid scores:
+
+0.8365 (+/-0.052) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 100}
+0.8406 (+/-0.049) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 200}
+0.8373 (+/-0.053) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 300}
+0.8427 (+/-0.055) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 400}
+0.8408 (+/-0.053) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 500}
+0.8035 (+/-0.074) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 100}
+0.8062 (+/-0.074) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 200}
+0.8081 (+/-0.064) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 300}
+0.8064 (+/-0.071) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 400}
+0.8077 (+/-0.071) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 500}
+0.7751 (+/-0.071) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 100}
+0.7816 (+/-0.082) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 200}
+0.7788 (+/-0.084) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 300}
+0.7801 (+/-0.083) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 400}
+0.7779 (+/-0.080) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 500}
+0.8363 (+/-0.057) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 100}
+0.8385 (+/-0.057) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 200}
+0.8387 (+/-0.056) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 300}
+0.8409 (+/-0.052) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 400}
+0.8429 (+/-0.050) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 500}
+0.8047 (+/-0.075) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 100}
+0.8060 (+/-0.073) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 200}
+0.8076 (+/-0.071) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 300}
+0.8074 (+/-0.068) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 400}
+0.8093 (+/-0.071) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 500}
+0.7746 (+/-0.079) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 100}
+0.7791 (+/-0.078) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 200}
+0.7782 (+/-0.081) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 300}
+0.7805 (+/-0.084) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 400}
+0.7801 (+/-0.084) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 500}
+0.8365 (+/-0.057) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 100}
+0.8358 (+/-0.053) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 200}
+0.8385 (+/-0.054) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 300}
+0.8370 (+/-0.053) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 400}
+0.8395 (+/-0.053) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 500}
+0.8110 (+/-0.068) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 100}
+0.8096 (+/-0.067) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 200}
+0.8130 (+/-0.072) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 300}
+0.8107 (+/-0.072) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 400}
+0.8107 (+/-0.070) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 500}
+0.7791 (+/-0.080) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 100}
+0.7819 (+/-0.079) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 200}
+0.7838 (+/-0.089) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 300}
+0.7801 (+/-0.088) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 400}
+0.7828 (+/-0.085) for {'criterion': 'entropy', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 500}
+0.8367 (+/-0.047) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 100}
+0.8386 (+/-0.048) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 200}
+0.8377 (+/-0.051) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 300}
+0.8417 (+/-0.050) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 400}
+0.8422 (+/-0.052) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 500}
+0.8025 (+/-0.067) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 100}
+0.8065 (+/-0.065) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 200}
+0.8074 (+/-0.074) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 300}
+0.8080 (+/-0.067) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 400}
+0.8071 (+/-0.067) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 500}
+0.7753 (+/-0.074) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 100}
+0.7809 (+/-0.083) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 200}
+0.7798 (+/-0.084) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 300}
+0.7779 (+/-0.082) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 400}
+0.7785 (+/-0.085) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 500}
+0.8363 (+/-0.055) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 100}
+0.8386 (+/-0.054) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 200}
+0.8408 (+/-0.053) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 300}
+0.8424 (+/-0.052) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 400}
+0.8407 (+/-0.049) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 500}
+0.8039 (+/-0.068) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 100}
+0.8033 (+/-0.068) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 200}
+0.8090 (+/-0.071) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 300}
+0.8081 (+/-0.071) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 400}
+0.8097 (+/-0.069) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 500}
+0.7776 (+/-0.083) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 100}
+0.7771 (+/-0.079) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 200}
+0.7781 (+/-0.080) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 300}
+0.7803 (+/-0.079) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 400}
+0.7796 (+/-0.086) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 500}
+0.8364 (+/-0.052) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 100}
+0.8381 (+/-0.056) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 200}
+0.8364 (+/-0.049) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 300}
+0.8392 (+/-0.054) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 400}
+0.8382 (+/-0.054) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 500}
+0.8083 (+/-0.069) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 100}
+0.8121 (+/-0.067) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 200}
+0.8117 (+/-0.069) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 300}
+0.8116 (+/-0.071) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 400}
+0.8116 (+/-0.067) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 500}
+0.7794 (+/-0.085) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 100}
+0.7787 (+/-0.083) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 200}
+0.7837 (+/-0.081) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 300}
+0.7806 (+/-0.091) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 400}
+0.7834 (+/-0.083) for {'criterion': 'entropy', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 500}
+0.8293 (+/-0.051) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 100}
+0.8348 (+/-0.052) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 200}
+0.8346 (+/-0.058) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 300}
+0.8352 (+/-0.054) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 400}
+0.8361 (+/-0.056) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 500}
+0.7983 (+/-0.074) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 100}
+0.8030 (+/-0.074) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 200}
+0.8006 (+/-0.072) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 300}
+0.8024 (+/-0.069) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 400}
+0.8027 (+/-0.074) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 500}
+0.7712 (+/-0.083) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 100}
+0.7732 (+/-0.079) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 200}
+0.7750 (+/-0.088) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 300}
+0.7751 (+/-0.087) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 400}
+0.7758 (+/-0.084) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 500}
+0.8297 (+/-0.056) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 100}
+0.8346 (+/-0.056) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 200}
+0.8355 (+/-0.058) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 300}
+0.8364 (+/-0.061) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 400}
+0.8369 (+/-0.055) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 500}
+0.7991 (+/-0.077) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 100}
+0.8005 (+/-0.074) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 200}
+0.8008 (+/-0.070) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 300}
+0.8031 (+/-0.072) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 400}
+0.7999 (+/-0.075) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 500}
+0.7739 (+/-0.079) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 100}
+0.7756 (+/-0.087) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 200}
+0.7745 (+/-0.081) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 300}
+0.7763 (+/-0.083) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 400}
+0.7761 (+/-0.084) for {'criterion': 'gini', 'max_depth': 80, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 500}
+0.8273 (+/-0.060) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 100}
+0.8315 (+/-0.055) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 200}
+0.8328 (+/-0.055) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 300}
+0.8316 (+/-0.060) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 400}
+0.8315 (+/-0.060) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 500}
+0.8020 (+/-0.073) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 100}
+0.8019 (+/-0.077) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 200}
+0.8018 (+/-0.078) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 300}
+0.8036 (+/-0.073) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 400}
+0.8046 (+/-0.073) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 500}
+0.7711 (+/-0.082) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 100}
+0.7743 (+/-0.080) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 200}
+0.7751 (+/-0.083) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 300}
+0.7751 (+/-0.091) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 400}
+0.7746 (+/-0.085) for {'criterion': 'gini', 'max_depth': 80, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 500}
+0.8322 (+/-0.050) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 100}
+0.8342 (+/-0.056) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 200}
+0.8332 (+/-0.057) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 300}
+0.8356 (+/-0.056) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 400}
+0.8343 (+/-0.051) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 2, 'n_estimators': 500}
+0.7980 (+/-0.067) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 100}
+0.8021 (+/-0.071) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 200}
+0.8009 (+/-0.076) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 300}
+0.8027 (+/-0.071) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 400}
+0.8019 (+/-0.075) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 5, 'n_estimators': 500}
+0.7708 (+/-0.080) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 100}
+0.7736 (+/-0.083) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 200}
+0.7765 (+/-0.084) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 300}
+0.7749 (+/-0.085) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 400}
+0.7767 (+/-0.081) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'log2', 'min_samples_leaf': 10, 'n_estimators': 500}
+0.8343 (+/-0.054) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 100}
+0.8345 (+/-0.057) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 200}
+0.8357 (+/-0.055) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 300}
+0.8351 (+/-0.055) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 400}
+0.8353 (+/-0.058) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'n_estimators': 500}
+0.7971 (+/-0.072) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 100}
+0.8024 (+/-0.075) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 200}
+0.8031 (+/-0.070) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 300}
+0.8009 (+/-0.072) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 400}
+0.8039 (+/-0.070) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 500}
+0.7739 (+/-0.085) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 100}
+0.7737 (+/-0.086) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 200}
+0.7737 (+/-0.085) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 300}
+0.7759 (+/-0.079) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 400}
+0.7753 (+/-0.081) for {'criterion': 'gini', 'max_depth': 90, 'max_features': 'sqrt', 'min_samples_leaf': 10, 'n_estimators': 500}
+0.8286 (+/-0.057) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 100}
+0.8314 (+/-0.058) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 200}
+0.8316 (+/-0.058) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 300}
+0.8320 (+/-0.060) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 400}
+0.8314 (+/-0.058) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 2, 'n_estimators': 500}
+0.8004 (+/-0.074) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 100}
+0.8009 (+/-0.078) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 200}
+0.8023 (+/-0.075) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 300}
+0.8051 (+/-0.076) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 400}
+0.8023 (+/-0.069) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 5, 'n_estimators': 500}
+0.7719 (+/-0.087) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 100}
+0.7759 (+/-0.080) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 200}
+0.7742 (+/-0.083) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 300}
+0.7758 (+/-0.085) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 400}
+0.7755 (+/-0.088) for {'criterion': 'gini', 'max_depth': 90, 'max_features': None, 'min_samples_leaf': 10, 'n_estimators': 500}
+
+[DEBUG  ] | 2020-08-07 15:53:43,152 | [mcc] train (MulticlassClassifier:334) - [TUNING] Dump of Random Forest in C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Random_Forest.joblib
+[DEBUG  ] | 2020-08-07 15:53:43,386 | [mcc] train (MulticlassClassifier:292) - [TUNING] Hyper-parameter tuning using K-Nearest Neighbors
+Best parameters:
+
+{'metric': 'euclidean', 'n_neighbors': 3, 'p': 3}
+
+Grid scores:
+
+0.8023 (+/-0.033) for {'metric': 'minkowski', 'n_neighbors': 3, 'p': 3}
+0.8004 (+/-0.036) for {'metric': 'minkowski', 'n_neighbors': 3, 'p': 4}
+0.7999 (+/-0.036) for {'metric': 'minkowski', 'n_neighbors': 3, 'p': 5}
+0.7915 (+/-0.052) for {'metric': 'minkowski', 'n_neighbors': 5, 'p': 3}
+0.7864 (+/-0.048) for {'metric': 'minkowski', 'n_neighbors': 5, 'p': 4}
+0.7865 (+/-0.048) for {'metric': 'minkowski', 'n_neighbors': 5, 'p': 5}
+0.7836 (+/-0.062) for {'metric': 'minkowski', 'n_neighbors': 7, 'p': 3}
+0.7812 (+/-0.072) for {'metric': 'minkowski', 'n_neighbors': 7, 'p': 4}
+0.7807 (+/-0.065) for {'metric': 'minkowski', 'n_neighbors': 7, 'p': 5}
+0.7817 (+/-0.061) for {'metric': 'minkowski', 'n_neighbors': 11, 'p': 3}
+0.7814 (+/-0.063) for {'metric': 'minkowski', 'n_neighbors': 11, 'p': 4}
+0.7824 (+/-0.065) for {'metric': 'minkowski', 'n_neighbors': 11, 'p': 5}
+0.8038 (+/-0.040) for {'metric': 'euclidean', 'n_neighbors': 3, 'p': 3}
+0.8038 (+/-0.040) for {'metric': 'euclidean', 'n_neighbors': 3, 'p': 4}
+0.8038 (+/-0.040) for {'metric': 'euclidean', 'n_neighbors': 3, 'p': 5}
+0.7900 (+/-0.058) for {'metric': 'euclidean', 'n_neighbors': 5, 'p': 3}
+0.7900 (+/-0.058) for {'metric': 'euclidean', 'n_neighbors': 5, 'p': 4}
+0.7900 (+/-0.058) for {'metric': 'euclidean', 'n_neighbors': 5, 'p': 5}
+0.7883 (+/-0.055) for {'metric': 'euclidean', 'n_neighbors': 7, 'p': 3}
+0.7883 (+/-0.055) for {'metric': 'euclidean', 'n_neighbors': 7, 'p': 4}
+0.7883 (+/-0.055) for {'metric': 'euclidean', 'n_neighbors': 7, 'p': 5}
+0.7816 (+/-0.060) for {'metric': 'euclidean', 'n_neighbors': 11, 'p': 3}
+0.7816 (+/-0.060) for {'metric': 'euclidean', 'n_neighbors': 11, 'p': 4}
+0.7816 (+/-0.060) for {'metric': 'euclidean', 'n_neighbors': 11, 'p': 5}
+0.7890 (+/-0.034) for {'metric': 'chebyshev', 'n_neighbors': 3, 'p': 3}
+0.7890 (+/-0.034) for {'metric': 'chebyshev', 'n_neighbors': 3, 'p': 4}
+0.7890 (+/-0.034) for {'metric': 'chebyshev', 'n_neighbors': 3, 'p': 5}
+0.7780 (+/-0.055) for {'metric': 'chebyshev', 'n_neighbors': 5, 'p': 3}
+0.7780 (+/-0.055) for {'metric': 'chebyshev', 'n_neighbors': 5, 'p': 4}
+0.7780 (+/-0.055) for {'metric': 'chebyshev', 'n_neighbors': 5, 'p': 5}
+0.7750 (+/-0.066) for {'metric': 'chebyshev', 'n_neighbors': 7, 'p': 3}
+0.7750 (+/-0.066) for {'metric': 'chebyshev', 'n_neighbors': 7, 'p': 4}
+0.7750 (+/-0.066) for {'metric': 'chebyshev', 'n_neighbors': 7, 'p': 5}
+0.7719 (+/-0.077) for {'metric': 'chebyshev', 'n_neighbors': 11, 'p': 3}
+0.7719 (+/-0.077) for {'metric': 'chebyshev', 'n_neighbors': 11, 'p': 4}
+0.7719 (+/-0.077) for {'metric': 'chebyshev', 'n_neighbors': 11, 'p': 5}
+
+[DEBUG  ] | 2020-08-07 15:53:54,519 | [mcc] train (MulticlassClassifier:334) - [TUNING] Dump of K-Nearest Neighbors in C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\K-Nearest_Neighbors.joblib
+[DEBUG  ] | 2020-08-07 15:53:54,523 | [mcc] train (MulticlassClassifier:292) - [TUNING] Hyper-parameter tuning using Ada Boost
+Best parameters:
+
+{'base_estimator__criterion': 'entropy', 'base_estimator__splitter': 'best', 'n_estimators': 300}
+
+Grid scores:
+
+0.8636 (+/-0.038) for {'base_estimator__criterion': 'gini', 'base_estimator__splitter': 'best', 'n_estimators': 100}
+0.8711 (+/-0.034) for {'base_estimator__criterion': 'gini', 'base_estimator__splitter': 'best', 'n_estimators': 200}
+0.8742 (+/-0.040) for {'base_estimator__criterion': 'gini', 'base_estimator__splitter': 'best', 'n_estimators': 300}
+0.8586 (+/-0.036) for {'base_estimator__criterion': 'gini', 'base_estimator__splitter': 'random', 'n_estimators': 100}
+0.8689 (+/-0.029) for {'base_estimator__criterion': 'gini', 'base_estimator__splitter': 'random', 'n_estimators': 200}
+0.8699 (+/-0.034) for {'base_estimator__criterion': 'gini', 'base_estimator__splitter': 'random', 'n_estimators': 300}
+0.8671 (+/-0.037) for {'base_estimator__criterion': 'entropy', 'base_estimator__splitter': 'best', 'n_estimators': 100}
+0.8703 (+/-0.034) for {'base_estimator__criterion': 'entropy', 'base_estimator__splitter': 'best', 'n_estimators': 200}
+0.8757 (+/-0.036) for {'base_estimator__criterion': 'entropy', 'base_estimator__splitter': 'best', 'n_estimators': 300}
+0.8562 (+/-0.040) for {'base_estimator__criterion': 'entropy', 'base_estimator__splitter': 'random', 'n_estimators': 100}
+0.8715 (+/-0.032) for {'base_estimator__criterion': 'entropy', 'base_estimator__splitter': 'random', 'n_estimators': 200}
+0.8675 (+/-0.035) for {'base_estimator__criterion': 'entropy', 'base_estimator__splitter': 'random', 'n_estimators': 300}
+
+[DEBUG  ] | 2020-08-07 15:55:24,946 | [mcc] train (MulticlassClassifier:334) - [TUNING] Dump of Ada Boost in C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Ada_Boost.joblib
+[DEBUG  ] | 2020-08-07 15:55:25,107 | [mcc] train (MulticlassClassifier:292) - [TUNING] Hyper-parameter tuning using Naive Bayes
+Best parameters:
+
+{'priors': [0.25, 0.25, 0.25, 0.25], 'var_smoothing': 1e-08}
+
+Grid scores:
+
+0.4976 (+/-0.080) for {'priors': None, 'var_smoothing': 1e-08}
+0.4976 (+/-0.080) for {'priors': None, 'var_smoothing': 1e-05}
+0.4978 (+/-0.078) for {'priors': None, 'var_smoothing': 0.01}
+0.4513 (+/-0.071) for {'priors': None, 'var_smoothing': 1.0}
+0.5001 (+/-0.077) for {'priors': [0.25, 0.25, 0.25, 0.25], 'var_smoothing': 1e-08}
+0.5001 (+/-0.077) for {'priors': [0.25, 0.25, 0.25, 0.25], 'var_smoothing': 1e-05}
+0.4994 (+/-0.077) for {'priors': [0.25, 0.25, 0.25, 0.25], 'var_smoothing': 0.01}
+0.4528 (+/-0.070) for {'priors': [0.25, 0.25, 0.25, 0.25], 'var_smoothing': 1.0}
+
+[DEBUG  ] | 2020-08-07 15:55:25,383 | [mcc] train (MulticlassClassifier:334) - [TUNING] Dump of Naive Bayes in C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\Naive_Bayes.joblib
+[DEBUG  ] | 2020-08-07 15:55:25,384 | [mcc] train (MulticlassClassifier:292) - [TUNING] Hyper-parameter tuning using K-Means
+[DEBUG  ] | 2020-08-07 15:55:25,608 | [mcc] train (MulticlassClassifier:334) - [TUNING] Dump of K-Means in C:\Users\Mauro\PycharmProjects\MulticlassClassifier\res\classifier\K-Means.joblib
+[INFO   ] | 2020-08-07 15:55:25,609 | [mcc] evaluate (MulticlassClassifier:341) - [EVAL] Computing evaluation for: Multi-Layer Perceptron, Support Vector Machine, Decision Tree, Random Forest, K-Nearest Neighbors, Ada Boost, Naive Bayes, K-Means
+[INFO   ] | 2020-08-07 15:55:25,670 | [mcc] evaluate (MulticlassClassifier:349) - [EVAL] Evaluation of Multi-Layer Perceptron:
+	- Accuracy: 0.825625
+	- Precision: 0.8149699014298283
+	- Recall: 0.8117232060597604
+	- F1-score: 0.8132662273951193
+	- Confusion matrix: 
+[[447  27  20  21]
+ [ 26 193  23  23]
+ [ 21  16 269  32]
+ [ 28  20  22 412]]
+[INFO   ] | 2020-08-07 15:55:26,554 | [mcc] evaluate (MulticlassClassifier:349) - [EVAL] Evaluation of Support Vector Machine:
+	- Accuracy: 0.79625
+	- Precision: 0.7850174067637716
+	- Recall: 0.7799167220815189
+	- F1-score: 0.7821748310780658
+	- Confusion matrix: 
+[[443  21  23  28]
+ [ 36 183  26  20]
+ [ 33  20 254  31]
+ [ 31  28  29 394]]
+[INFO   ] | 2020-08-07 15:55:26,559 | [mcc] evaluate (MulticlassClassifier:349) - [EVAL] Evaluation of Decision Tree:
+	- Accuracy: 0.603125
+	- Precision: 0.5883655827061515
+	- Recall: 0.592880849625126
+	- F1-score: 0.5890442890759533
+	- Confusion matrix: 
+[[350  56  51  58]
+ [ 45 146  42  32]
+ [ 52  43 190  53]
+ [ 79  68  56 279]]
+[INFO   ] | 2020-08-07 15:55:27,357 | [mcc] evaluate (MulticlassClassifier:349) - [EVAL] Evaluation of Random Forest:
+	- Accuracy: 0.8275
+	- Precision: 0.8223536680414959
+	- Recall: 0.8153751546322532
+	- F1-score: 0.818429475309722
+	- Confusion matrix: 
+[[455  18  15  27]
+ [ 24 197  23  21]
+ [ 30  12 272  24]
+ [ 36  20  26 400]]
+[INFO   ] | 2020-08-07 15:55:28,298 | [mcc] evaluate (MulticlassClassifier:349) - [EVAL] Evaluation of K-Nearest Neighbors:
+	- Accuracy: 0.74625
+	- Precision: 0.7329159615665883
+	- Recall: 0.7440445083354941
+	- F1-score: 0.7354280247825336
+	- Confusion matrix: 
+[[395  55  30  35]
+ [ 25 193  31  16]
+ [ 29  30 253  26]
+ [ 31  53  45 353]]
+[INFO   ] | 2020-08-07 15:55:29,201 | [mcc] evaluate (MulticlassClassifier:349) - [EVAL] Evaluation of Ada Boost:
+	- Accuracy: 0.838125
+	- Precision: 0.8375598826460896
+	- Recall: 0.8223435231700571
+	- F1-score: 0.8287308206128455
+	- Confusion matrix: 
+[[459  16  15  25]
+ [ 28 194  20  23]
+ [ 28  12 270  28]
+ [ 35  10  19 418]]
+[INFO   ] | 2020-08-07 15:55:29,209 | [mcc] evaluate (MulticlassClassifier:349) - [EVAL] Evaluation of Naive Bayes:
+	- Accuracy: 0.56375
+	- Precision: 0.5583044085873098
+	- Recall: 0.5608591844662354
+	- F1-score: 0.553442336457975
+	- Confusion matrix: 
+[[293  78  81  63]
+ [ 53 141  26  45]
+ [ 23  65 194  56]
+ [ 46 100  62 274]]
+[INFO   ] | 2020-08-07 15:55:29,217 | [mcc] evaluate (MulticlassClassifier:349) - [EVAL] Evaluation of K-Means:
+	- Accuracy: 0.2475
+	- Precision: 0.259119314039124
+	- Recall: 0.23397904883444273
+	- F1-score: 0.23906558389853697
+	- Confusion matrix: 
+[[207 173  62  73]
+ [ 54  45  78  88]
+ [ 52 110  74 102]
+ [ 67 173 172  70]]
+[INFO   ] | 2020-08-07 15:55:29,217 | [mcc] on_success (MulticlassClassifier:361) - Successfully trained all specified classifiers
