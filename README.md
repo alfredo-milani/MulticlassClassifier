@@ -85,7 +85,7 @@ Configurations file example:
 [GENERAL]
 # [opt] - Directory for temporary files.
 # [dft] - /tmp
-# tmp = /tmp
+# tmp = /Volumes/Ramdisk/
 
 # [opt] - Set verbose level to debug.
 # [dft] - False
@@ -103,25 +103,37 @@ dataset.train = /ABS_PATH_TRAINING_SET.csv
 # [opt] - Seed for RNG.
 # [dft] - 0
 rng.seed = 43531
-# rng.seed = 2873587
 
 # [opt] - Compute pair-plot.
 # [dft] - False
 # pair_plot.compute = True
 
-# [opt] - Save pair-plot on file.
+# [opt] - Save pair-plot on file (will be used folder set with tmp option, see GENERAL section).
 # [dft] - False
 # pair_plot.save = True
 
-# [opt] - Thread to use during training.
-# [dft] - 1
-jobs = 4
+# [opt] - Max number of jobs to use during training.
+# [dft] - -1
 # jobs = 24
-# jobs = -1
 
-# [opt] - Best classifier dump. Set to True, to not recompute training.
+# [opt] - Create dump file for best classifiers.
 # [dft] - False
+#   If this option is set to True:
+#     - if it has been specified dataset.test (section MOBD) option with fully qualified path of test set (for MOBD project evaluation)
+#       then, will be loaded classifiers dump from folder ./res/classifier/*.joblib and all classifiers will be evaluated
+#       on test set file, after dataset preprocessing, using various metrics;
+#     - if it has not been specified dataset.test option, then all classifiers will be trained with dataset specified in
+#       dataset.train option (section TRAINING), after dataset preprocessing, a dump of bests classifiers will be saved
+#       under ./res/classifier/*.joblib folder and bests classifiers will be evaluated on test set created from
+#       training set, using various metrics.
+#   Otherwise:
+#     - if it has been specified dataset.test (section MOBD) option with fully qualified path of test set (for MOBD project evaluation)
+#       then, all classifiers will be trained, after dataset preprocessing, using file specified with option
+#       dataset.train (section TRAINING) and, bests classifiers will be evaluated on test set file, using various metrics;
+#     - if it has not been specified dataset.test option, then all classifiers will be trained, after dataset preprocessing, 
+#       with dataset specified in dataset.train option and will be evaluated on test set created from training set, using various metrics.
 classifier.dump = True
+
 
 [MOBD]
 # [opt] - Best benchmark computed for F1-score metric.

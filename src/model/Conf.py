@@ -47,7 +47,7 @@ class Conf(dict):
     K_PAIR_PLOT_SAVE = "pair_plot.save"
     V_DEFAULT_PAIR_PLOT_SAVE = False
     K_JOBS = "jobs"
-    V_DEFAULT_JOBS = 1
+    V_DEFAULT_JOBS = -1
     K_CLASSIFIER_DUMP = "classifier.dump"
     V_DEFAULT_CLASSIFIER_DUMP = False
 
