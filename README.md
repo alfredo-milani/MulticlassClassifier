@@ -12,7 +12,7 @@
 
 ## 1. Introduction <a name="introduction"></a>
 
-This tool shows performance of several machine learning models in a multi-class classification problem.
+This tool evaluate performance of several machine learning models in a multi-class classification problem.
 The dataset used to train the models is `./res/dataset/training_set.csv`.
 
 Under `./doc` folder there are the requirements (`./doc/MOBD_2019-2020.pdf`) and the report (`./doc/[MOBD] Project 2019-2020.pdf`) for this project.
@@ -43,7 +43,7 @@ virtualenv -p python3 MulticlassClassifier
 # Activate virtual environment:
 source MulticlassClassifier/bin/activate
 
-# Deactivate virtual environment:
+# Once finished, to deactivate virtual environment:
 deactivate
 ```
 
@@ -68,14 +68,22 @@ pip-sync
 Launch tool:
 
 ```bash
-# Start main:
+# Start client:
 python src/Client.py
 
 # or you can specify a configuration file:
-python src/Client.py /path/custom_config.ini
+python src/Client.py /abs_path/custom_conf_file.ini
 ```
 
-Configurations file example:
+Note that `src/Client.py` script provide all functionalities to evaluate/train selected classifiers.
+
+If custom configuration file is not specified, `src/Client.py` reads `./res/conf/conf.ini` file to get application's configuration.
+This file, should already contain all parameters set properly, except for `dataset.train` and `dataset.test` option in which
+you must specify, respectively, absolute path for training dataset and testing set.
+
+To modify behaviour of the software just modify option from configuration file.  
+
+Configurations file example (`./res/conf/conf.ini`):
 ```ini
 # [LEGEND]
 #   [opt] := optional parameter
@@ -172,12 +180,12 @@ from classifier.Evaluator import Evaluator
 # create configuration instance
 conf = Conf.get_instance()
 # load parameter from a file using fully qualified path name
-conf.load_from('/ABS_PATH_HERE')
+conf.load_from('/ABS_PATH_CONF_FILE.ini')
 # once configuration has been loaded, if you want to modify some parameter, there are many getters/setters
 # e.g. to enable classifiers evaluation using dump files, use:
 # conf.classifier_dump = True
-# however it is not recommended because default values in conf.ini should be fine in order to evaluate MOBD project
-#   using secret test set
+# however it is not recommended because default values in conf.ini (under ./res/conf/) should be fine 
+#   in order to evaluate MOBD project using secret test set
 
 # start evaluation
 Evaluator(conf).process()
