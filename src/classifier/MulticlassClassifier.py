@@ -16,7 +16,7 @@ from classifier import AbstractClassifier
 from model import Conf, Set
 from util import LogManager, Validation, Common
 from util.helper import PreProcessing, Tuning, Evaluation
-
+from sklearn.preprocessing import Normalizer
 
 class MulticlassClassifier(AbstractClassifier):
     """
@@ -222,12 +222,20 @@ class MulticlassClassifier(AbstractClassifier):
         """
         Data scaling/normalization
         """
-        scaler = prep.MinMaxScaler(feature_range=(0, 1))
+        #scaler = prep.MinMaxScaler(feature_range=
+        #scaler = prep.MaxAbsScaler()
+        #scaler = prep.QuantileTransformer(output_distribution='uniform')
+        #scaler = prep.PowerTransformer(method='yeo-johnson')
+        scaler = prep.PowerTransformer(method='box - cox')
+
+
         # using following transformation:
         #  X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
         #  X_scaled = X_std * (max - min) + min
         self.__LOG.info(f"[SCALING] Data scaling using {type(scaler).__qualname__}")
-        scaler.fit(self.training.set_x)
+        #scaler.fit(self.training.set_x)
+        scaler = Normalizer().fit(self.training.set_x)  # fit does nothing.
+
         self.training.set_x = scaler.transform(self.training.set_x)
         self.test.set_x = scaler.transform(self.test.set_x)
 
