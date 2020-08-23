@@ -289,10 +289,15 @@ class Evaluator(AbstractClassifier):
             if self.conf.classifier_dump:
                 filename = '_'.join(name.split()) + '.joblib'
                 classifier_path = Path(Common.get_root_path(), Evaluator._CLASSIFIER_REL_PATH, filename)
-                Validation.can_read(classifier_path, f"Classifier {classifier_path} *must* exists and be readable.")
+                try:
+                    Validation.can_read(classifier_path)
+                except PermissionError:
+                    self.__LOG.info(f"Error loading file '{classifier_path}'.\n"
+                                    f"Classifier '{name}' will be skipped.")
+                    continue
                 self.__LOG.debug(f"[TUNING] Loading {classifier_path} for {name} classifier")
                 self.classifiers[name] = load(classifier_path)
-                self.__LOG.debug(f"[TUNING] Best {name} classifier: {self.classifiers[name]}")
+                self.__LOG.info(f"[TUNING] Best {name} classifier: {self.classifiers[name]}")
             # otherwise, retrain all classifiers
             else:
                 self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {name}")
@@ -340,6 +345,9 @@ class Evaluator(AbstractClassifier):
         self.__LOG.info(f"[EVAL] Computing evaluation on test set for: {', '.join(self.classifiers.keys())}")
 
         for name, classifier in self.classifiers.items():
+            if not classifier:
+                continue
+
             accuracy, precision, recall, f1_score, confusion_matrix = Evaluation.evaluate(
                 self.classifiers[name],
                 self.test.set_x,
@@ -362,7 +370,7 @@ class Evaluator(AbstractClassifier):
     def on_error(self, exception: Exception = None) -> None:
         super().on_error(exception)
 
-        self.__LOG.error(f"Something went wrong while training '{__name__}'.", exc_info=True)
+        self.__LOG.error(f"Something went wrong during evaluation ({__name__}).", exc_info=True)
 
     @property
     def conf(self) -> Conf:
