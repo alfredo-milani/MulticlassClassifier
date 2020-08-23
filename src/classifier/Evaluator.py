@@ -347,12 +347,11 @@ class Evaluator(AbstractClassifier):
         """
         Evaluate all specified classifiers
         """
+        # filter invalid classifiers
+        self.__classifiers = {k: v for k, v in self.classifiers.items() if v is not None}
         self.__LOG.info(f"[EVAL] Computing evaluation on test set for: {', '.join(self.classifiers.keys())}")
 
         for name, classifier in self.classifiers.items():
-            if not classifier:
-                continue
-
             accuracy, precision, recall, f1_score, confusion_matrix = Evaluation.evaluate(
                 self.classifiers[name],
                 self.test.set_x,
