@@ -291,13 +291,18 @@ class Evaluator(AbstractClassifier):
                 classifier_path = Path(Common.get_root_path(), Evaluator._CLASSIFIER_REL_PATH, filename)
                 try:
                     Validation.can_read(classifier_path)
+                    self.__LOG.debug(f"[TUNING] Loading {classifier_path} for {name} classifier")
+                    self.classifiers[name] = load(classifier_path)
+                    self.__LOG.info(f"[TUNING] Best {name} classifier: {self.classifiers[name]}")
                 except PermissionError:
-                    self.__LOG.info(f"Error loading file '{classifier_path}'.\n"
+                    self.__LOG.info(f"[TUNING] Error loading file '{classifier_path}'.\n"
+                                    f"The file *must* exists and be readable.\n"
                                     f"Classifier '{name}' will be skipped.")
                     continue
-                self.__LOG.debug(f"[TUNING] Loading {classifier_path} for {name} classifier")
-                self.classifiers[name] = load(classifier_path)
-                self.__LOG.info(f"[TUNING] Best {name} classifier: {self.classifiers[name]}")
+                except KeyError:
+                    self.__LOG.info(f"[TUNING] The file '{classifier_path}' appears to be corrupted.\n"
+                                    f"Classifier '{name}' will be skipped.")
+                    continue
             # otherwise, retrain all classifiers
             else:
                 self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {name}")
