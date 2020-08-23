@@ -295,13 +295,13 @@ class Evaluator(AbstractClassifier):
                     self.classifiers[name] = load(classifier_path)
                     self.__LOG.info(f"[TUNING] Best {name} classifier: {self.classifiers[name]}")
                 except PermissionError:
-                    self.__LOG.info(f"[TUNING] Error loading file '{classifier_path}'.\n"
-                                    f"The file *must* exists and be readable.\n"
-                                    f"Classifier '{name}' will be skipped.")
+                    self.__LOG.warning(f"[TUNING] Error loading file '{classifier_path}'.\n"
+                                       f"The file *must* exists and be readable.\n"
+                                       f"Classifier '{name}' will be skipped.")
                     continue
                 except KeyError:
-                    self.__LOG.info(f"[TUNING] The file '{classifier_path}' appears to be corrupted.\n"
-                                    f"Classifier '{name}' will be skipped.")
+                    self.__LOG.warning(f"[TUNING] The file '{classifier_path}' appears to be corrupted.\n"
+                                       f"Classifier '{name}' will be skipped.")
                     continue
             # otherwise, retrain all classifiers
             else:
@@ -370,7 +370,7 @@ class Evaluator(AbstractClassifier):
     def on_success(self) -> None:
         super().on_success()
 
-        self.__LOG.info(f"Successfully evaluated all specified classifiers")
+        self.__LOG.info(f"Successfully evaluated all (valid) classifiers specified")
 
     def on_error(self, exception: Exception = None) -> None:
         super().on_error(exception)
