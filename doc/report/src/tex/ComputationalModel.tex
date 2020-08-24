@@ -55,7 +55,7 @@
                 
         		
         		\begin{center}
-        			La tabella \ref{tab:f1scoreML} mostra i risultati ottenuti con MaxMinScaler\\
+        			La tabella \ref{tab:fscoreMLMinMax} mostra i risultati ottenuti con MinMaxScaler\\
                 \begin{tabular}{+l^c^c}
                 	\toprule\rowstyle{\bfseries}
                 	Model & Parameters & F1-score \\
@@ -79,13 +79,136 @@
                 	
                 	\toprule\rowstyle{\bfseries}
                 \end{tabular}
+                            \captionof{table}{\textit{F1-score} con sampler SMOTE e scaler MinMaxScaler}
+            	\label{tab:fscoreMLMinMax}
 		        \end{center}
+	        
+	        
+	        
+		        \begin{center}
+		        	La tabella \ref{tab:f1scoreMLmaxAbs} mostra i risultati ottenuti con MaxAbsScaler\\
+		        	\begin{tabular}{+l^c^c}
+		        		\toprule\rowstyle{\bfseries}
+		        		Model & Parameters & F1-score \\
+		        		\toprule
+		        		
+		        		Multi-Layer Perceptron & \makecell[l]{activation: relu \\ hidden\_layer\_sizes: (150, 100) \\ learning\_rate: adaptive \\ learning\_rate\_init: 0.1 \\ solver: sgd} & \textbf{0.84} \\
+		        		\midrule
+		        		Support Vector Machine & \makecell[l]{C: 10 \\ decision\_function\_shape: ovo \\ gamma: 10 \\ kernel: rbf} & 0.692 \\
+		        		\midrule
+		        		Decision Tree & \makecell[l]{criterion: entropy \\ max\_depth: 90 \\ max\_features: None \\ min\_samples\_leaf: 1 \\ min\_samples\_split: 2} & 0.625 \\
+		        		\midrule
+		        		Random Forest & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: sqrt \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2 \\ n\_estimators: 400} & 0.813 \\
+		        		\midrule
+		        		K-Nearest Neighbors & \makecell[l]{metric: minkowski \\ n\_neighbors: 3 \\ p: 3} & 0.76 \\
+		        		\midrule
+		        		Ada Boost &  \makecell[l]{class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: 300} & 0.815 \\
+		        		\midrule
+		        		Naive Bayes & \makecell[l]{priors: None \\ var\_smoothing: 0.01} & 0.549 \\
+		        		\midrule
+		        		
+		        		\toprule\rowstyle{\bfseries}
+		        	\end{tabular}
+	        	\captionof{table}{\textit{F1-score} con sampler SMOTE e scaler MaxAbsScaler}
+	        	\label{tab:f1scoreMLmaxAbs}
+		        \end{center}
+	        
+	        
+	        
+		        \begin{center}
+		        	La tabella \ref{tab:f1scoreMLQuantile} mostra i risultati ottenuti con QuantileTransformer\\
+		        	\begin{tabular}{+l^c^c}
+		        		\toprule\rowstyle{\bfseries}
+		        		Model & Parameters & F1-score \\
+		        		\toprule
+		        		
+		        		Multi-Layer Perceptron & \makecell[l]{activation: relu \\ hidden\_layer\_sizes: (150, 100) \\ learning\_rate: adaptive \\ learning\_rate\_init: 0.1 \\ solver: sgd} & \textbf{0.828} \\
+		        		\midrule
+		        		Support Vector Machine & \makecell[l]{C: 10 \\ decision\_function\_shape: ovo \\ gamma: 10 \\ kernel: rbf} & 0.743 \\
+		        		\midrule
+		        		Decision Tree & \makecell[l]{criterion: entropy \\ max\_depth: 90 \\ max\_features: None \\ min\_samples\_leaf: 5 \\ min\_samples\_split: 2} & 0.616 \\
+		        		\midrule
+		        		Random Forest & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: log2 \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2 \\ n\_estimators: 500} & 0.813 \\
+		        		\midrule
+		        		K-Nearest Neighbors & \makecell[l]{metric: minkowski \\ n\_neighbors: 11 \\ p: 3} & 0.809 \\
+		        		\midrule
+		        		Ada Boost &  \makecell[l]{class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: 200} & 0.818 \\
+		        		\midrule
+		        		Naive Bayes & \makecell[l]{priors: None \\ var\_smoothing: 0.01} & 0.492 \\
+		        		\midrule
+		        		
+		        		\toprule\rowstyle{\bfseries}
+		        	\end{tabular}
+	        		        	\captionof{table}{\textit{F1-score} con sampler SMOTE e scaler QuantileTransformer}
+	        	\label{tab:f1scoreMLQuantile}
+		        \end{center}
+	        
+	        
+	       
+				 \begin{center}
+					La tabella \ref{tab:f1scoreMLPowerTransformerYJ} mostra i risultati ottenuti con PowerTransformer (Yeo-Johnson)\\
+					\begin{tabular}{+l^c^c}
+						\toprule\rowstyle{\bfseries}
+						Model & Parameters & F1-score \\
+						\toprule
+						
+						Multi-Layer Perceptron & \makecell[l]{activation: relu \\ hidden\_layer\_sizes: (150, 100) \\ learning\_rate: adaptive \\ learning\_rate\_init: 0.1 \\ solver: sgd} & \textbf{0.821} \\
+						\midrule
+						Support Vector Machine & \makecell[l]{C: 50 \\ decision\_function\_shape: ovo \\ gamma: 10 \\ kernel: rbf} & 0.78 \\
+						\midrule
+						Decision Tree & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: None \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2} & 0.616 \\
+						\midrule
+						Random Forest & \makecell[l]{criterion: entropy \\ max\_depth: 90 \\ max\_features: sqrt \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2 \\ n\_estimators: 200} & 0.813 \\
+						\midrule
+						K-Nearest Neighbors & \makecell[l]{metric: minkowski \\ n\_neighbors: 3 \\ p: 3} & 0.767 \\
+						\midrule
+						Ada Boost &  \makecell[l]{class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: 200} & 0.829 \\
+						\midrule
+						Naive Bayes & \makecell[l]{priors: None \\ var\_smoothing: 1e-08} & 0.553 \\
+						\midrule
+						
+						\toprule\rowstyle{\bfseries}
+					\end{tabular}
+       		        	\captionof{table}{\textit{F1-score} con sampler SMOTE e scaler PowerTransformer (Yeo-Johnson)}
+						\label{tab:f1scoreMLPowerTransformerYJ}
+				\end{center}
+        
+        
+        
+        				 \begin{center}
+			        	La tabella \ref{tab:f1scoreMLPowerTransformerBC} mostra i risultati ottenuti con PowerTransformer (Box-Box)\\
+			        	\begin{tabular}{+l^c^c}
+			        		\toprule\rowstyle{\bfseries}
+			        		Model & Parameters & F1-score \\
+			        		\toprule
+			        		
+			        		Multi-Layer Perceptron & \makecell[l]{activation: relu \\ hidden\_layer\_sizes: (150, 100) \\ learning\_rate: adaptive \\ learning\_rate\_init: 0.1 \\ solver: sgd} & \textbf{0.882} \\
+			        		\midrule
+			        		Support Vector Machine & \makecell[l]{C: 50 \\ decision\_function\_shape: ovo \\ gamma: 10 \\ kernel: rbf} & 0.78 \\
+			        		\midrule
+			        		Decision Tree & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: None \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2} & 0.622 \\
+			        		\midrule
+			        		Random Forest & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: log2 \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2 \\ n\_estimators: 400} & 0.812 \\
+			        		\midrule
+			        		K-Nearest Neighbors & \makecell[l]{metric: minkowski \\ n\_neighbors: 3 \\ p: 3} & 0.767 \\
+			        		\midrule
+			        		Ada Boost &  \makecell[l]{class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: 300} & 0.824 \\
+			        		\midrule
+			        		Naive Bayes & \makecell[l]{priors: None \\ var\_smoothing: 1e-08} & 0.553 \\
+			        		\midrule
+			        		
+			        		\toprule\rowstyle{\bfseries}
+			        	\end{tabular}
+			        	\captionof{table}{\textit{F1-score} con sampler SMOTE e scaler PowerTransformer (Box-Cox)}
+			        	\label{tab:f1scoreMLPowerTransformerBC}
+			        \end{center}
+        
                 
                 \subsubsection{Feature selection}
                 
                         In questa fase sono state selezionate le \textit{features} più significative al fine di ridurre i costi di training e migliorare la capacità di generalizzazione del classificatore.
-                        
-                        \textbf{TODO}
+                        Per "filtrare" le features viene assegnato un punteggio ad ogni feature utilizzando una funzione infine vengono rimosse tutte tranne le k feature con il punteggio maggiore.
+                   
                         
                         \begin{figure}[!h]
                             \centering
@@ -127,9 +250,36 @@
                         \item \textit{K-Means}
                 \end{itemize}
             
-                In questa fase sono stati cercati gli \textit{iper-parametri} per i vari classificatori.
+                In questa fase sono stati cercati gli \textit{iper-parametri} migliori per i vari classificatori tra quelli elencati nella seguente tabella.
                 
-                \textbf{TODO}
+                \begin{center}
+                	\begin{tabular}{+l^c^c}
+                		\toprule\rowstyle{\bfseries}
+                		Model & Parameters \\
+                		\toprule
+                		
+                		Multi-Layer Perceptron & \makecell[l]{activation: [tanh, relu] \\ hidden\_layer\_sizes: [(150, 100), (120, 60), (60, 30), (75), (45)] \\ learning\_rate: [constant, adaptive] \\ learning\_rate\_init: [1e-1, 1e-2, 1e-3, 1e-4] \\ solver: [sgd, adam]}  \\
+                		\midrule
+						 Support Vector Machine & \makecell[l]{kernel: linear \\ C: [0.1, 1, 10] \\ decision\_function\_shape: [ovo, ovr]\\ \midrule kernel: rbf \\ C: [0.1, 1, 10] \\ decision\_function\_shape: [ovo, ovr] \\ gamma: [1e-4, 1e-3, 1e-2, 1e-1, 1e+1, 1e+2, 1e+3, 1e+4] \\
+						 \midrule kernel: poly \\ C: [0.1, 1, 10] \\ degree: [2, 3, 4]\\ decision\_function\_shape: [ovo, ovr] \\ gamma: scale} \\
+						 \midrule
+						 Decision Tree & \makecell[l]{criterion: [entropy, gini] \\ max\_depth: [80, 90] \\ max\_features: [log2, sqrt, None] \\ min\_samples\_leaf: [2, 5, 10] \\ splitter: [best, random]} \\
+						 \midrule
+						 Random Forest & \makecell[l]{criterion: [entropy, gini] \\ max\_depth: [80, 90] \\ max\_features: [log2, sqrt, None] \\ min\_samples\_leaf: [2, 5, 10] \\ n\_estimators: [100, 200, 300, 400, 500]} \\
+						 \midrule
+						 K-Nearest Neighbors & \makecell[l]{metric: [minkowski, euclidean, chebyshev] \\ n\_neighbors: [3, 5, 7, 11] \\ p: [3, 4, 5]} \\
+						 \midrule
+						 Ada Boost &  \makecell[l]{criterion: [entropy, gini] \\ class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: [100, 200, 300]\\ splitter: [best, random]} \\
+						 \midrule
+						 Naive Bayes & \makecell[l]{priors: [None, [0.25, 0.25, 0.25, 0.25]] \\ var\_smoothing: [10e-9, 10e-6, 10e-3, 10e-1]} \\
+						 \midrule
+						 K-Means & \makecell[l]{max\_iter: 10000 \\ n\_clusters: 4 }\\
+ 
+                		\toprule\rowstyle{\bfseries}
+                	\end{tabular}
+                	\captionof{table}{Lista degli iperparametri testati per ogni modello di \textit{machine learning} testati}
+                	\label{tab:f1scoreML}
+                \end{center}
                 
 
         \subsection{Evaluation}
