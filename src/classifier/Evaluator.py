@@ -289,10 +289,20 @@ class Evaluator(AbstractClassifier):
             if self.conf.classifier_dump:
                 filename = '_'.join(name.split()) + '.joblib'
                 classifier_path = Path(Common.get_root_path(), Evaluator._CLASSIFIER_REL_PATH, filename)
-                Validation.can_read(classifier_path, f"Classifier {classifier_path} *must* exists and be readable.")
-                self.__LOG.debug(f"[TUNING] Loading {classifier_path} for {name} classifier")
-                self.classifiers[name] = load(classifier_path)
-                self.__LOG.debug(f"[TUNING] Best {name} classifier: {self.classifiers[name]}")
+                try:
+                    Validation.can_read(classifier_path)
+                    self.__LOG.debug(f"[TUNING] Loading {classifier_path} for {name} classifier")
+                    self.classifiers[name] = load(classifier_path)
+                    self.__LOG.info(f"[TUNING] Best {name} classifier: {self.classifiers[name]}")
+                except PermissionError:
+                    self.__LOG.warning(f"[TUNING] Error loading file '{classifier_path}'.\n"
+                                       f"The file *must* exists and be readable.\n"
+                                       f"Classifier '{name}' will be skipped.")
+                    continue
+                except KeyError:
+                    self.__LOG.warning(f"[TUNING] The file '{classifier_path}' appears to be corrupted.\n"
+                                       f"Classifier '{name}' will be skipped.")
+                    continue
             # otherwise, retrain all classifiers
             else:
                 self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {name}")
@@ -337,6 +347,8 @@ class Evaluator(AbstractClassifier):
         """
         Evaluate all specified classifiers
         """
+        # filter invalid classifiers
+        self.__classifiers = {k: v for k, v in self.classifiers.items() if v is not None}
         self.__LOG.info(f"[EVAL] Computing evaluation on test set for: {', '.join(self.classifiers.keys())}")
 
         for name, classifier in self.classifiers.items():
@@ -357,12 +369,12 @@ class Evaluator(AbstractClassifier):
     def on_success(self) -> None:
         super().on_success()
 
-        self.__LOG.info(f"Successfully evaluated all specified classifiers")
+        self.__LOG.info(f"Successfully evaluated all (valid) classifiers specified")
 
     def on_error(self, exception: Exception = None) -> None:
         super().on_error(exception)
 
-        self.__LOG.error(f"Something went wrong while training '{__name__}'.", exc_info=True)
+        self.__LOG.error(f"Something went wrong during evaluation ({__name__}).", exc_info=True)
 
     @property
     def conf(self) -> Conf:
