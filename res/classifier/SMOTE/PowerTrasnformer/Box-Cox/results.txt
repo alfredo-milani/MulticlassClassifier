@@ -1,0 +1,84 @@
+[INFO   ] | 2020-08-23 21:22:09,342 | [mcc] evaluate (MulticlassClassifier:361) - [EVAL] Computing evaluation for: Multi-Layer Perceptron, Support Vector Machine, Decision Tree, Random Forest, K-Nearest Neighbors, Ada Boost, Naive Bayes
+[INFO   ] | 2020-08-23 21:22:09,390 | [mcc] evaluate (MulticlassClassifier:369) - [EVAL] Evaluation of Multi-Layer Perceptron:
+        - Accuracy: 0.89
+        - Precision: 0.8870476338765003
+        - Recall: 0.8799679929726961
+        - F1-score: 0.8829847076413303
+        - Confusion matrix:
+[[475  13  13  14]
+ [ 18 215  18  14]
+ [ 16   6 298  18]
+ [ 18   8  20 436]]
+[DEBUG  ] | 2020-08-23 21:22:09,391 | [mcc] evaluate (MulticlassClassifier:377) - [EVAL] Best parameters for Multi-Layer Perceptron: MLPClassifier(hidden_layer_sizes=(150, 100), max_iter=10000, solver='sgd')
+[INFO   ] | 2020-08-23 21:22:10,405 | [mcc] evaluate (MulticlassClassifier:369) - [EVAL] Evaluation of Support Vector Machine:
+        - Accuracy: 0.7975
+        - Precision: 0.7964914817599317
+        - Recall: 0.7724061335836374
+        - F1-score: 0.7808213961352033
+        - Confusion matrix:
+[[463  15  20  17]
+ [ 51 166  26  22]
+ [ 42  11 251  34]
+ [ 43  19  24 396]]
+[DEBUG  ] | 2020-08-23 21:22:10,406 | [mcc] evaluate (MulticlassClassifier:377) - [EVAL] Best parameters for Support Vector Machine: SVC(C=50, decision_function_shape='ovo', gamma=10.0)
+[INFO   ] | 2020-08-23 21:22:10,412 | [mcc] evaluate (MulticlassClassifier:369) - [EVAL] Evaluation of Decision Tree:
+        - Accuracy: 0.638125
+        - Precision: 0.6233731069269537
+        - Recall: 0.6235700125651474
+        - F1-score: 0.6228049460201031
+        - Confusion matrix:
+[[366  48  54  47]
+ [ 47 148  38  32]
+ [ 62  36 196  44]
+ [ 70  41  60 311]]
+[DEBUG  ] | 2020-08-23 21:22:10,413 | [mcc] evaluate (MulticlassClassifier:377) - [EVAL] Best parameters for Decision Tree: DecisionTreeClassifier(criterion='entropy', max_depth=80, min_samples_leaf=2)
+[INFO   ] | 2020-08-23 21:22:10,997 | [mcc] evaluate (MulticlassClassifier:369) - [EVAL] Evaluation of Random Forest:
+        - Accuracy: 0.82375
+        - Precision: 0.8224988592828509
+        - Recall: 0.8060486871590326
+        - F1-score: 0.812675863693971
+        - Confusion matrix:
+[[461  16  16  22]
+ [ 32 187  22  24]
+ [ 35  10 264  29]
+ [ 37  15  24 406]]
+[DEBUG  ] | 2020-08-23 21:22:10,997 | [mcc] evaluate (MulticlassClassifier:377) - [EVAL] Best parameters for Random Forest: RandomForestClassifier(criterion='entropy', max_depth=80, max_features='log2',
+                       min_samples_leaf=2, n_estimators=400)
+[INFO   ] | 2020-08-23 21:22:14,770 | [mcc] evaluate (MulticlassClassifier:369) - [EVAL] Evaluation of K-Nearest Neighbors:
+        - Accuracy: 0.7825
+        - Precision: 0.767253931729462
+        - Recall: 0.769488322978131
+        - F1-score: 0.7679991066743378
+        - Confusion matrix:
+[[439  28  25  23]
+ [ 32 185  24  24]
+ [ 26  26 254  32]
+ [ 34  41  33 374]]
+[DEBUG  ] | 2020-08-23 21:22:14,771 | [mcc] evaluate (MulticlassClassifier:377) - [EVAL] Best parameters for K-Nearest Neighbors: KNeighborsClassifier(n_neighbors=3, p=3)
+[INFO   ] | 2020-08-23 21:22:15,527 | [mcc] evaluate (MulticlassClassifier:369) - [EVAL] Evaluation of Ada Boost:
+        - Accuracy: 0.835
+        - Precision: 0.8382626618382263
+        - Recall: 0.8158815285279959
+        - F1-score: 0.8245877396256612
+        - Confusion matrix:
+[[466  13  13  23]
+ [ 32 187  22  24]
+ [ 34   9 267  28]
+ [ 38  10  18 416]]
+[DEBUG  ] | 2020-08-23 21:22:15,529 | [mcc] evaluate (MulticlassClassifier:377) - [EVAL] Best parameters for Ada Boost: AdaBoostClassifier(base_estimator=DecisionTreeClassifier(class_weight='balanced',
+                                                         max_depth=90,
+                                                         max_features=3,
+                                                         min_samples_leaf=4),
+                   n_estimators=300)
+[INFO   ] | 2020-08-23 21:22:15,534 | [mcc] evaluate (MulticlassClassifier:369) - [EVAL] Evaluation of Naive Bayes:
+        - Accuracy: 0.565625
+        - Precision: 0.5553679243277208
+        - Recall: 0.5598294183396768
+        - F1-score: 0.5533161571278771
+        - Confusion matrix:
+[[312  68  86  49]
+ [ 56 139  22  48]
+ [ 27  66 189  56]
+ [ 60  89  68 265]]
+[DEBUG  ] | 2020-08-23 21:22:15,535 | [mcc] evaluate (MulticlassClassifier:377) - [EVAL] Best parameters for Naive Bayes: GaussianNB(var_smoothing=1e-08)
+[INFO   ] | 2020-08-23 21:22:15,535 | [mcc] on_success (MulticlassClassifier:382) - Successfully trained all specified classifiers
