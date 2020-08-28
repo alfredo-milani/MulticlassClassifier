@@ -1,0 +1,988 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.8.18)  28 AUG 2020 21:09
+entering extended mode
+**"./[MOBD] Project 2019-2020.tex"
+("[MOBD] Project 2019-2020.tex"
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-06-18>
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/base\size12.clo
+File: size12.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+)
+\c@part=\count167
+\c@section=\count168
+\c@subsection=\count169
+\c@subsubsection=\count170
+\c@paragraph=\count171
+\c@subparagraph=\count172
+\c@figure=\count173
+\c@table=\count174
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
+)
+(style.sty
+Package: style 
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/comment\comment.sty
+\CommentStream=\write3
+
+Excluding comment 'comment')
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+Package: fontenc 2020/02/11 v2.0o Standard LaTeX package
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty
+Package: inputenc 2018/08/11 v1.3c Input encoding file
+\inpenc@prehook=\toks15
+\inpenc@posthook=\toks16
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+))
+\Gm@cnth=\count175
+\Gm@cntv=\count176
+\c@Gm@tempcnt=\count177
+\Gm@bindingoffset=\dimen135
+\Gm@wd@mp=\dimen136
+\Gm@odd@mp=\dimen137
+\Gm@even@mp=\dimen138
+\Gm@layoutwidth=\dimen139
+\Gm@layoutheight=\dimen140
+\Gm@layouthoffset=\dimen141
+\Gm@layoutvoffset=\dimen142
+\Gm@dimlist=\toks18
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+Package: amsmath 2020/01/20 v2.17e AMS math features
+\@mathmargin=\skip49
+
+For additional information on amsmath, use the `?' option.
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks19
+\ex@=\dimen143
+))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen144
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count178
+LaTeX Info: Redefining \frac on input line 227.
+\uproot@=\count179
+\leftroot@=\count180
+LaTeX Info: Redefining \overline on input line 389.
+\classnum@=\count181
+\DOTSCASE@=\count182
+LaTeX Info: Redefining \ldots on input line 486.
+LaTeX Info: Redefining \dots on input line 489.
+LaTeX Info: Redefining \cdots on input line 610.
+\Mathstrutbox@=\box45
+\strutbox@=\box46
+\big@size=\dimen145
+LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
+\macc@depth=\count183
+\c@MaxMatrixCols=\count184
+\dotsspace@=\muskip16
+\c@parentequation=\count185
+\dspbrk@lvl=\count186
+\tag@help=\toks20
+\row@=\count187
+\column@=\count188
+\maxfields@=\count189
+\andhelp@=\toks21
+\eqnshift@=\dimen146
+\alignsep@=\dimen147
+\tagshift@=\dimen148
+\tagwidth@=\dimen149
+\totwidth@=\dimen150
+\lineht@=\dimen151
+\@envbody=\toks22
+\multlinegap=\skip50
+\multlinetaggap=\skip51
+\mathdisplay@stack=\toks23
+LaTeX Info: Redefining \[ on input line 2859.
+LaTeX Info: Redefining \] on input line 2860.
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/amscls\amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks24
+\thm@bodyfont=\toks25
+\thm@headfont=\toks26
+\thm@notefont=\toks27
+\thm@headpunct=\toks28
+\thm@preskip=\skip52
+\thm@postskip=\skip53
+\thm@headsep=\skip54
+\dth@everypar=\toks29
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.st
+y
+Package: setspace 2011/12/19 v6.7a set line spacing
+) (C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/titling\titling.sty
+Package: titling 2009/09/04 v2.1d maketitle typesetting
+\thanksmarkwidth=\skip55
+\thanksmargin=\skip56
+\droptitle=\skip57
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/appendix\appendix.sty
+Package: appendix 2020/02/08 v1.2c extra appendix facilities
+\c@@pps=\count190
+\c@@ppsavesec=\count191
+\c@@ppsaveapp=\count192
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
+\lst@mode=\count193
+\lst@gtempboxa=\box47
+\lst@token=\toks30
+\lst@length=\count194
+\lst@currlwidth=\dimen152
+\lst@column=\count195
+\lst@pos=\count196
+\lst@lostspace=\dimen153
+\lst@width=\dimen154
+\lst@newlines=\count197
+\lst@lineno=\count198
+\lst@maxwidth=\dimen155
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
+File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
+\c@lstnumber=\count199
+\lst@skipnumbers=\count266
+\lst@framebox=\box48
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg
+File: listings.cfg 2020/03/24 1.8d listings configuration
+))
+Package: listings 2020/03/24 1.8d (Carsten Heinz)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/lstaddons\lstautogobble
+.sty
+Package: lstautogobble 2012/05/03 v0.1 Implements 'autogobble' option for 'list
+ings'
+\lstag@spacecount=\count267
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\courier.sty
+Package: courier 2020/03/25 PSNFSS-v9.3 (WaS) 
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+) (C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
+Package: caption 2020/05/30 v3.4k Customizing captions (AR)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty
+Package: caption3 2020/07/20 v1.12b caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 61.
+\captionmargin=\dimen156
+\captionmargin@=\dimen157
+\captionwidth=\dimen158
+\caption@tempdima=\dimen159
+\caption@indent=\dimen160
+\caption@parindent=\dimen161
+\caption@hangindent=\dimen162
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count268
+\c@continuedfloat=\count269
+Package caption Info: listings package is loaded.
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.
+sty
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfrcs.st
+y
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
+-common.tex
+\pgfutil@everybye=\toks31
+\pgfutil@tempdima=\dimen163
+\pgfutil@tempdimb=\dimen164
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
+-common-lists.tex))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
+-latex.def
+\pgfutil@abb=\box49
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/ms\everyshi.sty
+Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
+))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfrcs.
+code.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf\pgf.revision.tex)
+Package: pgfrcs 2020/01/08 v3.1.5b (3.1.5b)
+))
+Package: pgf 2020/01/08 v3.1.5b (3.1.5b)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgfcore.
+sty
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+)
+\Gin@req@height=\dimen165
+\Gin@req@width=\dimen166
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/pgf/systemlayer\pgfsys.
+sty
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s.code.tex
+Package: pgfsys 2020/01/08 v3.1.5b (3.1.5b)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+.code.tex
+\pgfkeys@pathtoks=\toks32
+\pgfkeys@temptoks=\toks33
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+filtered.code.tex
+\pgfkeys@tmptoks=\toks34
+))
+\pgf@x=\dimen167
+\pgf@y=\dimen168
+\pgf@xa=\dimen169
+\pgf@ya=\dimen170
+\pgf@xb=\dimen171
+\pgf@yb=\dimen172
+\pgf@xc=\dimen173
+\pgf@yc=\dimen174
+\pgf@xd=\dimen175
+\pgf@yd=\dimen176
+\w@pgf@writea=\write4
+\r@pgf@reada=\read2
+\c@pgf@counta=\count270
+\c@pgf@countb=\count271
+\c@pgf@countc=\count272
+\c@pgf@countd=\count273
+\t@pgf@toka=\toks35
+\t@pgf@tokb=\toks36
+\t@pgf@tokc=\toks37
+\pgf@sys@id@count=\count274
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.c
+fg
+File: pgf.cfg 2020/01/08 v3.1.5b (3.1.5b)
+)
+Driver file for pgf: pgfsys-pdftex.def
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s-pdftex.def
+File: pgfsys-pdftex.def 2020/01/08 v3.1.5b (3.1.5b)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s-common-pdf.def
+File: pgfsys-common-pdf.def 2020/01/08 v3.1.5b (3.1.5b)
+)))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+ssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgfsyssoftpath@smallbuffer@items=\count275
+\pgfsyssoftpath@bigbuffer@items=\count276
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+sprotocol.code.tex
+File: pgfsysprotocol.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+e.code.tex
+Package: pgfcore 2020/01/08 v3.1.5b (3.1.5b)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code
+.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathcalc.
+code.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathutil.
+code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparse
+r.code.tex
+\pgfmath@dimen=\dimen177
+\pgfmath@count=\count277
+\pgfmath@box=\box50
+\pgfmath@toks=\toks38
+\pgfmath@stack@operand=\toks39
+\pgfmath@stack@operation=\toks40
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.code.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.basic.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.trigonometric.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.random.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.comparison.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.base.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.round.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.misc.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.integerarithmetics.code.tex)))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat
+.code.tex
+\c@pgfmathroundto@lastzeros=\count278
+))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.
+tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epoints.code.tex
+File: pgfcorepoints.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgf@picminx=\dimen178
+\pgf@picmaxx=\dimen179
+\pgf@picminy=\dimen180
+\pgf@picmaxy=\dimen181
+\pgf@pathminx=\dimen182
+\pgf@pathmaxx=\dimen183
+\pgf@pathminy=\dimen184
+\pgf@pathmaxy=\dimen185
+\pgf@xx=\dimen186
+\pgf@xy=\dimen187
+\pgf@yx=\dimen188
+\pgf@yy=\dimen189
+\pgf@zx=\dimen190
+\pgf@zy=\dimen191
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgf@path@lastx=\dimen192
+\pgf@path@lasty=\dimen193
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathusage.code.tex
+File: pgfcorepathusage.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgf@shorten@end@additional=\dimen194
+\pgf@shorten@start@additional=\dimen195
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+escopes.code.tex
+File: pgfcorescopes.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgfpic=\box51
+\pgf@hbox=\box52
+\pgf@layerbox@main=\box53
+\pgf@picture@serial@count=\count279
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+egraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgflinewidth=\dimen196
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+etransformations.code.tex
+File: pgfcoretransformations.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgf@pt@x=\dimen197
+\pgf@pt@y=\dimen198
+\pgf@pt@temp=\dimen199
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+equick.code.tex
+File: pgfcorequick.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eobjects.code.tex
+File: pgfcoreobjects.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+earrows.code.tex
+File: pgfcorearrows.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgfarrowsep=\dimen256
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eshade.code.tex
+File: pgfcoreshade.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgf@max=\dimen257
+\pgf@sys@shading@range@num=\count280
+\pgf@shadingcount=\count281
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eimage.code.tex
+File: pgfcoreimage.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eexternal.code.tex
+File: pgfcoreexternal.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgfexternal@startupbox=\box54
+))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+elayers.code.tex
+File: pgfcorelayers.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+etransparency.code.tex
+File: pgfcoretransparency.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epatterns.code.tex
+File: pgfcorepatterns.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+erdf.code.tex
+File: pgfcorerdf.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+shapes.code.tex
+File: pgfmoduleshapes.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgfnodeparttextbox=\box55
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+plot.code.tex
+File: pgfmoduleplot.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
+mp-version-0-65.sty
+Package: pgfcomp-version-0-65 2020/01/08 v3.1.5b (3.1.5b)
+\pgf@nodesepstart=\dimen258
+\pgf@nodesepend=\dimen259
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
+mp-version-1-18.sty
+Package: pgfcomp-version-1-18 2020/01/08 v3.1.5b (3.1.5b)
+))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgffor.st
+y
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfkeys.s
+ty
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+.code.tex))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/pgf/math\pgfmath.sty
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code
+.tex))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgffor.
+code.tex
+Package: pgffor 2020/01/08 v3.1.5b (3.1.5b)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code
+.tex)
+\pgffor@iter=\dimen260
+\pgffor@skip=\dimen261
+\pgffor@stack=\toks41
+\pgffor@toks=\toks42
+))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z\tikz.code.tex
+Package: tikz 2020/01/08 v3.1.5b (3.1.5b)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgf@plot@mark@count=\count282
+\pgfplotmarksize=\dimen262
+)
+\tikz@lastx=\dimen263
+\tikz@lasty=\dimen264
+\tikz@lastxsaved=\dimen265
+\tikz@lastysaved=\dimen266
+\tikz@lastmovetox=\dimen267
+\tikz@lastmovetoy=\dimen268
+\tikzleveldistance=\dimen269
+\tikzsiblingdistance=\dimen270
+\tikz@figbox=\box56
+\tikz@figbox@bg=\box57
+\tikz@tempbox=\box58
+\tikz@tempbox@bg=\box59
+\tikztreelevel=\count283
+\tikznumberofchildren=\count284
+\tikznumberofcurrentchild=\count285
+\tikz@fig@count=\count286
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+matrix.code.tex
+File: pgfmodulematrix.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\pgfmatrixcurrentrow=\count287
+\pgfmatrixcurrentcolumn=\count288
+\pgf@matrix@numberofcolumns=\count289
+)
+\tikz@expandcount=\count290
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/wrapfig\wrapfig.sty
+\wrapoverhang=\dimen271
+\WF@size=\dimen272
+\c@WF@wrappedlines=\count291
+\WF@box=\box60
+\WF@everypar=\toks43
+Package: wrapfig 2003/01/31  v 3.6
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryarrows.code.tex
+File: tikzlibraryarrows.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryarrows.code.tex
+File: pgflibraryarrows.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+\arrowsize=\dimen273
+))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
+Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
+\col@sep=\dimen274
+\ar@mcellbox=\box61
+\extrarowheight=\dimen275
+\NC@list=\toks44
+\extratabsurround=\skip58
+\backup@length=\skip59
+\ar@cellbox=\box62
+)
+\TX@col@width=\dimen276
+\TX@old@table=\dimen277
+\TX@old@col=\dimen278
+\TX@target=\dimen279
+\TX@delta=\dimen280
+\TX@cols=\count292
+\TX@ftn=\toks45
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen281
+\lightrulewidth=\dimen282
+\cmidrulewidth=\dimen283
+\belowrulesep=\dimen284
+\belowbottomsep=\dimen285
+\aboverulesep=\dimen286
+\abovetopsep=\dimen287
+\cmidrulesep=\dimen288
+\cmidrulekern=\dimen289
+\defaultaddspace=\dimen290
+\@cmidla=\count293
+\@cmidlb=\count294
+\@aboverulesep=\dimen291
+\@belowrulesep=\dimen292
+\@thisruleclass=\count295
+\@lastruleclass=\count296
+\@thisrulewidth=\dimen293
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/makecell\makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen294
+\c@nlinenum=\count297
+\TeXr@lab=\toks46
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/changepage\changepage.s
+ty
+Package: changepage 2009/10/20 v1.0c check page and change page layout
+\c@cp@cntr=\count298
+\cp@tempcnt=\count299
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/pgfplots\pgfplotstable.
+sty
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.rev
+ision.tex)
+Package: pgfplotstable 2020/02/29 v1.17 Table typesetting and Pretty-printing (
+1.17)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/pgfplots\pgfplots.sty
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.rev
+ision.tex)
+Package: pgfplots 2020/02/29 v1.17 Data Visualization (1.17)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.cod
+e.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotscore
+.code.tex
+\t@pgfplots@toka=\toks47
+\t@pgfplots@tokb=\toks48
+\t@pgfplots@tokc=\toks49
+\pgfplots@tmpa=\dimen295
+\c@pgfplots@coordindex=\count300
+\c@pgfplots@scanlineindex=\count301
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/sys\pgfplots
+sysgeneric.code.tex))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\pgfplot
+slibrary.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/oldpgfcompat
+ib\pgfplotsoldpgfsupp_loader.code.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryfpu.code.tex))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
+sutil.code.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
+e\pgfplotsliststructure.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
+e\pgfplotsliststructureext.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
+e\pgfplotsarray.code.tex
+\c@pgfplotsarray@tmp=\count302
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
+e\pgfplotsmatrix.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/numtable\pgf
+plotstableshared.code.tex
+\c@pgfplotstable@counta=\count303
+\t@pgfplotstable@a=\toks50
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
+e\pgfplotsdeque.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
+sbinary.code.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
+sbinary.data.code.tex))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
+sutil.verb.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\pgflibr
+arypgfplots.surfshading.code.tex
+\c@pgfplotslibrarysurf@no=\count304
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/sys\pgflibra
+rypgfplots.surfshading.pgfsys-pdftex.def)))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
+scolormap.code.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
+scolor.code.tex))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsstac
+kedplots.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsplot
+handlers.code.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsmesh
+plothandler.code.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsmesh
+plotimage.code.tex)))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.sca
+ling.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotscoor
+dprocessing.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.err
+orbars.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.mar
+kers.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotstick
+s.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.pat
+hs.code.tex)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarydecorations.code.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+decorations.code.tex
+\pgfdecoratedcompleteddistance=\dimen296
+\pgfdecoratedremainingdistance=\dimen297
+\pgfdecoratedinputsegmentcompleteddistance=\dimen298
+\pgfdecoratedinputsegmentremainingdistance=\dimen299
+\pgf@decorate@distancetomove=\dimen300
+\pgf@decorate@repeatstate=\count305
+\pgfdecorationsegmentamplitude=\dimen301
+\pgfdecorationsegmentlength=\dimen302
+)
+\tikz@lib@dec@box=\box63
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarydecorations.pathmorphing.code.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decorat
+ions\pgflibrarydecorations.pathmorphing.code.tex))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarydecorations.pathreplacing.code.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decorat
+ions\pgflibrarydecorations.pathreplacing.code.tex))
+\pgfplots@numplots=\count306
+\pgfplots@xmin@reg=\dimen303
+\pgfplots@xmax@reg=\dimen304
+\pgfplots@ymin@reg=\dimen305
+\pgfplots@ymax@reg=\dimen306
+\pgfplots@zmin@reg=\dimen307
+\pgfplots@zmax@reg=\dimen308
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryplotmarks.code.tex
+File: tikzlibraryplotmarks.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryplotmarks.code.tex
+File: pgflibraryplotmarks.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+)))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/numtable\pgf
+plotstable.code.tex
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/numtable\pgf
+plotstable.coltype.code.tex)))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2020/03/24 1.8d listings language file
+))
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+mode.def
+File: l3backend-pdfmode.def 2020-06-29 L3 backend support: PDF mode
+\l__kernel_color_stack_int=\count307
+\l__pdf_internal_box=\box64
+) ("[MOBD] Project 2019-2020.aux" (tex/structure.aux)
+(tex/ProblemDefinition.aux) (tex/ComputationalModel.aux)
+(tex/OutputAnalysis.aux
+
+LaTeX Warning: Label `tab:f1scoreML' multiply defined.
+
+) (tex/Conclusions.aux))
+\openout1 = `"[MOBD] Project 2019-2020.aux"'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 452.9679pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 700.50687pt, 72.26999pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=452.9679pt
+* \textheight=700.50687pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=12.0pt
+* \footskip=30.0pt
+* \marginparwidth=35.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+\c@lstlisting=\count308
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count309
+\scratchdimen=\dimen309
+\scratchbox=\box65
+\nofMPsegments=\count310
+\nofMParguments=\count311
+\everyMPshowfont=\toks51
+\MPscratchCnt=\count312
+\MPscratchDim=\dimen310
+\MPnumerator=\count313
+\makeMPintoPDFobject=\count314
+\everyMPtoPDFconversion=\toks52
+)
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+)
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: changepage package is loaded.
+\caption@adjustwidth@hsize=\dimen311
+\caption@adjustwidth@linewidth=\dimen312
+Package caption Info: wrapfig package is loaded.
+Package caption Info: End \AtBeginDocument code.
+ ABD: EveryShipout initializing macros
+Package pgfplots notification 'compat/show suggested version=true': you might b
+enefit from \pgfplotsset{compat=1.17} (current compat level: 1.16).
+
+\openout2 = `./tex/structure.aux'.
+
+(tex/structure.tex
+LaTeX Font Info:    Trying to load font information for U+msa on input line 25.
+
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 25.
+
+
+(C:\Users\Mauro\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+[1
+
+
+{C:/Users/Mauro/AppData/Local/MiKTeX/pdftex/config/pdftex.map}] [1
+
+]
+("[MOBD] Project 2019-2020.toc")
+\tf@toc=\write5
+\openout5 = `"[MOBD] Project 2019-2020.toc"'.
+
+ [1] [2
+
+] ("[MOBD] Project 2019-2020.lof")
+\tf@lof=\write6
+\openout6 = `"[MOBD] Project 2019-2020.lof"'.
+
+
+[2] [3
+
+] ("[MOBD] Project 2019-2020.lot")
+\tf@lot=\write7
+\openout7 = `"[MOBD] Project 2019-2020.lot"'.
+
+ [3] [4
+
+])
+\openout2 = `./tex/ProblemDefinition.aux'.
+
+ (tex/ProblemDefinition.tex)
+[4
+
+
+]
+\openout2 = `./tex/ComputationalModel.aux'.
+
+ (tex/ComputationalModel.tex [5
+
+
+] [6] [7] [8] [9] [10] [11]
+Underfull \hbox (badness 10000) in paragraph at lines 219--221
+
+ []
+
+<../res/images/training_set.png, id=68, 3661.1982pt x 3613.5pt>
+File: ../res/images/training_set.png Graphic file (type png)
+<use ../res/images/training_set.png>
+Package pdftex.def Info: ../res/images/training_set.png  used on input line 226
+.
+(pdftex.def)             Requested size: 497.92322pt x 491.38539pt.
+
+Overfull \hbox (44.95532pt too wide) in paragraph at lines 226--227
+ [][] 
+ []
+
+[12 <../res/images/training_set.png>]
+Overfull \hbox (19.5029pt too wide) in paragraph at lines 267--291
+ [] 
+ []
+
+[13
+
+] [14]) [15]
+\openout2 = `./tex/OutputAnalysis.aux'.
+
+ (tex/OutputAnalysis.tex) [16
+
+
+]
+\openout2 = `./tex/Conclusions.aux'.
+
+ (tex/Conclusions.tex)
+Underfull \hbox (badness 10000) in paragraph at lines 3--27
+
+ []
+
+[17
+
+
+] ("[MOBD] Project 2019-2020.aux" (tex/structure.aux)
+(tex/ProblemDefinition.aux) (tex/ComputationalModel.aux)
+(tex/OutputAnalysis.aux) (tex/Conclusions.aux))
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 27546 strings out of 480790
+ 684448 string characters out of 2897301
+ 1190592 words of memory out of 3000000
+ 43049 multiletter control sequences out of 15000+200000
+ 546003 words of font info for 62 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 81i,13n,131p,842b,609s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\Mauro\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
+1200.pk> <C:\Users\Mauro\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
+0\ecti1200.pk> <C:\Users\Mauro\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
+/dpi600\ecrm1200.pk> <C:\Users\Mauro\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
+pen/ec/dpi600\ecbx1200.pk> <C:\Users\Mauro\AppData\Local\MiKTeX\fonts/pk/ljfour
+/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\Mauro\AppData\Local\MiKTeX\fonts/pk/
+ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Mauro\AppData\Local\MiKTeX\fon
+ts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk> <C:\Users\Mauro\AppData\Local\MiKT
+eX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm2074.pk><C:/Users/Mauro/AppData/Local
+/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Mauro/AppD
+ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Ma
+uro/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/
+Users/Mauro/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.p
+fb><C:/Users/Mauro/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
+/cmsy10.pfb>
+Output written on "[MOBD] Project 2019-2020.pdf" (22 pages, 8073316 bytes).
+PDF statistics:
+ 414 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 18 words of extra memory for PDF output out of 10000 (max. 10000000)
+

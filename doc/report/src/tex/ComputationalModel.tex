@@ -51,7 +51,7 @@
                 
                 \subsubsection{Data normalization}
                 
-                La normalizzazione è il processo di ridimensionamento dei singoli campioni per avere una norma unitaria. Questo processo può essere utile se si prevede di utilizzare una forma quadratica come il prodotto scalare o qualsiasi altro kernel per quantificare la somiglianza di qualsiasi coppia di campioni.Per effettuare la normalizzazione dei campioni sono stati utilizzati gli scalers: \textit{MinMaxScaler, MaxAbsScaler, QuantileTransformer (uniform output), PowerTransformer (Yeo-Johnson e Box-Cox transforms)}.
+                La normalizzazione è il processo di ridimensionamento dei singoli campioni per avere una norma unitaria. Questo processo può essere utile se si prevede di utilizzare una forma quadratica come il prodotto scalare o qualsiasi altro kernel per quantificare la somiglianza di qualsiasi coppia di campioni.Per effettuare la normalizzazione dei campioni sono stati utilizzati gli scalers: \textit{MinMaxScaler, MaxAbsScaler, QuantileTransformer (uniform output)} il quale fornivano un output già normalizzato nell'intervallo [0, 1], mentre con gli scaler \textit{PowerTransformer (Yeo-Johnson e Box-Cox transforms)} si è dovuto ulteriormente normalizzare l'output in modo "manuale" poichè l'output non era compreso nell'intervallo [0, 1].
                 
         		
         		\begin{center}
@@ -92,19 +92,19 @@
 		        		Model & Parameters & F1-score \\
 		        		\toprule
 		        		
-		        		Multi-Layer Perceptron & \makecell[l]{activation: relu \\ hidden\_layer\_sizes: (150, 100) \\ learning\_rate: adaptive \\ learning\_rate\_init: 0.1 \\ solver: sgd} & \textbf{0.84} \\
+		        		Multi-Layer Perceptron & \makecell[l]{activation: relu \\ hidden\_layer\_sizes: (150, 100) \\ learning\_rate: adaptive \\ learning\_rate\_init: 0.1 \\ solver: sgd} & \textbf{0.84048} \\
 		        		\midrule
-		        		Support Vector Machine & \makecell[l]{C: 10 \\ decision\_function\_shape: ovo \\ gamma: 10 \\ kernel: rbf} & 0.692 \\
+		        		Support Vector Machine & \makecell[l]{C: 10 \\ decision\_function\_shape: ovo \\ gamma: 10 \\ kernel: rbf} & 0.69239 \\
 		        		\midrule
-		        		Decision Tree & \makecell[l]{criterion: entropy \\ max\_depth: 90 \\ max\_features: None \\ min\_samples\_leaf: 1 \\ min\_samples\_split: 2} & 0.625 \\
+		        		Decision Tree & \makecell[l]{criterion: entropy \\ max\_depth: 90 \\ max\_features: None \\ min\_samples\_leaf: 1 \\ min\_samples\_split: 2} & 0.62502 \\
 		        		\midrule
-		        		Random Forest & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: sqrt \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2 \\ n\_estimators: 400} & 0.813 \\
+		        		Random Forest & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: sqrt \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2 \\ n\_estimators: 400} & 0.81371 \\
 		        		\midrule
-		        		K-Nearest Neighbors & \makecell[l]{metric: minkowski \\ n\_neighbors: 3 \\ p: 3} & 0.76 \\
+		        		K-Nearest Neighbors & \makecell[l]{metric: minkowski \\ n\_neighbors: 3 \\ p: 3} & 0.76017 \\
 		        		\midrule
-		        		Ada Boost &  \makecell[l]{class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: 300} & 0.815 \\
+		        		Ada Boost &  \makecell[l]{class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: 300} & 0.81562 \\
 		        		\midrule
-		        		Naive Bayes & \makecell[l]{priors: None \\ var\_smoothing: 0.01} & 0.549 \\
+		        		Naive Bayes & \makecell[l]{priors: None \\ var\_smoothing: 0.01} & 0.54984 \\
 		        		\midrule
 		        		
 		        		\toprule\rowstyle{\bfseries}
@@ -122,19 +122,19 @@
 		        		Model & Parameters & F1-score \\
 		        		\toprule
 		        		
-		        		Multi-Layer Perceptron & \makecell[l]{activation: relu \\ hidden\_layer\_sizes: (150, 100) \\ learning\_rate: adaptive \\ learning\_rate\_init: 0.1 \\ solver: sgd} & \textbf{0.828} \\
+		        		Multi-Layer Perceptron & \makecell[l]{activation: relu \\ hidden\_layer\_sizes: (150, 100) \\ learning\_rate: adaptive \\ learning\_rate\_init: 0.1 \\ solver: sgd} & \textbf{0.82885} \\
 		        		\midrule
-		        		Support Vector Machine & \makecell[l]{C: 10 \\ decision\_function\_shape: ovo \\ gamma: 10 \\ kernel: rbf} & 0.743 \\
+		        		Support Vector Machine & \makecell[l]{C: 10 \\ decision\_function\_shape: ovo \\ gamma: 10 \\ kernel: rbf} & 0.74399 \\
 		        		\midrule
-		        		Decision Tree & \makecell[l]{criterion: entropy \\ max\_depth: 90 \\ max\_features: None \\ min\_samples\_leaf: 5 \\ min\_samples\_split: 2} & 0.616 \\
+		        		Decision Tree & \makecell[l]{criterion: entropy \\ max\_depth: 90 \\ max\_features: None \\ min\_samples\_leaf: 5 \\ min\_samples\_split: 2} & 0.61674 \\
 		        		\midrule
-		        		Random Forest & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: log2 \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2 \\ n\_estimators: 500} & 0.813 \\
+		        		Random Forest & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: log2 \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2 \\ n\_estimators: 500} & 0.81326 \\
 		        		\midrule
-		        		K-Nearest Neighbors & \makecell[l]{metric: minkowski \\ n\_neighbors: 11 \\ p: 3} & 0.809 \\
+		        		K-Nearest Neighbors & \makecell[l]{metric: minkowski \\ n\_neighbors: 11 \\ p: 3} & 0.80935 \\
 		        		\midrule
-		        		Ada Boost &  \makecell[l]{class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: 200} & 0.818 \\
+		        		Ada Boost &  \makecell[l]{class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: 200} & 0.81836 \\
 		        		\midrule
-		        		Naive Bayes & \makecell[l]{priors: None \\ var\_smoothing: 0.01} & 0.492 \\
+		        		Naive Bayes & \makecell[l]{priors: None \\ var\_smoothing: 0.01} & 0.49225 \\
 		        		\midrule
 		        		
 		        		\toprule\rowstyle{\bfseries}
@@ -152,19 +152,19 @@
 						Model & Parameters & F1-score \\
 						\toprule
 						
-						Multi-Layer Perceptron & \makecell[l]{activation: relu \\ hidden\_layer\_sizes: (150, 100) \\ learning\_rate: adaptive \\ learning\_rate\_init: 0.1 \\ solver: sgd} & \textbf{0.821} \\
+						Multi-Layer Perceptron & \makecell[l]{activation: relu \\ hidden\_layer\_sizes: (150, 100) \\ learning\_rate: adaptive \\ learning\_rate\_init: 0.1 \\ solver: sgd} & \textbf{0.82103} \\
 						\midrule
-						Support Vector Machine & \makecell[l]{C: 50 \\ decision\_function\_shape: ovo \\ gamma: 10 \\ kernel: rbf} & 0.78 \\
+						Support Vector Machine & \makecell[l]{C: 50 \\ decision\_function\_shape: ovo \\ gamma: 10 \\ kernel: rbf} & 0.78082 \\
 						\midrule
-						Decision Tree & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: None \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2} & 0.616 \\
+						Decision Tree & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: None \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2} & 0.61677 \\
 						\midrule
-						Random Forest & \makecell[l]{criterion: entropy \\ max\_depth: 90 \\ max\_features: sqrt \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2 \\ n\_estimators: 200} & 0.813 \\
+						Random Forest & \makecell[l]{criterion: entropy \\ max\_depth: 90 \\ max\_features: sqrt \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2 \\ n\_estimators: 200} & 0.81341 \\
 						\midrule
-						K-Nearest Neighbors & \makecell[l]{metric: minkowski \\ n\_neighbors: 3 \\ p: 3} & 0.767 \\
+						K-Nearest Neighbors & \makecell[l]{metric: minkowski \\ n\_neighbors: 3 \\ p: 3} & 0.76799 \\
 						\midrule
-						Ada Boost &  \makecell[l]{class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: 200} & 0.829 \\
+						Ada Boost &  \makecell[l]{class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: 200} & 0.82963 \\
 						\midrule
-						Naive Bayes & \makecell[l]{priors: None \\ var\_smoothing: 1e-08} & 0.553 \\
+						Naive Bayes & \makecell[l]{priors: None \\ var\_smoothing: 1e-08} & 0.55331 \\
 						\midrule
 						
 						\toprule\rowstyle{\bfseries}
@@ -182,19 +182,19 @@
 			        		Model & Parameters & F1-score \\
 			        		\toprule
 			        		
-			        		Multi-Layer Perceptron & \makecell[l]{activation: relu \\ hidden\_layer\_sizes: (150, 100) \\ learning\_rate: adaptive \\ learning\_rate\_init: 0.1 \\ solver: sgd} & \textbf{0.882} \\
+			        		Multi-Layer Perceptron & \makecell[l]{activation: relu \\ hidden\_layer\_sizes: (150, 100) \\ learning\_rate: adaptive \\ learning\_rate\_init: 0.1 \\ solver: sgd} & \textbf{0.88298} \\
 			        		\midrule
-			        		Support Vector Machine & \makecell[l]{C: 50 \\ decision\_function\_shape: ovo \\ gamma: 10 \\ kernel: rbf} & 0.78 \\
+			        		Support Vector Machine & \makecell[l]{C: 50 \\ decision\_function\_shape: ovo \\ gamma: 10 \\ kernel: rbf} & 0.78082 \\
 			        		\midrule
-			        		Decision Tree & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: None \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2} & 0.622 \\
+			        		Decision Tree & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: None \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2} & 0.62280 \\
 			        		\midrule
-			        		Random Forest & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: log2 \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2 \\ n\_estimators: 400} & 0.812 \\
+			        		Random Forest & \makecell[l]{criterion: entropy \\ max\_depth: 80 \\ max\_features: log2 \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2 \\ n\_estimators: 400} & 0.81267 \\
 			        		\midrule
-			        		K-Nearest Neighbors & \makecell[l]{metric: minkowski \\ n\_neighbors: 3 \\ p: 3} & 0.767 \\
+			        		K-Nearest Neighbors & \makecell[l]{metric: minkowski \\ n\_neighbors: 3 \\ p: 3} & 0.76799 \\
 			        		\midrule
-			        		Ada Boost &  \makecell[l]{class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: 300} & 0.824 \\
+			        		Ada Boost &  \makecell[l]{class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: 300} & 0.82458 \\
 			        		\midrule
-			        		Naive Bayes & \makecell[l]{priors: None \\ var\_smoothing: 1e-08} & 0.553 \\
+			        		Naive Bayes & \makecell[l]{priors: None \\ var\_smoothing: 1e-08} & 0.55331 \\
 			        		\midrule
 			        		
 			        		\toprule\rowstyle{\bfseries}
@@ -206,9 +206,20 @@
                 
                 \subsubsection{Feature selection}
                 
-                        In questa fase sono state selezionate le \textit{features} più significative al fine di ridurre i costi di training e migliorare la capacità di generalizzazione del classificatore.
-                        Per "filtrare" le features viene assegnato un punteggio ad ogni feature utilizzando una funzione infine vengono rimosse tutte tranne le k feature con il punteggio maggiore.
+		                La feature selection è una tecnica in cui scegliamo quelle feature (caratteristiche) nei nostri dati che contribuiscono maggiormente alla variabile di destinazione. In altre parole, scegliamo i migliori predittori per la variabile target.
+		                
+		                Vantaggi della feature selection:
+		                
+		                \begin{itemize}
+		                	\item Riduce l'overfitting: meno dati ridondanti significa meno possibilità di prendere decisioni basate su dati / rumore ridondanti.
+		                	\item Migliora la precisione: meno dati fuorvianti significa che la precisione della modellazione migliora.
+		                	\item Riduce il tempo di addestramento: meno dati significa che gli algoritmi si addestrano più velocemente.	              
+		                \end{itemize}
+		                
+                        Come approccio alla feature selection è stata usata la \textit{SelectKBest}, ovvero
+                        per "filtrare" le features viene assegnato un punteggio ad ogni feature utilizzando una funzione, infine vengono rimosse tutte feature tranne le k con il punteggio maggiore.\\
                    
+                     
                         
                         \begin{figure}[!h]
                             \centering
