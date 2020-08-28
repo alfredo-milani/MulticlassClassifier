@@ -169,7 +169,8 @@ class MulticlassClassifier(AbstractClassifier):
         for feature in self.training.set_x.columns:
             # using feature median from training set to manage missing values for training and test set
             # it is not used mean as it is affected by outliers
-            feature_median_dict[feature] = self.training.set_x[feature].median()
+            # TODO - VEDERE SE CON LA MEDIA AL POSTO DELLA MEDIA SI RISOLVE IL PROBLEMA (cambiare nome variabile)
+            feature_median_dict[feature] = self.training.set_x[feature].mean()
             self.training.set_x[feature].fillna(feature_median_dict[feature], inplace=True)
             self.test.set_x[feature].fillna(feature_median_dict[feature], inplace=True)
 
@@ -228,10 +229,6 @@ class MulticlassClassifier(AbstractClassifier):
         #scaler = prep.PowerTransformer(method='yeo-johnson')
         #scaler = prep.PowerTransformer(method='box - cox')
 
-
-        # using following transformation:
-        #  X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
-        #  X_scaled = X_std * (max - min) + min
         self.__LOG.info(f"[SCALING] Data scaling using {type(scaler).__qualname__}")
         scaler.fit(self.training.set_x)
         #scaler = Normalizer().fit(self.training.set_x)  # fit does nothing.
@@ -243,7 +240,6 @@ class MulticlassClassifier(AbstractClassifier):
         """
         Features selection
         """
-        # TODO - provare un approccio di tipo wrapper, il Recursive Feature Elimination o il SelectFromModel di sklearn
         # do not consider the 5 features that have less dependence on the target feature
         #   (i.e. the class to which they belong)
         selector = SelectKBest(mutual_info_classif, k=15)
@@ -257,29 +253,10 @@ class MulticlassClassifier(AbstractClassifier):
         self.__LOG.debug(
             f"[FEATURE SELECTION] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
 
-        # ### Recursive Feature Elimination
-        # # create pipeline
-        # rfe = RFECV(estimator=DecisionTreeClassifier())
-        # model = DecisionTreeClassifier()
-        # pipeline = Pipeline(steps=[('s', rfe), ('m', model)])
-        # # evaluate model
-        # cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
-        # n_scores = cross_val_score(pipeline, self.training.set_x, self.training.set_y,
-        #                            scoring='accuracy', cv=cv, n_jobs=-1, error_score='raise')
-        # # report performance
-        # print('Accuracy: %.3f (%.3f)' % (mean(n_scores), std(n_scores)))
-        #
-        # # fit RFE
-        # rfe.fit(self.training.set_x, self.training.set_y)
-        # # summarize all features
-        # for i in range(self.training.set_x.shape[1]):
-        #     print('Column: %d, Selected %s, Rank: %.3f' % (i, rfe.support_[i], rfe.ranking_[i]))
-
     def sample(self) -> None:
         """
         Data over/undersampling
         """
-        # TODO - vedere se usando altri sampler i classificatori performano meglio
         # oversampling with SMOTE
         sampler = SMOTE(random_state=self.conf.rng_seed)
         # sampler = RandomUnderSampler(random_state=self.conf.rng_seed)

@@ -82,16 +82,19 @@ class Evaluator(AbstractClassifier):
         #                               names=[f"F{i}" for i in range(1, 21)] + ["CLASS"]))
 
         # current classifiers used
+        # self.__classifiers = {
+        #      Evaluator._MULTILAYER_PERCEPTRON: None,
+        #      Evaluator._SUPPORT_VECTOR_MACHINE: None,
+        #      Evaluator._DECISION_TREE: None,
+        #      Evaluator._RANDOM_FOREST: None,
+        #      Evaluator._KNEAREST_NEIGHBORS: None,
+        #      # Evaluator._STOCHASTIC_GRADIENT_DESCENT: None,
+        #      Evaluator._ADA_BOOST: None,
+        #      Evaluator._NAIVE_BAYES: None,
+        #      # Evaluator._KMEANS: None
+        # }
         self.__classifiers = {
-             Evaluator._MULTILAYER_PERCEPTRON: None,
-             Evaluator._SUPPORT_VECTOR_MACHINE: None,
-             Evaluator._DECISION_TREE: None,
-             Evaluator._RANDOM_FOREST: None,
-             Evaluator._KNEAREST_NEIGHBORS: None,
-             # Evaluator._STOCHASTIC_GRADIENT_DESCENT: None,
-             Evaluator._ADA_BOOST: None,
-             Evaluator._NAIVE_BAYES: None,
-             # Evaluator._KMEANS: None
+            Evaluator._MULTILAYER_PERCEPTRON: None,
         }
 
     def prepare(self) -> None:
@@ -121,13 +124,27 @@ class Evaluator(AbstractClassifier):
         """
         self.__LOG.info(f"[DATA SPLIT] Separating training/test set in features and labels")
 
-        # split features and label
-        self.training.set_y = self.training.set_.pop('CLASS')
-        self.training.set_x = self.training.set_
-        self.training.set_ = None
-        self.test.set_y = self.test.set_.pop('CLASS')
-        self.test.set_x = self.test.set_
-        self.test.set_ = None
+        if self.conf.classifier_dump:
+            # split training/test set obtaining same training set of training phase
+            self.training.set_ = self.training.set_.sample(
+                frac=1 - self.conf.dataset_test_ratio,
+                random_state=self.conf.rng_seed
+            )
+            # split features and label
+            self.training.set_y = self.training.set_.pop('CLASS')
+            self.training.set_x = self.training.set_
+            self.training.set_ = None
+            self.test.set_y = self.test.set_.pop('CLASS')
+            self.test.set_x = self.test.set_
+            self.test.set_ = None
+        else:
+            # split features and label
+            self.training.set_y = self.training.set_.pop('CLASS')
+            self.training.set_x = self.training.set_
+            self.training.set_ = None
+            self.test.set_y = self.test.set_.pop('CLASS')
+            self.test.set_x = self.test.set_
+            self.test.set_ = None
 
     def manage_bad_values(self) -> None:
         """
@@ -151,7 +168,8 @@ class Evaluator(AbstractClassifier):
         for feature in self.training.set_x.columns:
             # using feature median from training set to manage missing values for training and test set
             # it is not used mean as it is affected by outliers
-            feature_median_dict[feature] = self.training.set_x[feature].median()
+            # TODO - VEDERE SE CON LA MEDIA AL POSTO DELLA MEDIA SI RISOLVE IL PROBLEMA (cambiare nome variabile)
+            feature_median_dict[feature] = self.training.set_x[feature].mean()
             self.training.set_x[feature].fillna(feature_median_dict[feature], inplace=True)
             self.test.set_x[feature].fillna(feature_median_dict[feature], inplace=True)
 
@@ -207,26 +225,11 @@ class Evaluator(AbstractClassifier):
         Data scaling/normalization
         """
         scaler = prep.MinMaxScaler(feature_range=(0, 1))
-        # using following transformation:
-        #  X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
-        #  X_scaled = X_std * (max - min) + min
         self.__LOG.info(f"[SCALING] Data scaling using {type(scaler).__qualname__}")
 
-        # if there are classifiers' dump, scale using data set used previously for training
-        if self.conf.classifier_dump:
-            # TODO - vedere se normalizzare solo la parte usata nella fase di training
-            self.__LOG.debug(f"[SCALING] Data scaling fitted on same training set of training phase.")
-            # using same training set from previous training phase
-            scaler.fit(self.training.set_x.sample(
-                frac=1 - self.conf.dataset_test_ratio,
-                random_state=self.conf.rng_seed
-            ))
-            self.test.set_x = scaler.transform(self.test.set_x)
-        # if there are not classifiers' dump, scale using complete training set
-        else:
-            scaler.fit(self.training.set_x)
-            self.training.set_x = scaler.transform(self.training.set_x)
-            self.test.set_x = scaler.transform(self.test.set_x)
+        scaler.fit(self.training.set_x)
+        self.training.set_x = scaler.transform(self.training.set_x)
+        self.test.set_x = scaler.transform(self.test.set_x)
 
     def feature_selection(self) -> None:
         """
@@ -243,7 +246,6 @@ class Evaluator(AbstractClassifier):
             self.test.set_x = self.test.set_x[:, features_mask]
         # otherwise, select best features
         else:
-            # TODO - provare un approccio di tipo wrapper, il Recursive Feature Elimination o il SelectFromModel di sklearn
             # do not consider the 5 features that have less dependence on the target feature
             # (i.e. the class to which they belong)
             selector = SelectKBest(mutual_info_classif, k=15)
@@ -264,7 +266,6 @@ class Evaluator(AbstractClassifier):
         """
         # if there are not dumps for classifiers, sample training set
         if not self.conf.classifier_dump:
-            # TODO - vedere se usando altri sampler i classificatori performano meglio
             # oversampling with SMOTE
             sampler = SMOTE(random_state=self.conf.rng_seed)
             # sampler = RandomUnderSampler(random_state=self.conf.rng_seed)
