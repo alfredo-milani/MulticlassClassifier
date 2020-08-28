@@ -5,30 +5,35 @@
         
         La tabella \ref{tab:f1scoreML} mostra i risultati ottenuti.
         
-        \begin{center}
-                \begin{tabular}{+l^c^c}
-                        \toprule\rowstyle{\bfseries}
-                        Model & Parameters & F1-score \\
-                        \toprule
-                        
-                        Multi-Layer Perceptron & \makecell[l]{activation: relu \\ hidden\_layer\_sizes: (100, 50) \\ learning\_rate: adaptive \\ learning\_rate\_init: 0.01 \\ solver: sgd} & \textbf{0.886} \\
-                        \midrule
-                        Support Vector Machine & \makecell[l]{C: 10 \\ decision\_function\_shape: ovo \\ gamma: 10 \\ kernel: rbf} & 0.794 \\
-                        \midrule
-                        Decision Tree & \makecell[l]{criterion: entropy \\ max\_depth: 90 \\ max\_features: None \\ min\_samples\_leaf: 1 \\ min\_samples\_split: 2 \\ splitter: best} & 0.607 \\
-                        \midrule
-                        Random Forest & \makecell[l]{criterion: entropy \\ max\_depth: 90 \\ max\_features: log2 \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2 \\ n\_estimators: 400} & 0.808 \\
-                        \midrule
-                        K-Nearest Neighbors & \makecell[l]{metric: minkowski \\ n\_neighbors: 3 \\ p: 4} & 0.768 \\
-                        \midrule
-                        Ada Boost &  \makecell[l]{class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: 400} & 0.823 \\
-                        \midrule
-                        Naive Bayes & \makecell[l]{priors: None \\ var\_smoothing: 10e-08} & 0.55 \\
-                        \midrule
-                        K-Means & \makecell[l]{max\_iter: 10000 \\ n\_clusters: 4 \\ random\_state: 43531} & 0.344 \\
-                        
-                        \toprule\rowstyle{\bfseries}
-                \end{tabular}
-                \captionof{table}{\textit{F1-score} per i vari modelli di \textit{machine learning} analizzati}
-                \label{tab:f1scoreML}
-        \end{center}
+
+  		\begin{center}
+	    	Lo score migliore è stato ottenuto con samplig di tipo \textbf{SMOTE}
+	    	\bigbreak
+	    	
+	    	La tabella \ref{tab:f1scoreML} mostra i risultati ottenuti.
+	    	\begin{tabular}{+l^c^c}
+	    		\toprule\rowstyle{\bfseries}
+	    		Model & Parameters & F1-score \\
+	    		\toprule
+	    		
+	    		Multi-Layer Perceptron & \makecell[l]{activation: relu \\ hidden\_layer\_sizes: (100, 50) \\ learning\_rate: adaptive \\ learning\_rate\_init: 0.01 \\ solver: sgd} & \textbf{0.87906} \\
+	    		\midrule
+	    		Support Vector Machine & \makecell[l]{C: 10 \\ decision\_function\_shape: ovo \\ gamma: 10 \\ kernel: rbf} & 0.79652 \\
+	    		\midrule
+	    		Decision Tree & \makecell[l]{criterion: entropy \\ max\_depth: 90 \\ max\_features: None \\ min\_samples\_leaf: 1 \\ min\_samples\_split: 2 \\ splitter: best} & 0.62407 \\
+	    		\midrule
+	    		Random Forest & \makecell[l]{criterion: entropy \\ max\_depth: 90 \\ max\_features: log2 \\ min\_samples\_leaf: 2 \\ min\_samples\_split: 2 \\ n\_estimators: 400} & 0.81243 \\
+	    		\midrule
+	    		K-Nearest Neighbors & \makecell[l]{metric: minkowski \\ n\_neighbors: 3 \\ p: 4} & 0.75836 \\
+	    		\midrule
+	    		Ada Boost &  \makecell[l]{class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: 400} & 0.82467 \\
+	    		\midrule
+	    		Naive Bayes & \makecell[l]{priors: None \\ var\_smoothing: 10e-08} & 0.55340 \\
+	    		
+	    		
+	    		\toprule\rowstyle{\bfseries}
+	    	\end{tabular}
+	                \captionof{table}{\textit{F1-score} per i vari modelli di \textit{machine learning} analizzati}
+	    	\label{tab:f1scoreML}
+	    \end{center}
+	    
