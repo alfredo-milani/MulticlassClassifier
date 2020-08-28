@@ -82,19 +82,16 @@ class Evaluator(AbstractClassifier):
         #                               names=[f"F{i}" for i in range(1, 21)] + ["CLASS"]))
 
         # current classifiers used
-        # self.__classifiers = {
-        #      Evaluator._MULTILAYER_PERCEPTRON: None,
-        #      Evaluator._SUPPORT_VECTOR_MACHINE: None,
-        #      Evaluator._DECISION_TREE: None,
-        #      Evaluator._RANDOM_FOREST: None,
-        #      Evaluator._KNEAREST_NEIGHBORS: None,
-        #      # Evaluator._STOCHASTIC_GRADIENT_DESCENT: None,
-        #      Evaluator._ADA_BOOST: None,
-        #      Evaluator._NAIVE_BAYES: None,
-        #      # Evaluator._KMEANS: None
-        # }
         self.__classifiers = {
-            Evaluator._MULTILAYER_PERCEPTRON: None,
+             Evaluator._MULTILAYER_PERCEPTRON: None,
+             Evaluator._SUPPORT_VECTOR_MACHINE: None,
+             Evaluator._DECISION_TREE: None,
+             Evaluator._RANDOM_FOREST: None,
+             Evaluator._KNEAREST_NEIGHBORS: None,
+             # Evaluator._STOCHASTIC_GRADIENT_DESCENT: None,
+             Evaluator._ADA_BOOST: None,
+             Evaluator._NAIVE_BAYES: None,
+             # Evaluator._KMEANS: None
         }
 
     def prepare(self) -> None:
@@ -124,21 +121,20 @@ class Evaluator(AbstractClassifier):
         """
         self.__LOG.info(f"[DATA SPLIT] Separating training/test set in features and labels")
 
+        # split training/test set obtaining same training set of training phase
         if self.conf.classifier_dump:
-            # split training/test set obtaining same training set of training phase
             self.training.set_ = self.training.set_.sample(
                 frac=1 - self.conf.dataset_test_ratio,
                 random_state=self.conf.rng_seed
             )
-            # split features and label
             self.training.set_y = self.training.set_.pop('CLASS')
             self.training.set_x = self.training.set_
             self.training.set_ = None
             self.test.set_y = self.test.set_.pop('CLASS')
             self.test.set_x = self.test.set_
             self.test.set_ = None
+        # split features and label
         else:
-            # split features and label
             self.training.set_y = self.training.set_.pop('CLASS')
             self.training.set_x = self.training.set_
             self.training.set_ = None
@@ -168,8 +164,7 @@ class Evaluator(AbstractClassifier):
         for feature in self.training.set_x.columns:
             # using feature median from training set to manage missing values for training and test set
             # it is not used mean as it is affected by outliers
-            # TODO - VEDERE SE CON LA MEDIA AL POSTO DELLA MEDIA SI RISOLVE IL PROBLEMA (cambiare nome variabile)
-            feature_median_dict[feature] = self.training.set_x[feature].mean()
+            feature_median_dict[feature] = self.training.set_x[feature].median()
             self.training.set_x[feature].fillna(feature_median_dict[feature], inplace=True)
             self.test.set_x[feature].fillna(feature_median_dict[feature], inplace=True)
 
@@ -182,43 +177,41 @@ class Evaluator(AbstractClassifier):
             f"{PreProcessing.get_na_count(self.test.set_x)}"
         )
 
-        # manage outliers on training se only if there are no classifiers' dump
-        if not self.conf.classifier_dump:
-            # manage outliers
-            # outliers_manager = 'z-score'
-            # https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h.htm
-            # http://colingorrie.github.io/outlier-detection.html#fn:2
-            outliers_manager = 'modified z-score'
-            # outliers_manager = 'inter-quartile range'
+        # manage outliers
+        # outliers_manager = 'z-score'
+        # https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h.htm
+        # http://colingorrie.github.io/outlier-detection.html#fn:2
+        outliers_manager = 'modified z-score'
+        # outliers_manager = 'inter-quartile range'
 
-            self.__LOG.info(f"[OUTLIERS] Managing outliers using {outliers_manager} method")
+        self.__LOG.info(f"[OUTLIERS] Managing outliers using {outliers_manager} method")
 
-            self.__LOG.debug(
-                f"[OUTLIERS] Training set x description before manage outlier:\n"
-                f"{self.training.set_x.describe(include='all')}"
-            )
+        self.__LOG.debug(
+            f"[OUTLIERS] Training set x description before manage outlier:\n"
+            f"{self.training.set_x.describe(include='all')}"
+        )
 
-            outliers_count = 0
-            for feature in self.training.set_x.columns:
-                # outliers_mask = PreProcessing.zscore(self.training.set_x[feature])
-                outliers_mask = PreProcessing.modified_zscore(self.training.set_x[feature])
-                # outliers_mask = PreProcessing.iqr(self.training.set_x[feature])
+        outliers_count = 0
+        for feature in self.training.set_x.columns:
+            # outliers_mask = PreProcessing.zscore(self.training.set_x[feature])
+            outliers_mask = PreProcessing.modified_zscore(self.training.set_x[feature])
+            # outliers_mask = PreProcessing.iqr(self.training.set_x[feature])
 
-                # outliers approximation
-                self.training.set_x.loc[outliers_mask, feature] = feature_median_dict[feature]
+            # outliers approximation
+            self.training.set_x.loc[outliers_mask, feature] = feature_median_dict[feature]
 
-                # update outliers_count
-                outliers_count += sum(outliers_mask)
+            # update outliers_count
+            outliers_count += sum(outliers_mask)
 
-            samples_training_set_x = self.training.set_x.shape[0] * self.training.set_x.shape[1]
-            self.__LOG.debug(f"[OUTLIERS] Outliers detected on all features (F1-F20): "
-                             f"{outliers_count} out of {samples_training_set_x} "
-                             f"samples ({round(outliers_count / samples_training_set_x * 100, 2)} %)")
+        samples_training_set_x = self.training.set_x.shape[0] * self.training.set_x.shape[1]
+        self.__LOG.debug(f"[OUTLIERS] Outliers detected on all features (F1-F20): "
+                         f"{outliers_count} out of {samples_training_set_x} "
+                         f"samples ({round(outliers_count / samples_training_set_x * 100, 2)} %)")
 
-            self.__LOG.debug(
-                f"[OUTLIERS] Training set x description after manage outlier:\n"
-                f"{self.training.set_x.describe(include='all')}"
-            )
+        self.__LOG.debug(
+            f"[OUTLIERS] Training set x description after manage outlier:\n"
+            f"{self.training.set_x.describe(include='all')}"
+        )
 
     def normalize(self) -> None:
         """
@@ -264,19 +257,17 @@ class Evaluator(AbstractClassifier):
         """
         Data over/undersampling
         """
-        # if there are not dumps for classifiers, sample training set
-        if not self.conf.classifier_dump:
-            # oversampling with SMOTE
-            sampler = SMOTE(random_state=self.conf.rng_seed)
-            # sampler = RandomUnderSampler(random_state=self.conf.rng_seed)
-            # sampler = RandomOverSampler(random_state=self.conf.rng_seed)
-            # sampler = ADASYN(sampling_strategy="auto", random_state=self.conf.rng_seed)
-            self.__LOG.info(f"[SAMPLING] Data sampling using {type(sampler).__qualname__}")
-            self.training.set_x, self.training.set_y = sampler.fit_resample(self.training.set_x, self.training.set_y)
-            self.__LOG.debug(
-                f"[SAMPLING] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
-            self.__LOG.debug(
-                f"[SAMPLING] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
+        # oversampling with SMOTE
+        sampler = SMOTE(random_state=self.conf.rng_seed)
+        # sampler = RandomUnderSampler(random_state=self.conf.rng_seed)
+        # sampler = RandomOverSampler(random_state=self.conf.rng_seed)
+        # sampler = ADASYN(sampling_strategy="auto", random_state=self.conf.rng_seed)
+        self.__LOG.info(f"[SAMPLING] Data sampling using {type(sampler).__qualname__}")
+        self.training.set_x, self.training.set_y = sampler.fit_resample(self.training.set_x, self.training.set_y)
+        self.__LOG.debug(
+            f"[SAMPLING] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
+        self.__LOG.debug(
+            f"[SAMPLING] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
 
     def train(self) -> None:
         """
@@ -301,6 +292,10 @@ class Evaluator(AbstractClassifier):
                                        f"Classifier '{name}' will be skipped.")
                     continue
                 except KeyError:
+                    self.__LOG.warning(f"[TUNING] The file '{classifier_path}' appears to be in a wrong format.\n"
+                                       f"Classifier '{name}' will be skipped.")
+                    continue
+                except Exception:
                     self.__LOG.warning(f"[TUNING] The file '{classifier_path}' appears to be corrupted.\n"
                                        f"Classifier '{name}' will be skipped.")
                     continue

@@ -66,14 +66,14 @@ class MulticlassClassifier(AbstractClassifier):
         # current classifiers used
         self.__classifiers = {
             MulticlassClassifier._MULTILAYER_PERCEPTRON: None,
-            #MulticlassClassifier._SUPPORT_VECTOR_MACHINE: None,
-            #MulticlassClassifier._DECISION_TREE: None,
-            #MulticlassClassifier._RANDOM_FOREST: None,
-            #MulticlassClassifier._KNEAREST_NEIGHBORS: None,
-            #MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT: None,
-            #MulticlassClassifier._ADA_BOOST: None,
-            #MulticlassClassifier._NAIVE_BAYES: None,
-            #MulticlassClassifier._KMEANS: None
+            MulticlassClassifier._SUPPORT_VECTOR_MACHINE: None,
+            MulticlassClassifier._DECISION_TREE: None,
+            MulticlassClassifier._RANDOM_FOREST: None,
+            MulticlassClassifier._KNEAREST_NEIGHBORS: None,
+            # MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT: None,
+            MulticlassClassifier._ADA_BOOST: None,
+            MulticlassClassifier._NAIVE_BAYES: None,
+            # MulticlassClassifier._KMEANS: None
         }
 
     def prepare(self) -> None:
@@ -169,8 +169,7 @@ class MulticlassClassifier(AbstractClassifier):
         for feature in self.training.set_x.columns:
             # using feature median from training set to manage missing values for training and test set
             # it is not used mean as it is affected by outliers
-            # TODO - VEDERE SE CON LA MEDIA AL POSTO DELLA MEDIA SI RISOLVE IL PROBLEMA (cambiare nome variabile)
-            feature_median_dict[feature] = self.training.set_x[feature].mean()
+            feature_median_dict[feature] = self.training.set_x[feature].median()
             self.training.set_x[feature].fillna(feature_median_dict[feature], inplace=True)
             self.test.set_x[feature].fillna(feature_median_dict[feature], inplace=True)
 

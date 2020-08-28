@@ -97,7 +97,7 @@ Configurations file example (`./res/conf/conf.ini`):
 
 # [opt] - Set verbose level to debug.
 # [dft] - False
-debug = True
+# debug = True
 
 
 [TRAINING]
@@ -110,7 +110,8 @@ dataset.train = /ABS_PATH_TRAINING_SET.csv
 
 # [opt] - Seed for RNG.
 # [dft] - 0
-rng.seed = 43531
+# rng.seed = 43531
+# rng.seed = 2873587
 
 # [opt] - Compute pair-plot.
 # [dft] - False
@@ -138,7 +139,7 @@ rng.seed = 43531
 #     - if it has been specified dataset.test (section MOBD) option with fully qualified path of test set (for MOBD project evaluation)
 #       then, all classifiers will be trained, after dataset preprocessing, using file specified with option
 #       dataset.train (section TRAINING) and, bests classifiers will be evaluated on test set file, using various metrics;
-#     - if it has not been specified dataset.test option, then all classifiers will be trained, after dataset preprocessing, 
+#     - if it has not been specified dataset.test option, then all classifiers will be trained, after dataset preprocessing,
 #       with dataset specified in dataset.train option and will be evaluated on test set created from training set, using various metrics.
 classifier.dump = True
 
@@ -146,7 +147,7 @@ classifier.dump = True
 [MOBD]
 # [opt] - Best benchmark computed for F1-score metric.
 # [dft] - (0.0 - '')
-benchmark.best_found = (0.8444, 'Multi-Layer Perceptron')
+benchmark.best_found = (0.8973, 'Multi-Layer Perceptron')
 
 # [opt] - Current benchmark threshold evaluation and deadline (time format: dd/mm/yyyy).
 # [dft] - (0.0 - datetime.today())
@@ -198,7 +199,7 @@ insert fully qualified path name of secret test file, then launch this tool norm
 
 Note that, *secret test set* to be inserted, **must** have same format of `training_set.csv`, so must have row for features name (F1-F20) and class (CLASS)
 and **must** not have index column, so a valid test file should be created from command `pandas.data_frame_object.to_csv('/absolute_path', index=False)`.
-In the constructor of Evaluator class (Evaluator.py file), is it possible to modify the way used to load secret test set to be used.
+Evaluator class is responsible for test set evaluation. In the constructor of Evaluator class (Evaluator.py file), is it possible to modify the way used to load secret test set to be used.
 In particular, as shown in Evaluator.py file:
 ```python
 # load test set if it has same format as training_set.csv provided
