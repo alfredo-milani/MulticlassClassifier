@@ -66,14 +66,14 @@ class MulticlassClassifier(AbstractClassifier):
         # current classifiers used
         self.__classifiers = {
             MulticlassClassifier._MULTILAYER_PERCEPTRON: None,
-            MulticlassClassifier._SUPPORT_VECTOR_MACHINE: None,
-            MulticlassClassifier._DECISION_TREE: None,
-            MulticlassClassifier._RANDOM_FOREST: None,
-            MulticlassClassifier._KNEAREST_NEIGHBORS: None,
-            # MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT: None,
-            MulticlassClassifier._ADA_BOOST: None,
-            MulticlassClassifier._NAIVE_BAYES: None,
-            # MulticlassClassifier._KMEANS: None
+            #MulticlassClassifier._SUPPORT_VECTOR_MACHINE: None,
+            #MulticlassClassifier._DECISION_TREE: None,
+            #MulticlassClassifier._RANDOM_FOREST: None,
+            #MulticlassClassifier._KNEAREST_NEIGHBORS: None,
+            #MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT: None,
+            #MulticlassClassifier._ADA_BOOST: None,
+            #MulticlassClassifier._NAIVE_BAYES: None,
+            #MulticlassClassifier._KMEANS: None
         }
 
     def prepare(self) -> None:
