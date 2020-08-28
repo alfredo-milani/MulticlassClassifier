@@ -19,7 +19,7 @@
                         
                         In seguito, sono stati analizzati gli \textit{outliers}. Un \textit{outlier} è un'osservazione che devia marcatamente da altre osservazioni nel campione di dati. L'identificazione di potenziali \textit{outliers} è importante dal momento che potrebbero indicare dati corrotti o mal codificati, anche se, in alcuni casi, potrebbero essere il risultato di variazioni casuali nel campione di dati.
                         
-                        L'individuazione degli \textit{outliers} dipende dalla distribuzione dei dati sottostante. Come si evince dal pair-plot in figura \ref{fig:training_set_pairplot}, le \textit{features} del \textit{dataset} considerato, seguono approssimativamente una distribuzione \textit{Normale}, pertanto sono stati analizzati i risultati derivanti da tre metodi:
+                        L'individuazione degli \textit{outliers} dipende dalla distribuzione dei dati sottostante. Il \textit{dataset} considerato, come si evince dal pair-plot in figura \ref{fig:training_set_pairplot}, segua approssimativamente una distribuzione \textit{Normale}, pertanto sono stati analizzati i risultati derivanti da tre metodi:
                         \begin{itemize}
                             \item \textit{z-score}
                             \item \textit{modified z-score}
@@ -45,15 +45,13 @@
                                 IQR = Q_3 - Q_1
                         \end{displaymath}
                         essendo $Q_1$ e $Q_3$, rispettivamente, il primo ed il terzo quartile del campione di dati. Sono considerati \textit{outliers} i campioni con uno valore maggiore di $Q_3 + IQR \cdot 1.5$ e minore di $Q_1 - IQR \cdot 1.5$.
-                        \bigbreak
+                        \smallbreak
                         
-                        Il metodo \textit{modified z-score} è risultato il migliore per l'individuazione di \textit{outliers}. Infine, per non ridurre la numerosità del \textit{training set} si è scelto di sostituire (e non eliminare) gli \textit{outliers} con la mediana relativa ad una determinata \textit{feature}. Si è ritenuto opportuno utilizzare la mediana in quanto è una misura più robusta per la rappresentazione della dispersione di valori rispetto alla media, essendo meno soggetta alla presenza di \textit{outliers}.                        
+                        Per non ridurre la numerosità del \textit{training set} si è scelto di sostituire (e non eliminare) gli \textit{outliers} con la mediana relativa ad una determinata \textit{feature}. Si è ritenuto opportuno utilizzare la mediana in quanto è una misura più robusta per la rappresentazione della dispersione di valori rispetto alla media essendo meno soggetta alla presenza di \textit{outliers}.                        
                 
                 \subsubsection{Data normalization}
                 
-                La normalizzazione è il processo di ridimensionamento dei singoli campioni per avere una norma unitaria. Questo processo può essere utile se si prevede di utilizzare una forma quadratica per quantificare la somiglianza di qualsiasi coppia di campioni.
-                
-                La normalizzazione, con eventuale scaling dei valori nel range $[0, 1]$, è stata effettuata utilizzando i seguenti \textit{scalers}: \textit{MinMaxScaler, MaxAbsScaler, QuantileTransformer (uniform output), PowerTransformer (Yeo-Johnson e Box-Cox transforms)}.
+                La normalizzazione è il processo di ridimensionamento dei singoli campioni per avere una norma unitaria. Questo processo può essere utile se si prevede di utilizzare una forma quadratica come il prodotto scalare o qualsiasi altro kernel per quantificare la somiglianza di qualsiasi coppia di campioni.Per effettuare la normalizzazione dei campioni sono stati utilizzati gli scalers: \textit{MinMaxScaler, MaxAbsScaler, QuantileTransformer (uniform output), PowerTransformer (Yeo-Johnson e Box-Cox transforms)}.
                 
         		
         		\begin{center}
