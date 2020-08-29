@@ -1,5 +1,6 @@
 \section{Conclusions}
 
-        Dai vari test effettuati e dai risultati ottenuti si evince che il miglior modello è il MultiLayer Perceptron con parametri:
-        \\ \\
-        Una possibile miglioria da applicare al modello potrebbe quessa d iaumentare il numero di percettroni in ogni livello, ma questo comporterebbe un significativo aumento della complessità computazionale portando conseguentemente ad un notevole aumento del tempo di esecuzione nel training del modello.
+        Dai risultati ottenuti si evince che il miglior modello per la classificazione multi-classe relativamente al \textit{dataset} fornito, è il \textbf{\textit{Multi-Layer Perceptron}} con parametri [activation='relu', hidden\_layer\_sizes=(150, 100), learning\_rate='adaptive', learning\_rate\_init=0.01, max\_iter=10000, solver='sgd')], utilizzando la mediana di ogni \textit{feature} nella gestione di valori mancanti, \textit{modified z-score} per l'individuazione di \textit{outliers}, scaler di tipo \textit{BEST\_SCALER}, \textit{SelectKBest} per \textit{feature selection}, \textit{SMOTE} sampling.
+        \bigbreak
+        
+        Una possibile miglioria da applicare al modello potrebbe quella di aumentare il numero di percettroni in ogni livello, ma questo comporterebbe un significativo aumento della complessità computazionale portando conseguentemente ad un notevole aumento del tempo di esecuzione nel training del modello.

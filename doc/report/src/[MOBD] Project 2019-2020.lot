@@ -1,7 +1,0 @@
-\contentsline {table}{\numberline {1}{\ignorespaces \textit {F1-score} con sampler SMOTE e scaler MinMaxScaler\relax }}{7}%
-\contentsline {table}{\numberline {2}{\ignorespaces \textit {F1-score} con sampler SMOTE e scaler MaxAbsScaler\relax }}{8}%
-\contentsline {table}{\numberline {3}{\ignorespaces \textit {F1-score} con sampler SMOTE e scaler QuantileTransformer\relax }}{9}%
-\contentsline {table}{\numberline {4}{\ignorespaces \textit {F1-score} con sampler SMOTE e scaler PowerTransformer (Yeo-Johnson)\relax }}{10}%
-\contentsline {table}{\numberline {5}{\ignorespaces \textit {F1-score} con sampler SMOTE e scaler PowerTransformer (Box-Cox)\relax }}{11}%
-\contentsline {table}{\numberline {6}{\ignorespaces Lista degli iperparametri testati per ogni modello di \textit {machine learning} testati\relax }}{14}%
-\contentsline {table}{\numberline {7}{\ignorespaces \textit {F1-score} per i vari modelli di \textit {machine learning} analizzati\relax }}{16}%

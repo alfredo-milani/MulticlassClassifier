@@ -51,11 +51,12 @@
                 
                 \subsubsection{Data normalization}
                 
-                La normalizzazione è il processo di ridimensionamento dei singoli campioni per avere una norma unitaria. Questo processo può essere utile se si prevede di utilizzare una forma quadratica come il prodotto scalare o qualsiasi altro kernel per quantificare la somiglianza di qualsiasi coppia di campioni.Per effettuare la normalizzazione dei campioni sono stati utilizzati gli scalers: \textit{MinMaxScaler, MaxAbsScaler, QuantileTransformer (uniform output)} il quale fornivano un output già normalizzato nell'intervallo [0, 1], mentre con gli scaler \textit{PowerTransformer (Yeo-Johnson e Box-Cox transforms)} si è dovuto ulteriormente normalizzare l'output in modo "manuale" poichè l'output non era compreso nell'intervallo [0, 1].
+                La normalizzazione è il processo di ridimensionamento dei singoli campioni per avere una norma unitaria. Questo processo può essere utile se si prevede di utilizzare una forma quadratica come il prodotto scalare o qualsiasi altro kernel per quantificare la somiglianza di qualsiasi coppia di campioni. Per effettuare la normalizzazione dei campioni sono stati utilizzati gli scalers: \textit{MinMaxScaler, MaxAbsScaler, QuantileTransformer (uniform output)} che fornivano un output scalato nell'intervallo [0, 1], mentre utilizzando \textit{PowerTransformer (Yeo-Johnson e Box-Cox transforms)} è stato necessario l'utilizzo di un \textit{Normalizer}.
+                
+                Nel seguito sono mostrati i risultati ottenuti con \textit{MinMaxScaler}, tabella \ref{tab:fscoreMLMinMax}, \textit{MaxAbsScaler}, tabella \ref{tab:f1scoreMLmaxAbs}, \textit{QuantileTransformer}, tabella \ref{tab:f1scoreMLQuantile} e \textit{PowerTransformer} tabelle \ref{tab:f1scoreMLPowerTransformerYJ} e \ref{tab:f1scoreMLPowerTransformerBC}.
                 
         		
         		\begin{center}
-        			La tabella \ref{tab:fscoreMLMinMax} mostra i risultati ottenuti con MinMaxScaler\\
                 \begin{tabular}{+l^c^c}
                 	\toprule\rowstyle{\bfseries}
                 	Model & Parameters & F1-score \\
@@ -85,7 +86,6 @@
 	        
 	        
 		        \begin{center}
-		        	La tabella \ref{tab:f1scoreMLmaxAbs} mostra i risultati ottenuti con MaxAbsScaler\\
 		        	\begin{tabular}{+l^c^c}
 		        		\toprule\rowstyle{\bfseries}
 		        		Model & Parameters & F1-score \\
@@ -115,7 +115,6 @@
 	        
 	        
 		        \begin{center}
-		        	La tabella \ref{tab:f1scoreMLQuantile} mostra i risultati ottenuti con QuantileTransformer\\
 		        	\begin{tabular}{+l^c^c}
 		        		\toprule\rowstyle{\bfseries}
 		        		Model & Parameters & F1-score \\
@@ -145,7 +144,6 @@
 	        
 	       
 				 \begin{center}
-					La tabella \ref{tab:f1scoreMLPowerTransformerYJ} mostra i risultati ottenuti con PowerTransformer (Yeo-Johnson)\\
 					\begin{tabular}{+l^c^c}
 						\toprule\rowstyle{\bfseries}
 						Model & Parameters & F1-score \\
@@ -175,7 +173,6 @@
         
         
         				 \begin{center}
-			        	La tabella \ref{tab:f1scoreMLPowerTransformerBC} mostra i risultati ottenuti con PowerTransformer (Box-Box)\\
 			        	\begin{tabular}{+l^c^c}
 			        		\toprule\rowstyle{\bfseries}
 			        		Model & Parameters & F1-score \\
@@ -205,19 +202,19 @@
                 
                 \subsubsection{Feature selection}
                 
-		                La feature selection è una tecnica in cui scegliamo quelle feature (caratteristiche) nei nostri dati che contribuiscono maggiormente alla variabile di destinazione. In altre parole, scegliamo i migliori predittori per la variabile target.
+		                La \textit{feature selection} è la tecnica utilizzata per scegliere le \textit{features} più significative rispetto al \textit{dataset} fornito.
 		                
-		                Vantaggi della feature selection:
+		                Vantaggi della \textit{feature selection}:
 		                
 		                \begin{itemize}
-		                	\item Riduce l'overfitting: meno dati ridondanti significa meno possibilità di prendere decisioni basate su dati / rumore ridondanti.
+		                	\item Riduce l'\textit{overfitting}: meno dati ridondanti significa meno possibilità di prendere decisioni basate su dati / rumore ridondanti.
 		                	\item Migliora la precisione: meno dati fuorvianti significa che la precisione della modellazione migliora.
 		                	\item Riduce il tempo di addestramento: meno dati significa che gli algoritmi si addestrano più velocemente.	              
 		                \end{itemize}
 		                
-                        Come approccio alla feature selection è stata usata la \textit{SelectKBest}, ovvero
-                        per "filtrare" le features viene assegnato un punteggio ad ogni feature utilizzando una funzione, infine vengono rimosse tutte feature tranne le k con il punteggio maggiore.\\
-                   
+                        Come approccio alla feature selection è stata usata la \textit{SelectKBest} che assegna un punteggio ad ogni \textit{feature}, utilizzando una determinata funzione, e rimuove tutte le \textit{feature} tranne le $k$ con il punteggio maggiore.
+                        \bigbreak
+                        
                      
                         
                         \begin{figure}[!h]
@@ -241,8 +238,7 @@
                         \`E stato quindi effettuato balancing delle classi per evitare che il modello finale pecchi nel riconoscimento di classi meno presenti nel \textit{training set}.
                         
                         La tecnica di balancing utilizzata è lo \textit{SMOTE}.
-                        
-                        \textbf{TODO}
+
                 
 
         \subsection{Hyper-parameters tuning}
@@ -254,10 +250,8 @@
                         \item \textit{Decition Tree}
                         \item \textit{Random Forest}
                         \item \textit{K-Nearest Neighbors}
-                        \item \textit{Stochastic Gradient Descent}
                         \item \textit{Ada Boost}
                         \item \textit{Naive Bayes}
-                        \item \textit{K-Means}
                 \end{itemize}
             
                 In questa fase sono stati cercati gli \textit{iper-parametri} migliori per i vari classificatori tra quelli elencati nella seguente tabella.
@@ -282,8 +276,6 @@
 						 Ada Boost &  \makecell[l]{criterion: [entropy, gini] \\ class\_weight: balanced \\ max\_depth: 90 \\ max\_features: 3 \\ min\_samples\_leaf: 4 \\ n\_estimators: [100, 200, 300]\\ splitter: [best, random]} \\
 						 \midrule
 						 Naive Bayes & \makecell[l]{priors: [None, [0.25, 0.25, 0.25, 0.25]] \\ var\_smoothing: [10e-9, 10e-6, 10e-3, 10e-1]} \\
-						 \midrule
-						 K-Means & \makecell[l]{max\_iter: 10000 \\ n\_clusters: 4 }\\
  
                 		\toprule\rowstyle{\bfseries}
                 	\end{tabular}
