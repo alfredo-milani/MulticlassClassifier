@@ -278,7 +278,7 @@ class MulticlassClassifier(AbstractClassifier):
         mlp_150_100.fit(self.training.set_x, self.training.set_y)
 
         accuracy, precision, recall, f1_score, confusion_matrix = Evaluation.evaluate(
-            'MLP-150-100',
+            mlp_150_100,
             self.test.set_x,
             self.test.set_y
         )
@@ -298,7 +298,7 @@ class MulticlassClassifier(AbstractClassifier):
         mlp_120_60.fit(self.training.set_x, self.training.set_y)
 
         accuracy, precision, recall, f1_score, confusion_matrix = Evaluation.evaluate(
-            self.classifiers['MLP-120-60'],
+            mlp_120_60,
             self.test.set_x,
             self.test.set_y
         )
