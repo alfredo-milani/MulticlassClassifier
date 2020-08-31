@@ -25,8 +25,9 @@ class AbstractClassifier(ABC, IClassifier):
             self.normalize()
             self.feature_selection()
             self.sample()
-            self.train()
-            self.evaluate()
+            # TODO - TEST
+            # self.train()
+            # self.evaluate()
         except Exception as e:
             return self.on_error(e)
 

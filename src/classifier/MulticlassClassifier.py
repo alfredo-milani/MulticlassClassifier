@@ -268,6 +268,49 @@ class MulticlassClassifier(AbstractClassifier):
         self.__LOG.debug(
             f"[SAMPLING] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
 
+    # TODO - TEST
+    def TEST(self):
+        from sklearn.neural_network import MLPClassifier
+
+        self.__LOG.debug(f"TESTING MLP 150 100")
+        mlp_150_100 = MLPClassifier(max_iter=10000, activation='relu', hidden_layer_sizes=(150, 100),
+                                    learning_rate='adaptive', learning_rate_init=0.01, solver='sgd')
+        mlp_150_100.fit(self.training.set_x, self.training.set_y)
+
+        accuracy, precision, recall, f1_score, confusion_matrix = Evaluation.evaluate(
+            'MLP-150-100',
+            self.test.set_x,
+            self.test.set_y
+        )
+        self.__LOG.info(
+            f"[EVAL] Evaluation of MLP-150-100:\n"
+            f"\t- Accuracy: {accuracy}\n"
+            f"\t- Precision: {precision}\n"
+            f"\t- Recall: {recall}\n"
+            f"\t- F1-score: {f1_score}\n"
+            f"\t- Confusion matrix: \n{confusion_matrix}"
+        )
+
+        #########################
+        self.__LOG.debug(f"TESTING MLP 120 60")
+        mlp_120_60 = MLPClassifier(max_iter=10000, activation='relu', hidden_layer_sizes=(120, 60),
+                                   learning_rate='adaptive', learning_rate_init=0.01, solver='sgd')
+        mlp_120_60.fit(self.training.set_x, self.training.set_y)
+
+        accuracy, precision, recall, f1_score, confusion_matrix = Evaluation.evaluate(
+            self.classifiers['MLP-120-60'],
+            self.test.set_x,
+            self.test.set_y
+        )
+        self.__LOG.info(
+            f"[EVAL] Evaluation of MLP-120-60:\n"
+            f"\t- Accuracy: {accuracy}\n"
+            f"\t- Precision: {precision}\n"
+            f"\t- Recall: {recall}\n"
+            f"\t- F1-score: {f1_score}\n"
+            f"\t- Confusion matrix: \n{confusion_matrix}"
+        )
+
     def train(self) -> None:
         """
         Perform Cross-Validation using GridSearchCV to find best hyper-parameter and refit classifiers on
@@ -334,6 +377,8 @@ class MulticlassClassifier(AbstractClassifier):
         """
         Evaluate all specified classifiers
         """
+        # filter invalid classifiers
+        self.__classifiers = {k: v for k, v in self.classifiers.items() if v is not None}
         self.__LOG.info(f"[EVAL] Computing evaluation for: {', '.join(self.classifiers.keys())}")
 
         for name, classifier in self.classifiers.items():
@@ -354,6 +399,9 @@ class MulticlassClassifier(AbstractClassifier):
 
     def on_success(self) -> None:
         super().on_success()
+
+        # TODO - TEST
+        self.TEST()
 
         self.__LOG.info(f"Successfully trained all specified classifiers")
 
