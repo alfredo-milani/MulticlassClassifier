@@ -271,11 +271,15 @@ class MulticlassClassifier(AbstractClassifier):
     # TODO - TEST
     def TEST(self):
         from sklearn.neural_network import MLPClassifier
+        from joblib import load
 
         self.__LOG.debug(f"TESTING MLP 150 100")
+        from numpy.random.mtrand import RandomState
         mlp_150_100 = MLPClassifier(max_iter=10000, activation='relu', hidden_layer_sizes=(150, 100),
-                                    learning_rate='adaptive', learning_rate_init=0.01, solver='sgd')
+                                    learning_rate='adaptive', learning_rate_init=0.01, solver='sgd', random_state=RandomState(19937))
         mlp_150_100.fit(self.training.set_x, self.training.set_y)
+        # mlp = load('/Volumes/Data/Projects/Python/MulticlassClassifier/res/classifier/BACKUP-SEED_43531/Multi-Layer_Perceptron.joblib')
+        # print(mlp)
 
         accuracy, precision, recall, f1_score, confusion_matrix = Evaluation.evaluate(
             mlp_150_100,
@@ -294,7 +298,7 @@ class MulticlassClassifier(AbstractClassifier):
         #########################
         self.__LOG.debug(f"TESTING MLP 120 60")
         mlp_120_60 = MLPClassifier(max_iter=10000, activation='relu', hidden_layer_sizes=(120, 60),
-                                   learning_rate='adaptive', learning_rate_init=0.01, solver='sgd')
+                                   learning_rate='adaptive', learning_rate_init=0.01, solver='sgd', random_state=RandomState(19937))
         mlp_120_60.fit(self.training.set_x, self.training.set_y)
 
         accuracy, precision, recall, f1_score, confusion_matrix = Evaluation.evaluate(
