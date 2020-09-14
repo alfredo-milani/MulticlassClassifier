@@ -110,7 +110,7 @@ dataset.train = /ABS_PATH_TRAINING_SET.csv
 
 # [opt] - Seed for RNG.
 # [dft] - 0
-# rng.seed = 43531
+rng.seed = 43531
 # rng.seed = 2873587
 
 # [opt] - Compute pair-plot.

@@ -18,21 +18,27 @@ class Tuning(object):
     Contains helper methods for hyperparameter tuning
     """
 
-    DEFAULT_THREAD = -1
+    DEFAULT_CV = 10
+    DEFAULT_METRIC: str = 'f1_macro'
+    DEFAULT_THREAD: int = -1
+    DEFAULT_RANDOM_STATE = 0
 
     @staticmethod
     def support_vector_machine_param_selection(x: DataFrame, y: DataFrame = None,
-                                               n_folds: int = 10, metric: str = 'f1_macro',
-                                               jobs: int = DEFAULT_THREAD):
+                                               cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                               jobs: int = DEFAULT_THREAD,
+                                               random_state: int = DEFAULT_RANDOM_STATE):
         """
 
         :param x:
         :param y:
-        :param n_folds:
+        :param cv:
         :param metric:
         :param jobs:
+        :param random_state:
         :return:
         """
+
         param_grid = [
             {
                 'kernel': ['linear'],
@@ -55,10 +61,10 @@ class Tuning(object):
         ]
 
         grid_search = ms.GridSearchCV(
-            svm.SVC(),
+            svm.SVC(random_state=random_state),
             param_grid,
             scoring=metric,
-            cv=n_folds,
+            cv=cv,
             refit=True,
             n_jobs=jobs
         )
@@ -81,17 +87,20 @@ class Tuning(object):
 
     @staticmethod
     def decision_tree_param_selection(x: DataFrame, y: DataFrame = None,
-                                      n_folds: int = 10, metric: str = 'f1_macro',
-                                      jobs: int = DEFAULT_THREAD):
+                                      cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                      jobs: int = DEFAULT_THREAD,
+                                      random_state: int = DEFAULT_RANDOM_STATE):
         """
 
         :param x:
         :param y:
-        :param n_folds:
+        :param cv:
         :param metric:
         :param jobs:
+        :param random_state:
         :return:
         """
+
         param_grid = {
             'criterion': ['entropy', 'gini'],
             'splitter': ['best', 'random'],
@@ -101,10 +110,10 @@ class Tuning(object):
         }
 
         grid_search = ms.GridSearchCV(
-            DecisionTreeClassifier(),
+            DecisionTreeClassifier(random_state=random_state),
             param_grid,
             scoring=metric,
-            cv=n_folds,
+            cv=cv,
             refit=True,
             n_jobs=jobs
         )
@@ -126,17 +135,20 @@ class Tuning(object):
 
     @staticmethod
     def random_forest_param_selection(x: DataFrame, y: DataFrame = None,
-                                      n_folds: int = 10, metric: str = 'f1_macro',
-                                      jobs: int = DEFAULT_THREAD):
+                                      cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                      jobs: int = DEFAULT_THREAD,
+                                      random_state: int = DEFAULT_RANDOM_STATE):
         """
 
         :param x:
         :param y:
-        :param n_folds:
+        :param cv:
         :param metric:
         :param jobs:
+        :param random_state:
         :return:
         """
+
         param_grid = {
             'criterion': ['entropy', 'gini'],
             'max_depth': [80, 90],
@@ -146,10 +158,10 @@ class Tuning(object):
         }
 
         grid_search = ms.GridSearchCV(
-            RandomForestClassifier(),
+            RandomForestClassifier(random_state=random_state),
             param_grid,
             scoring=metric,
-            cv=n_folds,
+            cv=cv,
             refit=True,
             n_jobs=jobs
         )
@@ -171,20 +183,24 @@ class Tuning(object):
 
     @staticmethod
     def multilayer_perceptron_param_selection(x: DataFrame, y: DataFrame = None,
-                                              n_folds: int = 10, metric: str = 'f1_macro',
-                                              jobs: int = DEFAULT_THREAD):
+                                              cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                              jobs: int = DEFAULT_THREAD,
+                                              random_state: int = DEFAULT_RANDOM_STATE):
         """
 
         :param x:
         :param y:
-        :param n_folds:
+        :param cv:
         :param metric:
         :param jobs:
+        :param random_state:
         :return:
         """
+
         param_grid = {
             # 'hidden_layer_sizes': [(100, 50, 25), (100, 50), (100,), (75,), (45,)],
-            'hidden_layer_sizes': [(150, 100), (120, 60), (60, 30), (75,), (45,)],
+            # 'hidden_layer_sizes': [(150, 100), (120, 60), (60, 30), (75,), (45,)],
+            'hidden_layer_sizes': [(200, 150), (240, 120), (150, 100), (120, 60)],
             'activation': ['tanh', 'relu'],
             'solver': ['sgd', 'adam'],
             'learning_rate_init': [1e-1, 1e-2, 1e-3, 1e-4],
@@ -192,10 +208,10 @@ class Tuning(object):
         }
 
         grid_search = ms.GridSearchCV(
-            MLPClassifier(max_iter=10000),
+            MLPClassifier(max_iter=10000, random_state=random_state),
             param_grid=param_grid,
             scoring=metric,
-            cv=n_folds,
+            cv=cv,
             refit=True,
             n_jobs=jobs
         )
@@ -217,17 +233,20 @@ class Tuning(object):
 
     @staticmethod
     def knearest_neighbors_param_selection(x: DataFrame, y: DataFrame = None,
-                                           n_folds: int = 10, metric: str = 'f1_macro',
-                                           jobs: int = DEFAULT_THREAD):
+                                           cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                           jobs: int = DEFAULT_THREAD,
+                                           random_state: int = DEFAULT_RANDOM_STATE):
         """
 
         :param x:
         :param y:
-        :param n_folds:
+        :param cv:
         :param metric:
         :param jobs:
+        :param random_state:
         :return:
         """
+
         param_grid = {
             'n_neighbors': [3, 5, 7, 11],
             'metric': ['minkowski', 'euclidean', 'chebyshev'],
@@ -238,7 +257,7 @@ class Tuning(object):
             KNeighborsClassifier(),
             param_grid=param_grid,
             scoring=metric,
-            cv=n_folds,
+            cv=cv,
             refit=True,
             n_jobs=jobs
         )
@@ -260,17 +279,20 @@ class Tuning(object):
 
     @staticmethod
     def stochastic_gradient_descent_param_selection(x: DataFrame, y: DataFrame = None,
-                                                    n_folds: int = 10, metric: str = 'f1_macro',
-                                                    jobs: int = DEFAULT_THREAD):
+                                                    cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                                    jobs: int = DEFAULT_THREAD,
+                                                    random_state: int = DEFAULT_RANDOM_STATE):
         """
 
         :param x:
         :param y:
-        :param n_folds:
+        :param cv:
         :param metric:
         :param jobs:
+        :param random_state:
         :return:
         """
+
         param_grid = {
             'loss': ['hinge', 'log', 'squared_hinge', 'modified_huber'],
             'max_iter': [1000],
@@ -279,10 +301,10 @@ class Tuning(object):
         }
 
         grid_search = ms.GridSearchCV(
-            SGDClassifier(max_iter=6000),
+            SGDClassifier(max_iter=6000, random_state=random_state),
             param_grid=param_grid,
             scoring=metric,
-            cv=n_folds,
+            cv=cv,
             refit=True,
             n_jobs=jobs
         )
@@ -303,17 +325,20 @@ class Tuning(object):
 
     @staticmethod
     def naive_bayes_param_selection(x: DataFrame, y: DataFrame = None,
-                                    n_folds: int = 10, metric: str = 'f1_macro',
-                                    jobs: int = DEFAULT_THREAD):
+                                    cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                    jobs: int = DEFAULT_THREAD,
+                                    random_state: int = DEFAULT_RANDOM_STATE):
         """
 
         :param x:
         :param y:
-        :param n_folds:
+        :param cv:
         :param metric:
         :param jobs:
+        :param random_state:
         :return:
         """
+
         param_grid = {
             'priors': [None, [0.25, 0.25, 0.25, 0.25]],
             'var_smoothing': [10e-9, 10e-6, 10e-3, 10e-1]
@@ -323,7 +348,7 @@ class Tuning(object):
             GaussianNB(),
             param_grid=param_grid,
             scoring=metric,
-            cv=n_folds,
+            cv=cv,
             refit=True,
             n_jobs=jobs
         )
@@ -345,17 +370,20 @@ class Tuning(object):
 
     @staticmethod
     def ada_boosting_param_selection(x: DataFrame, y: DataFrame = None,
-                                     n_folds: int = 10, metric: str = 'f1_macro',
-                                     jobs: int = DEFAULT_THREAD):
+                                     cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                     jobs: int = DEFAULT_THREAD,
+                                     random_state: int = DEFAULT_RANDOM_STATE):
         """
 
         :param x:
         :param y:
-        :param n_folds:
+        :param cv:
         :param metric:
         :param jobs:
+        :param random_state:
         :return:
         """
+
         param_grid = {
             'base_estimator__criterion': ['gini', 'entropy'],
             'base_estimator__splitter': ['best', 'random'],
@@ -369,10 +397,10 @@ class Tuning(object):
             class_weight='balanced'
         )
         grid_search = ms.GridSearchCV(
-            AdaBoostClassifier(base_estimator=dtc),
+            AdaBoostClassifier(base_estimator=dtc), random_state=random_state,
             param_grid=param_grid,
             scoring=metric,
-            cv=n_folds,
+            cv=cv,
             refit=True,
             n_jobs=jobs
         )
@@ -394,22 +422,25 @@ class Tuning(object):
 
     @staticmethod
     def kmeans_param_selection(x: DataFrame, y: DataFrame = None,
-                               n_folds: int = 10, metric: str = 'f1_macro',
-                               jobs: int = DEFAULT_THREAD):
+                               cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                               jobs: int = DEFAULT_THREAD,
+                               random_state: int = DEFAULT_RANDOM_STATE):
         """
 
         :param x:
         :param y:
-        :param n_folds:
+        :param cv:
         :param metric:
         :param jobs:
+        :param random_state:
         :return:
         """
+
         clf = KMeans(
             n_clusters=4,
             max_iter=10000,
             algorithm='auto',
-            random_state=Conf.get_instance().rng_seed
+            random_state=random_state
         )
         clf.fit(x, y)
 

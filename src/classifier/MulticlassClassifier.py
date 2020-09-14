@@ -9,6 +9,7 @@ import imblearn
 import scipy
 import sklearn.preprocessing as prep
 from joblib import dump
+import sklearn.model_selection as ms
 from sklearn.feature_selection import SelectKBest, mutual_info_classif
 from imblearn.over_sampling import RandomOverSampler, ADASYN, SMOTE
 
@@ -17,6 +18,7 @@ from model import Conf, Set
 from util import LogManager, Validation, Common
 from util.helper import PreProcessing, Tuning, Evaluation
 from sklearn.preprocessing import Normalizer
+
 
 class MulticlassClassifier(AbstractClassifier):
     """
@@ -67,12 +69,12 @@ class MulticlassClassifier(AbstractClassifier):
         self.__classifiers = {
             MulticlassClassifier._MULTILAYER_PERCEPTRON: None,
             MulticlassClassifier._SUPPORT_VECTOR_MACHINE: None,
-            MulticlassClassifier._DECISION_TREE: None,
+            # MulticlassClassifier._DECISION_TREE: None,
             MulticlassClassifier._RANDOM_FOREST: None,
-            MulticlassClassifier._KNEAREST_NEIGHBORS: None,
+            # MulticlassClassifier._KNEAREST_NEIGHBORS: None,
             # MulticlassClassifier._STOCHASTIC_GRADIENT_DESCENT: None,
             MulticlassClassifier._ADA_BOOST: None,
-            MulticlassClassifier._NAIVE_BAYES: None,
+            # MulticlassClassifier._NAIVE_BAYES: None,
             # MulticlassClassifier._KMEANS: None
         }
 
@@ -223,14 +225,14 @@ class MulticlassClassifier(AbstractClassifier):
         Data scaling/normalization
         """
         scaler = prep.MinMaxScaler(feature_range=(0, 1))
-        #scaler = prep.MaxAbsScaler()
-        #scaler = prep.QuantileTransformer(output_distribution='uniform')
-        #scaler = prep.PowerTransformer(method='yeo-johnson')
-        #scaler = prep.PowerTransformer(method='box - cox')
+        # scaler = prep.MaxAbsScaler()
+        # scaler = prep.QuantileTransformer(output_distribution='uniform')
+        # scaler = prep.PowerTransformer(method='yeo-johnson')
+        # scaler = prep.PowerTransformer(method='box - cox')
 
         self.__LOG.info(f"[SCALING] Data scaling using {type(scaler).__qualname__}")
         scaler.fit(self.training.set_x)
-        #scaler = Normalizer().fit(self.training.set_x)  # fit does nothing.
+        # scaler = Normalizer().fit(self.training.set_x)  # fit does nothing.
 
         self.training.set_x = scaler.transform(self.training.set_x)
         self.test.set_x = scaler.transform(self.test.set_x)
@@ -239,6 +241,8 @@ class MulticlassClassifier(AbstractClassifier):
         """
         Features selection
         """
+        ### TODO - PROVARE UN METODO DI TIPO WRAPPER PER OTTENERE L'INSIEME OTTIMO DELLE FEATURES
+        ###  see https://www.datacamp.com/community/tutorials/feature-selection-python
         # do not consider the 5 features that have less dependence on the target feature
         #   (i.e. the class to which they belong)
         selector = SelectKBest(mutual_info_classif, k=15)
@@ -256,6 +260,9 @@ class MulticlassClassifier(AbstractClassifier):
         """
         Data over/undersampling
         """
+        ### TODO - TESTARE MEGLIO METODI PER UNDER/OVER SAMPLING
+        ###  see https://machinelearningmastery.com/random-oversampling-and-undersampling-for-imbalanced-classification/
+        ###  see https://medium.com/quantyca/oversampling-and-undersampling-adasyn-vs-enn-60828a58db39
         # oversampling with SMOTE
         sampler = SMOTE(random_state=self.conf.rng_seed)
         # sampler = RandomUnderSampler(random_state=self.conf.rng_seed)
@@ -268,62 +275,19 @@ class MulticlassClassifier(AbstractClassifier):
         self.__LOG.debug(
             f"[SAMPLING] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
 
-    # TODO - TEST
-    def TEST(self):
-        from sklearn.neural_network import MLPClassifier
-        from joblib import load
-
-        self.__LOG.debug(f"TESTING MLP 150 100")
-        from numpy.random.mtrand import RandomState
-        mlp_150_100 = MLPClassifier(max_iter=10000, activation='relu', hidden_layer_sizes=(150, 100),
-                                    learning_rate='adaptive', learning_rate_init=0.01, solver='sgd', random_state=RandomState(19937))
-        mlp_150_100.fit(self.training.set_x, self.training.set_y)
-        # mlp = load('/Volumes/Data/Projects/Python/MulticlassClassifier/res/classifier/BACKUP-SEED_43531/Multi-Layer_Perceptron.joblib')
-        # print(mlp)
-
-        accuracy, precision, recall, f1_score, confusion_matrix = Evaluation.evaluate(
-            mlp_150_100,
-            self.test.set_x,
-            self.test.set_y
-        )
-        self.__LOG.info(
-            f"[EVAL] Evaluation of MLP-150-100:\n"
-            f"\t- Accuracy: {accuracy}\n"
-            f"\t- Precision: {precision}\n"
-            f"\t- Recall: {recall}\n"
-            f"\t- F1-score: {f1_score}\n"
-            f"\t- Confusion matrix: \n{confusion_matrix}"
-        )
-
-        #########################
-        self.__LOG.debug(f"TESTING MLP 120 60")
-        mlp_120_60 = MLPClassifier(max_iter=10000, activation='relu', hidden_layer_sizes=(120, 60),
-                                   learning_rate='adaptive', learning_rate_init=0.01, solver='sgd', random_state=RandomState(19937))
-        mlp_120_60.fit(self.training.set_x, self.training.set_y)
-
-        accuracy, precision, recall, f1_score, confusion_matrix = Evaluation.evaluate(
-            mlp_120_60,
-            self.test.set_x,
-            self.test.set_y
-        )
-        self.__LOG.info(
-            f"[EVAL] Evaluation of MLP-120-60:\n"
-            f"\t- Accuracy: {accuracy}\n"
-            f"\t- Precision: {precision}\n"
-            f"\t- Recall: {recall}\n"
-            f"\t- F1-score: {f1_score}\n"
-            f"\t- Confusion matrix: \n{confusion_matrix}"
-        )
-
     def train(self) -> None:
         """
         Perform Cross-Validation using GridSearchCV to find best hyper-parameter and refit classifiers on
           complete training set
         """
+        ### TODO
+        ###  - VEDERE SE USARE PIPELINE PER PRE-PROCESSARE TRAINING/VALIDATION SET DURANTE CROSS-VALIDATION
+        ###  - PROVARE REPEATED KFOLD E STRATIFIED KFOLD (usando stratified kfold provare con e senza SMOTE)
+        ###    - https://towardsdatascience.com/how-to-train-test-split-kfold-vs-stratifiedkfold-281767b93869
         self.__LOG.info(f"[TUNING] Hyper-parameters tuning of: {', '.join(self.classifiers.keys())}")
 
-        # dump classifier, if requested
         dump_directory_path = Path(Common.get_root_path(), MulticlassClassifier._CLASSIFIER_REL_PATH)
+        # create directory for dump classifier, if requested
         if self.conf.classifier_dump:
             try:
                 Validation.is_dir(dump_directory_path)
@@ -336,19 +300,26 @@ class MulticlassClassifier(AbstractClassifier):
             if name == MulticlassClassifier._MULTILAYER_PERCEPTRON:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(
-                    self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
+                    self.training.set_x, self.training.set_y,
+                    cv=ms.StratifiedKFold(shuffle=True, random_state=self.conf.rng_seed), jobs=self.conf.jobs,
+                    random_state=self.conf.rng_seed)
             elif name == MulticlassClassifier._SUPPORT_VECTOR_MACHINE:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.support_vector_machine_param_selection(
-                    self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
+                    self.training.set_x, self.training.set_y,
+                    cv=ms.StratifiedKFold(shuffle=True, random_state=self.conf.rng_seed), jobs=self.conf.jobs,
+                    random_state=self.conf.rng_seed)
             elif name == MulticlassClassifier._DECISION_TREE:
                 # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.decision_tree_param_selection(
-                    self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
+                self.classifiers[name] = Tuning.decision_tree_param_selection(self.training.set_x,
+                                                                              self.training.set_y,
+                                                                              jobs=self.conf.jobs)
             elif name == MulticlassClassifier._RANDOM_FOREST:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.random_forest_param_selection(
-                    self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
+                    self.training.set_x, self.training.set_y,
+                    cv=ms.StratifiedKFold(shuffle=True, random_state=self.conf.rng_seed), jobs=self.conf.jobs,
+                    random_state=self.conf.rng_seed)
             elif name == MulticlassClassifier._KNEAREST_NEIGHBORS:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.knearest_neighbors_param_selection(
@@ -360,7 +331,9 @@ class MulticlassClassifier(AbstractClassifier):
             elif name == MulticlassClassifier._ADA_BOOST:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.ada_boosting_param_selection(
-                    self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
+                    self.training.set_x, self.training.set_y,
+                    cv=ms.StratifiedKFold(shuffle=True, random_state=self.conf.rng_seed), jobs=self.conf.jobs,
+                    random_state=self.conf.rng_seed)
             elif name == MulticlassClassifier._NAIVE_BAYES:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.naive_bayes_param_selection(
@@ -403,9 +376,6 @@ class MulticlassClassifier(AbstractClassifier):
 
     def on_success(self) -> None:
         super().on_success()
-
-        # TODO - TEST
-        self.TEST()
 
         self.__LOG.info(f"Successfully trained all specified classifiers")
 

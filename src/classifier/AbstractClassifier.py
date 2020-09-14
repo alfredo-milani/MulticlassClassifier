@@ -24,10 +24,10 @@ class AbstractClassifier(ABC, IClassifier):
             self.manage_bad_values()
             self.normalize()
             self.feature_selection()
-            self.sample()
-            # TODO - TEST
-            # self.train()
-            # self.evaluate()
+            ### TESTING - Stratified kfold senza SMOTE
+            # self.sample()
+            self.train()
+            self.evaluate()
         except Exception as e:
             return self.on_error(e)
 
