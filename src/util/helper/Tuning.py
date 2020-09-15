@@ -397,7 +397,7 @@ class Tuning(object):
             class_weight='balanced'
         )
         grid_search = ms.GridSearchCV(
-            AdaBoostClassifier(base_estimator=dtc), random_state=random_state,
+            AdaBoostClassifier(base_estimator=dtc, random_state=random_state),
             param_grid=param_grid,
             scoring=metric,
             cv=cv,

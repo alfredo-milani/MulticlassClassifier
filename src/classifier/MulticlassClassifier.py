@@ -284,6 +284,7 @@ class MulticlassClassifier(AbstractClassifier):
         ###  - VEDERE SE USARE PIPELINE PER PRE-PROCESSARE TRAINING/VALIDATION SET DURANTE CROSS-VALIDATION
         ###  - PROVARE REPEATED KFOLD E STRATIFIED KFOLD (usando stratified kfold provare con e senza SMOTE)
         ###    - https://towardsdatascience.com/how-to-train-test-split-kfold-vs-stratifiedkfold-281767b93869
+        ###    - PROVA STRATIFIED CON 10 FOLDS, VEDI SE RIPROVARE CON LO STRATIFIED SEMPLICE (NON REPEATED) E USANDO FOLD 5 E 10 E CON E SENZA SHUFFLE
         self.__LOG.info(f"[TUNING] Hyper-parameters tuning of: {', '.join(self.classifiers.keys())}")
 
         dump_directory_path = Path(Common.get_root_path(), MulticlassClassifier._CLASSIFIER_REL_PATH)
@@ -301,13 +302,15 @@ class MulticlassClassifier(AbstractClassifier):
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(
                     self.training.set_x, self.training.set_y,
-                    cv=ms.StratifiedKFold(shuffle=True, random_state=self.conf.rng_seed), jobs=self.conf.jobs,
+                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=30, random_state=self.conf.rng_seed),
+                    jobs=self.conf.jobs,
                     random_state=self.conf.rng_seed)
             elif name == MulticlassClassifier._SUPPORT_VECTOR_MACHINE:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.support_vector_machine_param_selection(
                     self.training.set_x, self.training.set_y,
-                    cv=ms.StratifiedKFold(shuffle=True, random_state=self.conf.rng_seed), jobs=self.conf.jobs,
+                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=30, random_state=self.conf.rng_seed),
+                    jobs=self.conf.jobs,
                     random_state=self.conf.rng_seed)
             elif name == MulticlassClassifier._DECISION_TREE:
                 # perform grid search and fit on best evaluator
@@ -318,7 +321,8 @@ class MulticlassClassifier(AbstractClassifier):
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.random_forest_param_selection(
                     self.training.set_x, self.training.set_y,
-                    cv=ms.StratifiedKFold(shuffle=True, random_state=self.conf.rng_seed), jobs=self.conf.jobs,
+                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=30, random_state=self.conf.rng_seed),
+                    jobs=self.conf.jobs,
                     random_state=self.conf.rng_seed)
             elif name == MulticlassClassifier._KNEAREST_NEIGHBORS:
                 # perform grid search and fit on best evaluator
@@ -332,7 +336,8 @@ class MulticlassClassifier(AbstractClassifier):
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.ada_boosting_param_selection(
                     self.training.set_x, self.training.set_y,
-                    cv=ms.StratifiedKFold(shuffle=True, random_state=self.conf.rng_seed), jobs=self.conf.jobs,
+                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=30, random_state=self.conf.rng_seed),
+                    jobs=self.conf.jobs,
                     random_state=self.conf.rng_seed)
             elif name == MulticlassClassifier._NAIVE_BAYES:
                 # perform grid search and fit on best evaluator
