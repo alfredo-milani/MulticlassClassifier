@@ -302,14 +302,14 @@ class MulticlassClassifier(AbstractClassifier):
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(
                     self.training.set_x, self.training.set_y,
-                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=30, random_state=self.conf.rng_seed),
+                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=20, random_state=self.conf.rng_seed),
                     jobs=self.conf.jobs,
                     random_state=self.conf.rng_seed)
             elif name == MulticlassClassifier._SUPPORT_VECTOR_MACHINE:
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.support_vector_machine_param_selection(
                     self.training.set_x, self.training.set_y,
-                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=30, random_state=self.conf.rng_seed),
+                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=20, random_state=self.conf.rng_seed),
                     jobs=self.conf.jobs,
                     random_state=self.conf.rng_seed)
             elif name == MulticlassClassifier._DECISION_TREE:
@@ -321,7 +321,7 @@ class MulticlassClassifier(AbstractClassifier):
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.random_forest_param_selection(
                     self.training.set_x, self.training.set_y,
-                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=30, random_state=self.conf.rng_seed),
+                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=20, random_state=self.conf.rng_seed),
                     jobs=self.conf.jobs,
                     random_state=self.conf.rng_seed)
             elif name == MulticlassClassifier._KNEAREST_NEIGHBORS:
@@ -336,7 +336,7 @@ class MulticlassClassifier(AbstractClassifier):
                 # perform grid search and fit on best evaluator
                 self.classifiers[name] = Tuning.ada_boosting_param_selection(
                     self.training.set_x, self.training.set_y,
-                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=30, random_state=self.conf.rng_seed),
+                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=20, random_state=self.conf.rng_seed),
                     jobs=self.conf.jobs,
                     random_state=self.conf.rng_seed)
             elif name == MulticlassClassifier._NAIVE_BAYES:

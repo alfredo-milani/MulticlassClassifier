@@ -200,7 +200,8 @@ class Tuning(object):
         param_grid = {
             # 'hidden_layer_sizes': [(100, 50, 25), (100, 50), (100,), (75,), (45,)],
             # 'hidden_layer_sizes': [(150, 100), (120, 60), (60, 30), (75,), (45,)],
-            'hidden_layer_sizes': [(200, 150), (240, 120), (150, 100), (120, 60)],
+            # 'hidden_layer_sizes': [(200, 150), (240, 120), (150, 100), (120, 60)],
+            'hidden_layer_sizes': [(200, 150), (150, 100)],
             'activation': ['tanh', 'relu'],
             'solver': ['sgd', 'adam'],
             'learning_rate_init': [1e-1, 1e-2, 1e-3, 1e-4],
@@ -208,7 +209,7 @@ class Tuning(object):
         }
 
         grid_search = ms.GridSearchCV(
-            MLPClassifier(max_iter=10000, random_state=random_state),
+            MLPClassifier(max_iter=10000, random_state=random_state, warm_start=True),
             param_grid=param_grid,
             scoring=metric,
             cv=cv,
