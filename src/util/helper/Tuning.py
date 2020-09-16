@@ -61,7 +61,7 @@ class Tuning(object):
         ]
 
         grid_search = ms.GridSearchCV(
-            svm.SVC(random_state=random_state),
+            svm.SVC(random_state=random_state, cache_size=5000),
             param_grid,
             scoring=metric,
             cv=cv,
@@ -158,7 +158,7 @@ class Tuning(object):
         }
 
         grid_search = ms.GridSearchCV(
-            RandomForestClassifier(random_state=random_state),
+            RandomForestClassifier(random_state=random_state, warm_start=True, n_jobs=jobs),
             param_grid,
             scoring=metric,
             cv=cv,
