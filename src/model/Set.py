@@ -7,33 +7,37 @@ class Set(object):
     Container for classifier's dataset
     """
 
-    def __init__(self, set_=None, set_x=None, set_y=None):
+    def __init__(self, w_set=None, X=None, y=None):
         super().__init__()
 
-        self.set_ = set_
-        self.set_x = set_x
-        self.set_y = set_y
+        self.w_set = w_set
+        self.X = X
+        self.y = y
 
     @property
-    def set_(self):
-        return self.__set_
+    def w_set(self):
+        """
+        Return whole dataset
+        :return: dataset
+        """
+        return self.__w_set
 
-    @set_.setter
-    def set_(self, set_):
-        self.__set_ = set_
-
-    @property
-    def set_x(self):
-        return self.__set_x
-
-    @set_x.setter
-    def set_x(self, set_x):
-        self.__set_x = set_x
+    @w_set.setter
+    def w_set(self, w_set):
+        self.__w_set = w_set
 
     @property
-    def set_y(self):
-        return self.__set_y
+    def X(self):
+        return self.__X
 
-    @set_y.setter
-    def set_y(self, set_y):
-        self.__set_y = set_y
+    @X.setter
+    def X(self, X):
+        self.__X = X
+
+    @property
+    def y(self):
+        return self.__y
+
+    @y.setter
+    def y(self, y):
+        self.__y = y

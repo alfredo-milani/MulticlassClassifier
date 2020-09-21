@@ -4,7 +4,7 @@ import sys
 
 from pathlib import Path
 
-from classifier import MulticlassClassifier, Evaluator
+from classifier import Trainer, Evaluator
 from model import Conf
 from util import Validation, Common, LogManager
 
@@ -58,16 +58,16 @@ class Client(object):
             # register cleaning routine at exit
             atexit.register(self.stop)
 
-            self.__LOG.info(f"v{self.conf.version}")
-            self.__LOG.debug(f"\n{self.conf}")
+            self.log.info(f"v{self.conf.version}")
+            self.log.debug(f"\n{self.conf}")
 
             # print current benchmark value/deadline
-            self.__LOG.info(
-                f"[BENCHMARK] Current best value found for {self.conf.benchmark_best_found[1]} classifier, with "
-                f"F1-score: {self.conf.benchmark_best_found[0]}."
+            self.log.info(
+                f"[BENCHMARK] Best classifier found {self.conf.benchmark_best_found[1]}, with "
+                f"F1-macro: {self.conf.benchmark_best_found[0]}."
             )
-            self.__LOG.info(
-                f"[BENCHMARK] Current threshold with F1-score: {self.conf.benchmark_threshold[0]} "
+            self.log.info(
+                f"[BENCHMARK] Threshold with F1-macro: {self.conf.benchmark_threshold[0]} "
                 f"(deadline on {self.conf.benchmark_threshold[1]})."
             )
 
@@ -76,15 +76,19 @@ class Client(object):
                 Evaluator(self.conf).process()
             else:
                 # execute multi-class classification to choose best classifier
-                MulticlassClassifier(self.conf).process()
+                Trainer(self.conf).process()
         except KeyboardInterrupt:
-            self.__LOG.info(f"Execution interrupted by user.")
+            self.log.info(f"Execution interrupted by user.")
         except (Conf.NoValueError, SyntaxError, ValueError) as e:
-            self.__LOG.critical(f"Error in configuration file: {e}")
+            self.log.critical(f"Error in configuration file: {e}")
             sys.exit(Common.EXIT_FAILURE)
         except Exception as e:
-            self.__LOG.critical(f"Unexpected exception.\n{e}")
+            self.log.critical(f"Unexpected exception.\n{e}")
             sys.exit(Common.EXIT_FAILURE)
+            
+    @property
+    def log(self) -> logging.Logger:
+        return self.__LOG
 
     @property
     def conf(self) -> Conf:

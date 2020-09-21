@@ -42,10 +42,10 @@ class Conf(dict):
     V_DEFAULT_DATASET_TEST_RATIO = 0.2
     K_RNG_SEED = "rng.seed"
     V_DEFAULT_RNG_SEED = 0
-    K_PAIR_PLOT_COMPUTE = "pair_plot.compute"
-    V_DEFAULT_PAIR_PLOT_COMPUTE = False
-    K_PAIR_PLOT_SAVE = "pair_plot.save"
-    V_DEFAULT_PAIR_PLOT_SAVE = False
+    K_CHARTS_COMPUTE = "charts.compute"
+    V_DEFAULT_CHARTS_COMPUTE = False
+    K_CHARTS_SAVE = "charts.save"
+    V_DEFAULT_CHARTS_SAVE = False
     K_JOBS = "jobs"
     V_DEFAULT_JOBS = -1
     K_CLASSIFIER_DUMP = "classifier.dump"
@@ -81,8 +81,8 @@ class Conf(dict):
         self.dataset_train = Conf.V_DEFAULT_DATASET_TRAIN
         self.dataset_test_ratio = Conf.V_DEFAULT_DATASET_TEST_RATIO
         self.rng_seed = Conf.V_DEFAULT_RNG_SEED
-        self.pair_plot_compute = Conf.V_DEFAULT_PAIR_PLOT_COMPUTE
-        self.pair_plot_save = Conf.V_DEFAULT_PAIR_PLOT_SAVE
+        self.charts_compute = Conf.V_DEFAULT_CHARTS_COMPUTE
+        self.charts_save = Conf.V_DEFAULT_CHARTS_SAVE
         self.jobs = Conf.V_DEFAULT_JOBS
         self.classifier_dump = Conf.V_DEFAULT_CLASSIFIER_DUMP
 
@@ -119,8 +119,8 @@ class Conf(dict):
         self.__put_str(Conf.K_DATASET_TRAIN, Conf.S_TRAINING, Conf.K_DATASET_TRAIN, Conf.V_DEFAULT_DATASET_TRAIN)
         self.__put_float(Conf.K_DATASET_TEST_RATIO, Conf.S_TRAINING, Conf.K_DATASET_TEST_RATIO, Conf.V_DEFAULT_DATASET_TEST_RATIO)
         self.__put_int(Conf.K_RNG_SEED, Conf.S_TRAINING, Conf.K_RNG_SEED, Conf.V_DEFAULT_RNG_SEED)
-        self.__put_bool(Conf.K_PAIR_PLOT_COMPUTE, Conf.S_TRAINING, Conf.K_PAIR_PLOT_COMPUTE, Conf.V_DEFAULT_PAIR_PLOT_COMPUTE)
-        self.__put_bool(Conf.K_PAIR_PLOT_SAVE, Conf.S_TRAINING, Conf.K_PAIR_PLOT_SAVE, Conf.V_DEFAULT_PAIR_PLOT_SAVE)
+        self.__put_bool(Conf.K_CHARTS_COMPUTE, Conf.S_TRAINING, Conf.K_CHARTS_COMPUTE, Conf.V_DEFAULT_CHARTS_COMPUTE)
+        self.__put_bool(Conf.K_CHARTS_SAVE, Conf.S_TRAINING, Conf.K_CHARTS_SAVE, Conf.V_DEFAULT_CHARTS_SAVE)
         self.__put_int(Conf.K_JOBS, Conf.S_TRAINING, Conf.K_JOBS, Conf.V_DEFAULT_JOBS)
         self.__put_bool(Conf.K_CLASSIFIER_DUMP, Conf.S_TRAINING, Conf.K_CLASSIFIER_DUMP, Conf.V_DEFAULT_CLASSIFIER_DUMP)
 
@@ -270,20 +270,20 @@ class Conf(dict):
         self[Conf.K_RNG_SEED] = rng_seed
 
     @property
-    def pair_plot_compute(self) -> bool:
-        return self[Conf.K_PAIR_PLOT_COMPUTE]
+    def charts_compute(self) -> bool:
+        return self[Conf.K_CHARTS_COMPUTE]
 
-    @pair_plot_compute.setter
-    def pair_plot_compute(self, pair_plot_compute: bool):
-        self[Conf.K_PAIR_PLOT_COMPUTE] = pair_plot_compute
+    @charts_compute.setter
+    def charts_compute(self, charts_compute: bool):
+        self[Conf.K_CHARTS_COMPUTE] = charts_compute
 
     @property
-    def pair_plot_save(self) -> bool:
-        return self[Conf.K_PAIR_PLOT_SAVE]
+    def charts_save(self) -> bool:
+        return self[Conf.K_CHARTS_SAVE]
 
-    @pair_plot_save.setter
-    def pair_plot_save(self, pair_plot_save: bool):
-        self[Conf.K_PAIR_PLOT_SAVE] = pair_plot_save
+    @charts_save.setter
+    def charts_save(self, charts_save: bool):
+        self[Conf.K_CHARTS_SAVE] = charts_save
 
     @property
     def jobs(self) -> int:

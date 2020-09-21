@@ -14,7 +14,7 @@ class IClassifier(object):
         raise NotImplementedError
 
     @abstractmethod
-    def manage_bad_values(self) -> None:
+    def data_cleaning(self) -> None:
         """
         Manage bad values
         """

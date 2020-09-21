@@ -148,3 +148,17 @@ class PreProcessing(object):
             raise ValueError(f"Transformation '{transformation}' not valid.")
 
         return dataset.map(function)
+
+    @staticmethod
+    def capping(dataset, q1=0.01, q2=0.99):
+        """
+
+        :param dataset: column of a dataset (1-dimension array)
+        :param q1: lower bound
+        :param q2: upper bound
+        :return: olumn with capped values
+        """
+
+        quantiles = [q1, q2]
+        percentiles = dataset.quantile(quantiles).values
+        return np.clip(dataset, percentiles[0], percentiles[1])

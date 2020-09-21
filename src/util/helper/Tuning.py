@@ -22,12 +22,14 @@ class Tuning(object):
     DEFAULT_METRIC: str = 'f1_macro'
     DEFAULT_THREAD: int = -1
     DEFAULT_RANDOM_STATE = 0
+    DEFAULT_REFIT = True
 
     @staticmethod
     def support_vector_machine_param_selection(x: DataFrame, y: DataFrame = None,
                                                cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
                                                jobs: int = DEFAULT_THREAD,
-                                               random_state: int = DEFAULT_RANDOM_STATE):
+                                               random_state: int = DEFAULT_RANDOM_STATE,
+                                               refit: bool = DEFAULT_REFIT):
         """
 
         :param x:
@@ -36,26 +38,27 @@ class Tuning(object):
         :param metric:
         :param jobs:
         :param random_state:
+        :param refit:
         :return:
         """
 
         param_grid = [
-            {
-                'kernel': ['linear'],
-                'C': [0.1, 1, 10],
-                'decision_function_shape': ['ovo', 'ovr']
-            },
+            # {
+            #     'kernel': ['linear'],
+            #     'C': [0.1, 1, 10],
+            #     'decision_function_shape': ['ovo', 'ovr']
+            # },
+            # {
+            #     'kernel': ['poly'],
+            #     'degree': [2, 3, 4],
+            #     'gamma': ['scale'],
+            #     'C': [0.1, 1, 10],
+            #     'decision_function_shape': ['ovo', 'ovr']
+            # },
             {
                 'kernel': ['rbf'],
                 'gamma': [1e-4, 1e-3, 1e-2, 1e-1, 1e+1, 1e+2, 1e+3, 1e+4],
                 'C': [0.1, 1, 10, 50, 100],
-                'decision_function_shape': ['ovo', 'ovr']
-            },
-            {
-                'kernel': ['poly'],
-                'degree': [2, 3, 4],
-                'gamma': ['scale'],
-                'C': [0.1, 1, 10],
                 'decision_function_shape': ['ovo', 'ovr']
             }
         ]
@@ -65,7 +68,7 @@ class Tuning(object):
             param_grid,
             scoring=metric,
             cv=cv,
-            refit=True,
+            refit=refit,
             n_jobs=jobs
         )
         grid_search.fit(x, y)
@@ -87,9 +90,10 @@ class Tuning(object):
 
     @staticmethod
     def decision_tree_param_selection(x: DataFrame, y: DataFrame = None,
-                                      cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
-                                      jobs: int = DEFAULT_THREAD,
-                                      random_state: int = DEFAULT_RANDOM_STATE):
+                                               cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                               jobs: int = DEFAULT_THREAD,
+                                               random_state: int = DEFAULT_RANDOM_STATE,
+                                               refit: bool = DEFAULT_REFIT):
         """
 
         :param x:
@@ -98,6 +102,7 @@ class Tuning(object):
         :param metric:
         :param jobs:
         :param random_state:
+        :param refit:
         :return:
         """
 
@@ -114,7 +119,7 @@ class Tuning(object):
             param_grid,
             scoring=metric,
             cv=cv,
-            refit=True,
+            refit=refit,
             n_jobs=jobs
         )
         grid_search.fit(x, y)
@@ -135,9 +140,10 @@ class Tuning(object):
 
     @staticmethod
     def random_forest_param_selection(x: DataFrame, y: DataFrame = None,
-                                      cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
-                                      jobs: int = DEFAULT_THREAD,
-                                      random_state: int = DEFAULT_RANDOM_STATE):
+                                               cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                               jobs: int = DEFAULT_THREAD,
+                                               random_state: int = DEFAULT_RANDOM_STATE,
+                                               refit: bool = DEFAULT_REFIT):
         """
 
         :param x:
@@ -146,6 +152,7 @@ class Tuning(object):
         :param metric:
         :param jobs:
         :param random_state:
+        :param refit:
         :return:
         """
 
@@ -162,7 +169,7 @@ class Tuning(object):
             param_grid,
             scoring=metric,
             cv=cv,
-            refit=True,
+            refit=refit,
             n_jobs=jobs
         )
         grid_search.fit(x, y)
@@ -183,9 +190,10 @@ class Tuning(object):
 
     @staticmethod
     def multilayer_perceptron_param_selection(x: DataFrame, y: DataFrame = None,
-                                              cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
-                                              jobs: int = DEFAULT_THREAD,
-                                              random_state: int = DEFAULT_RANDOM_STATE):
+                                               cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                               jobs: int = DEFAULT_THREAD,
+                                               random_state: int = DEFAULT_RANDOM_STATE,
+                                               refit: bool = DEFAULT_REFIT):
         """
 
         :param x:
@@ -194,14 +202,16 @@ class Tuning(object):
         :param metric:
         :param jobs:
         :param random_state:
+        :param refit:
         :return:
         """
 
+        # TODO - AGGIUNGI VALORI PER ALPHA E BETA
         param_grid = {
             # 'hidden_layer_sizes': [(100, 50, 25), (100, 50), (100,), (75,), (45,)],
             # 'hidden_layer_sizes': [(150, 100), (120, 60), (60, 30), (75,), (45,)],
             # 'hidden_layer_sizes': [(200, 150), (240, 120), (150, 100), (120, 60)],
-            'hidden_layer_sizes': [(200, 150), (150, 100)],
+            'hidden_layer_sizes': [(240, 120), (150, 100), (300,)],
             'activation': ['tanh', 'relu'],
             'solver': ['sgd', 'adam'],
             'learning_rate_init': [1e-1, 1e-2, 1e-3, 1e-4],
@@ -209,11 +219,11 @@ class Tuning(object):
         }
 
         grid_search = ms.GridSearchCV(
-            MLPClassifier(max_iter=10000, random_state=random_state, warm_start=True),
+            MLPClassifier(max_iter=8000, random_state=random_state, warm_start=True),
             param_grid=param_grid,
             scoring=metric,
             cv=cv,
-            refit=True,
+            refit=refit,
             n_jobs=jobs
         )
         grid_search.fit(x, y)
@@ -234,9 +244,10 @@ class Tuning(object):
 
     @staticmethod
     def knearest_neighbors_param_selection(x: DataFrame, y: DataFrame = None,
-                                           cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
-                                           jobs: int = DEFAULT_THREAD,
-                                           random_state: int = DEFAULT_RANDOM_STATE):
+                                               cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                               jobs: int = DEFAULT_THREAD,
+                                               random_state: int = DEFAULT_RANDOM_STATE,
+                                               refit: bool = DEFAULT_REFIT):
         """
 
         :param x:
@@ -245,6 +256,7 @@ class Tuning(object):
         :param metric:
         :param jobs:
         :param random_state:
+        :param refit:
         :return:
         """
 
@@ -259,7 +271,7 @@ class Tuning(object):
             param_grid=param_grid,
             scoring=metric,
             cv=cv,
-            refit=True,
+            refit=refit,
             n_jobs=jobs
         )
         grid_search.fit(x, y)
@@ -280,9 +292,10 @@ class Tuning(object):
 
     @staticmethod
     def stochastic_gradient_descent_param_selection(x: DataFrame, y: DataFrame = None,
-                                                    cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
-                                                    jobs: int = DEFAULT_THREAD,
-                                                    random_state: int = DEFAULT_RANDOM_STATE):
+                                               cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                               jobs: int = DEFAULT_THREAD,
+                                               random_state: int = DEFAULT_RANDOM_STATE,
+                                               refit: bool = DEFAULT_REFIT):
         """
 
         :param x:
@@ -291,6 +304,7 @@ class Tuning(object):
         :param metric:
         :param jobs:
         :param random_state:
+        :param refit:
         :return:
         """
 
@@ -306,7 +320,7 @@ class Tuning(object):
             param_grid=param_grid,
             scoring=metric,
             cv=cv,
-            refit=True,
+            refit=refit,
             n_jobs=jobs
         )
         grid_search.fit(x, y)
@@ -326,9 +340,10 @@ class Tuning(object):
 
     @staticmethod
     def naive_bayes_param_selection(x: DataFrame, y: DataFrame = None,
-                                    cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
-                                    jobs: int = DEFAULT_THREAD,
-                                    random_state: int = DEFAULT_RANDOM_STATE):
+                                               cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                               jobs: int = DEFAULT_THREAD,
+                                               random_state: int = DEFAULT_RANDOM_STATE,
+                                               refit: bool = DEFAULT_REFIT):
         """
 
         :param x:
@@ -337,6 +352,7 @@ class Tuning(object):
         :param metric:
         :param jobs:
         :param random_state:
+        :param refit:
         :return:
         """
 
@@ -350,7 +366,7 @@ class Tuning(object):
             param_grid=param_grid,
             scoring=metric,
             cv=cv,
-            refit=True,
+            refit=refit,
             n_jobs=jobs
         )
         grid_search.fit(x, y)
@@ -371,9 +387,10 @@ class Tuning(object):
 
     @staticmethod
     def ada_boosting_param_selection(x: DataFrame, y: DataFrame = None,
-                                     cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
-                                     jobs: int = DEFAULT_THREAD,
-                                     random_state: int = DEFAULT_RANDOM_STATE):
+                                               cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                               jobs: int = DEFAULT_THREAD,
+                                               random_state: int = DEFAULT_RANDOM_STATE,
+                                               refit: bool = DEFAULT_REFIT):
         """
 
         :param x:
@@ -382,6 +399,7 @@ class Tuning(object):
         :param metric:
         :param jobs:
         :param random_state:
+        :param refit:
         :return:
         """
 
@@ -402,7 +420,7 @@ class Tuning(object):
             param_grid=param_grid,
             scoring=metric,
             cv=cv,
-            refit=True,
+            refit=refit,
             n_jobs=jobs
         )
         grid_search.fit(x, y)
@@ -423,9 +441,10 @@ class Tuning(object):
 
     @staticmethod
     def kmeans_param_selection(x: DataFrame, y: DataFrame = None,
-                               cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
-                               jobs: int = DEFAULT_THREAD,
-                               random_state: int = DEFAULT_RANDOM_STATE):
+                                               cv=DEFAULT_CV, metric: str = DEFAULT_METRIC,
+                                               jobs: int = DEFAULT_THREAD,
+                                               random_state: int = DEFAULT_RANDOM_STATE,
+                                               refit: bool = DEFAULT_REFIT):
         """
 
         :param x:
@@ -434,6 +453,7 @@ class Tuning(object):
         :param metric:
         :param jobs:
         :param random_state:
+        :param refit:
         :return:
         """
 

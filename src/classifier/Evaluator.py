@@ -9,6 +9,7 @@ import imblearn
 import scipy
 import sklearn.preprocessing as prep
 from joblib import load
+from sklearn import set_config
 from sklearn.feature_selection import SelectKBest, mutual_info_classif
 from imblearn.over_sampling import ADASYN, SMOTE, RandomOverSampler
 
@@ -39,6 +40,9 @@ class Evaluator(AbstractClassifier):
     _KMEANS = 'K-Means'
 
     _CLASSIFIER_REL_PATH = './res/classifier/'
+
+    ### TODO - ISTANZIA CLASSIFICATORI CON GLI IPERPARAMETRI MIGLIORI E FAI LA FIT SU TUTTO IL TRAINING SET -> TESTA SUL TEST SET SCONOSCIUTO
+    ###         - DI CONSEGUENZA, VEDI SE PERFORMARE PRE-PROCESSING SU TUTTO IL TRAING SET (8000 INSTANZE)
 
     def __init__(self, conf: Conf):
         super().__init__()
@@ -85,12 +89,12 @@ class Evaluator(AbstractClassifier):
         self.__classifiers = {
              Evaluator._MULTILAYER_PERCEPTRON: None,
              Evaluator._SUPPORT_VECTOR_MACHINE: None,
-             Evaluator._DECISION_TREE: None,
+             # Evaluator._DECISION_TREE: None,
              Evaluator._RANDOM_FOREST: None,
-             Evaluator._KNEAREST_NEIGHBORS: None,
+             # Evaluator._KNEAREST_NEIGHBORS: None,
              # Evaluator._STOCHASTIC_GRADIENT_DESCENT: None,
              Evaluator._ADA_BOOST: None,
-             Evaluator._NAIVE_BAYES: None,
+             # Evaluator._NAIVE_BAYES: None,
              # Evaluator._KMEANS: None
         }
 
@@ -101,80 +105,83 @@ class Evaluator(AbstractClassifier):
         super().prepare()
 
         # print libs' version
-        self.__LOG.debug(f"[LIB VERSION] {np.__name__} : {np.__version__}")
-        self.__LOG.debug(f"[LIB VERSION] {pd.__name__} : {pd.__version__}")
-        self.__LOG.debug(f"[LIB VERSION] {matplotlib.__name__} : {matplotlib.__version__}")
-        self.__LOG.debug(f"[LIB VERSION] {sklearn.__name__} : {sklearn.__version__}")
-        self.__LOG.debug(f"[LIB VERSION] {imblearn.__name__} : {imblearn.__version__}")
-        self.__LOG.debug(f"[LIB VERSION] {scipy.__name__} : {scipy.__version__}")
+        self.log.debug(f"[LIB VERSION] {np.__name__} : {np.__version__}")
+        self.log.debug(f"[LIB VERSION] {pd.__name__} : {pd.__version__}")
+        self.log.debug(f"[LIB VERSION] {matplotlib.__name__} : {matplotlib.__version__}")
+        self.log.debug(f"[LIB VERSION] {sklearn.__name__} : {sklearn.__version__}")
+        self.log.debug(f"[LIB VERSION] {imblearn.__name__} : {imblearn.__version__}")
+        self.log.debug(f"[LIB VERSION] {scipy.__name__} : {scipy.__version__}")
 
         # mode
-        self.__LOG.info(f"[MODE] Classifiers evaluation on test set ({Evaluator.__qualname__})")
+        self.log.info(f"[MODE] Classifiers evaluation on test set ({Evaluator.__qualname__})")
 
         # dataset description
-        self.__LOG.debug(f"[DESCRIPTION] Training set description:\n{self.training.set_.describe(include='all')}")
-        self.__LOG.debug(f"[DESCRIPTION] Test set description:\n{self.test.set_.describe(include='all')}")
+        self.log.debug(f"[DESCRIPTION] Training set description:\n{self.training.w_set.describe(include='all')}")
+        self.log.debug(f"[DESCRIPTION] Test set description:\n{self.test.w_set.describe(include='all')}")
+
+        # print all parameters for classifiers
+        set_config(print_changed_only=False)
 
     def split(self) -> None:
         """
         Split training/testing set features and labels
         """
-        self.__LOG.info(f"[DATA SPLIT] Separating training/test set in features and labels")
+        self.log.info(f"[DATA SPLIT] Separating training/test set in features and labels")
 
         # split training/test set obtaining same training set of training phase
         if self.conf.classifier_dump:
-            self.training.set_ = self.training.set_.sample(
+            self.training.w_set = self.training.w_set.sample(
                 frac=1 - self.conf.dataset_test_ratio,
                 random_state=self.conf.rng_seed
             )
-            self.training.set_y = self.training.set_.pop('CLASS')
-            self.training.set_x = self.training.set_
-            self.training.set_ = None
-            self.test.set_y = self.test.set_.pop('CLASS')
-            self.test.set_x = self.test.set_
-            self.test.set_ = None
+            self.training.y = self.training.w_set.pop('CLASS')
+            self.training.X = self.training.w_set
+            self.training.w_set = None
+            self.test.y = self.test.w_set.pop('CLASS')
+            self.test.X = self.test.w_set
+            self.test.w_set = None
         # split features and label
         else:
-            self.training.set_y = self.training.set_.pop('CLASS')
-            self.training.set_x = self.training.set_
-            self.training.set_ = None
-            self.test.set_y = self.test.set_.pop('CLASS')
-            self.test.set_x = self.test.set_
-            self.test.set_ = None
+            self.training.y = self.training.w_set.pop('CLASS')
+            self.training.X = self.training.w_set
+            self.training.w_set = None
+            self.test.y = self.test.w_set.pop('CLASS')
+            self.test.X = self.test.w_set
+            self.test.w_set = None
 
-    def manage_bad_values(self) -> None:
+    def data_cleaning(self) -> None:
         """
         Replace missing data with median (as it is not affected by outliers) and
           outliers detected using modified z-score
         """
         # manage missing data
-        self.__LOG.info(f"[MISSING DATA] Managing missing data")
+        self.log.info(f"[MISSING DATA] Managing missing data")
 
-        self.__LOG.debug(
-            f"[MISSING DATA] Training set x before processing (shape: {self.training.set_x.shape}):\n"
-            f"{PreProcessing.get_na_count(self.training.set_x)}"
+        self.log.debug(
+            f"[MISSING DATA] Training set x before processing (shape: {self.training.X.shape}):\n"
+            f"{PreProcessing.get_na_count(self.training.X)}"
         )
-        self.__LOG.debug(
-            f"[MISSING DATA] Test set x before processing (shape: {self.test.set_x.shape}):\n"
-            f"{PreProcessing.get_na_count(self.test.set_x)}"
+        self.log.debug(
+            f"[MISSING DATA] Test set x before processing (shape: {self.test.X.shape}):\n"
+            f"{PreProcessing.get_na_count(self.test.X)}"
         )
 
         # dictionary containing median for each feature
         feature_median_dict: dict = {}
-        for feature in self.training.set_x.columns:
+        for feature in self.training.X.columns:
             # using feature median from training set to manage missing values for training and test set
             # it is not used mean as it is affected by outliers
-            feature_median_dict[feature] = self.training.set_x[feature].median()
-            self.training.set_x[feature].fillna(feature_median_dict[feature], inplace=True)
-            self.test.set_x[feature].fillna(feature_median_dict[feature], inplace=True)
+            feature_median_dict[feature] = self.training.X[feature].median()
+            self.training.X[feature].fillna(feature_median_dict[feature], inplace=True)
+            self.test.X[feature].fillna(feature_median_dict[feature], inplace=True)
 
-        self.__LOG.debug(
-            f"[MISSING DATA] Training set x after processing (shape: {self.training.set_x.shape}):\n"
-            f"{PreProcessing.get_na_count(self.training.set_x)}"
+        self.log.debug(
+            f"[MISSING DATA] Training set x after processing (shape: {self.training.X.shape}):\n"
+            f"{PreProcessing.get_na_count(self.training.X)}"
         )
-        self.__LOG.debug(
-            f"[MISSING DATA] Test set x after processing (shape: {self.test.set_x.shape}):\n"
-            f"{PreProcessing.get_na_count(self.test.set_x)}"
+        self.log.debug(
+            f"[MISSING DATA] Test set x after processing (shape: {self.test.X.shape}):\n"
+            f"{PreProcessing.get_na_count(self.test.X)}"
         )
 
         # manage outliers
@@ -184,33 +191,33 @@ class Evaluator(AbstractClassifier):
         outliers_manager = 'modified z-score'
         # outliers_manager = 'inter-quartile range'
 
-        self.__LOG.info(f"[OUTLIERS] Managing outliers using {outliers_manager} method")
+        self.log.info(f"[OUTLIERS] Managing outliers using {outliers_manager} method")
 
-        self.__LOG.debug(
+        self.log.debug(
             f"[OUTLIERS] Training set x description before manage outlier:\n"
-            f"{self.training.set_x.describe(include='all')}"
+            f"{self.training.X.describe(include='all')}"
         )
 
         outliers_count = 0
-        for feature in self.training.set_x.columns:
+        for feature in self.training.X.columns:
             # outliers_mask = PreProcessing.zscore(self.training.set_x[feature])
-            outliers_mask = PreProcessing.modified_zscore(self.training.set_x[feature])
+            outliers_mask = PreProcessing.modified_zscore(self.training.X[feature])
             # outliers_mask = PreProcessing.iqr(self.training.set_x[feature])
 
             # outliers approximation
-            self.training.set_x.loc[outliers_mask, feature] = feature_median_dict[feature]
+            self.training.X.loc[outliers_mask, feature] = feature_median_dict[feature]
 
             # update outliers_count
             outliers_count += sum(outliers_mask)
 
-        samples_training_set_x = self.training.set_x.shape[0] * self.training.set_x.shape[1]
-        self.__LOG.debug(f"[OUTLIERS] Outliers detected on all features (F1-F20): "
+        samples_training_set_x = self.training.X.shape[0] * self.training.X.shape[1]
+        self.log.debug(f"[OUTLIERS] Outliers detected on all features (F1-F20): "
                          f"{outliers_count} out of {samples_training_set_x} "
                          f"samples ({round(outliers_count / samples_training_set_x * 100, 2)} %)")
 
-        self.__LOG.debug(
+        self.log.debug(
             f"[OUTLIERS] Training set x description after manage outlier:\n"
-            f"{self.training.set_x.describe(include='all')}"
+            f"{self.training.X.describe(include='all')}"
         )
 
     def normalize(self) -> None:
@@ -218,40 +225,40 @@ class Evaluator(AbstractClassifier):
         Data scaling/normalization
         """
         scaler = prep.MinMaxScaler(feature_range=(0, 1))
-        self.__LOG.info(f"[SCALING] Data scaling using {type(scaler).__qualname__}")
+        self.log.info(f"[SCALING] Data scaling using {type(scaler).__qualname__}")
 
-        scaler.fit(self.training.set_x)
-        self.training.set_x = scaler.transform(self.training.set_x)
-        self.test.set_x = scaler.transform(self.test.set_x)
+        scaler.fit(self.training.X)
+        self.training.X = scaler.transform(self.training.X)
+        self.test.X = scaler.transform(self.test.X)
 
     def feature_selection(self) -> None:
         """
         Features selection
         """
-        self.__LOG.info(f"[FEATURE SELECTION] Feature selection")
+        self.log.info(f"[FEATURE SELECTION] Feature selection")
 
         # if trained classifiers has been dumped, use mask obtained from previous training
         if self.conf.classifier_dump:
             features_mask = np.array([False, True, True, True, True, True, True, True, False, False,
                                       True, True, True, True, True, True, False, True, False, True])
-            self.__LOG.debug(f"[FEATURE SELECTION] Feature selection using boolean mask obtained "
+            self.log.debug(f"[FEATURE SELECTION] Feature selection using boolean mask obtained "
                              f"from previous training phase: {features_mask}")
-            self.test.set_x = self.test.set_x[:, features_mask]
+            self.test.X = self.test.X[:, features_mask]
         # otherwise, select best features
         else:
             # do not consider the 5 features that have less dependence on the target feature
             # (i.e. the class to which they belong)
             selector = SelectKBest(mutual_info_classif, k=15)
-            self.__LOG.debug(f"[FEATURE SELECTION] Feature selection using {type(selector).__qualname__}")
-            selector.fit(self.training.set_x, self.training.set_y)
-            self.training.set_x = selector.transform(self.training.set_x)
-            self.__LOG.debug(
+            self.log.debug(f"[FEATURE SELECTION] Feature selection using {type(selector).__qualname__}")
+            selector.fit(self.training.X, self.training.y)
+            self.training.X = selector.transform(self.training.X)
+            self.log.debug(
                 f"[FEATURE SELECTION] Feature index after SelectKBest: {selector.get_support(indices=True)}")
-            self.test.set_x = selector.transform(self.test.set_x)
-            self.__LOG.debug(
-                f"[FEATURE SELECTION] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
-            self.__LOG.debug(
-                f"[FEATURE SELECTION] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
+            self.test.X = selector.transform(self.test.X)
+            self.log.debug(
+                f"[FEATURE SELECTION] Train shape after feature selection: {self.training.X.shape} | {self.training.y.shape}")
+            self.log.debug(
+                f"[FEATURE SELECTION] Test shape after feature selection: {self.test.X.shape} | {self.test.y.shape}")
 
     def sample(self) -> None:
         """
@@ -262,19 +269,19 @@ class Evaluator(AbstractClassifier):
         # sampler = RandomUnderSampler(random_state=self.conf.rng_seed)
         # sampler = RandomOverSampler(random_state=self.conf.rng_seed)
         # sampler = ADASYN(sampling_strategy="auto", random_state=self.conf.rng_seed)
-        self.__LOG.info(f"[SAMPLING] Data sampling using {type(sampler).__qualname__}")
-        self.training.set_x, self.training.set_y = sampler.fit_resample(self.training.set_x, self.training.set_y)
-        self.__LOG.debug(
-            f"[SAMPLING] Train shape after feature selection: {self.training.set_x.shape} | {self.training.set_y.shape}")
-        self.__LOG.debug(
-            f"[SAMPLING] Test shape after feature selection: {self.test.set_x.shape} | {self.test.set_y.shape}")
+        self.log.info(f"[SAMPLING] Data sampling using {type(sampler).__qualname__}")
+        self.training.X, self.training.y = sampler.fit_resample(self.training.X, self.training.y)
+        self.log.debug(
+            f"[SAMPLING] Train shape after feature selection: {self.training.X.shape} | {self.training.y.shape}")
+        self.log.debug(
+            f"[SAMPLING] Test shape after feature selection: {self.test.X.shape} | {self.test.y.shape}")
 
     def train(self) -> None:
         """
         Perform Cross-Validation using GridSearchCV to find best hyper-parameter and refit classifiers on
           complete training set
         """
-        self.__LOG.info(f"[TUNING] Hyper-parameters tuning of: {', '.join(self.classifiers.keys())}")
+        self.log.info(f"[TUNING] Hyper-parameters tuning of: {', '.join(self.classifiers.keys())}")
 
         for name, classifier in self.classifiers.items():
             # if trained classifiers had been dumped, load from *.joblib file
@@ -283,61 +290,61 @@ class Evaluator(AbstractClassifier):
                 classifier_path = Path(Common.get_root_path(), Evaluator._CLASSIFIER_REL_PATH, filename)
                 try:
                     Validation.can_read(classifier_path)
-                    self.__LOG.debug(f"[TUNING] Loading {classifier_path} for {name} classifier")
+                    self.log.debug(f"[TUNING] Loading {classifier_path} for {name} classifier")
                     self.classifiers[name] = load(classifier_path)
-                    self.__LOG.info(f"[TUNING] Best {name} classifier: {self.classifiers[name]}")
+                    self.log.info(f"[TUNING] Best {name} classifier: {self.classifiers[name]}")
                 except PermissionError:
-                    self.__LOG.warning(f"[TUNING] Error loading file '{classifier_path}'.\n"
+                    self.log.warning(f"[TUNING] Error loading file '{classifier_path}'.\n"
                                        f"The file *must* exists and be readable.\n"
                                        f"Classifier '{name}' will be skipped.")
                     continue
                 except KeyError:
-                    self.__LOG.warning(f"[TUNING] The file '{classifier_path}' appears to be in a wrong format.\n"
+                    self.log.warning(f"[TUNING] The file '{classifier_path}' appears to be in a wrong format.\n"
                                        f"Classifier '{name}' will be skipped.")
                     continue
                 except Exception:
-                    self.__LOG.warning(f"[TUNING] The file '{classifier_path}' appears to be corrupted.\n"
+                    self.log.warning(f"[TUNING] The file '{classifier_path}' appears to be corrupted.\n"
                                        f"Classifier '{name}' will be skipped.")
                     continue
             # otherwise, retrain all classifiers
             else:
-                self.__LOG.debug(f"[TUNING] Hyper-parameter tuning using {name}")
+                self.log.debug(f"[TUNING] Hyper-parameter tuning using {name}")
                 if name == Evaluator._MULTILAYER_PERCEPTRON:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(
-                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
+                        self.training.X, self.training.y, jobs=self.conf.jobs)
                 elif name == Evaluator._SUPPORT_VECTOR_MACHINE:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.support_vector_machine_param_selection(
-                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
+                        self.training.X, self.training.y, jobs=self.conf.jobs)
                 elif name == Evaluator._DECISION_TREE:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.decision_tree_param_selection(
-                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
+                        self.training.X, self.training.y, jobs=self.conf.jobs)
                 elif name == Evaluator._RANDOM_FOREST:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.random_forest_param_selection(
-                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
+                        self.training.X, self.training.y, jobs=self.conf.jobs)
                 elif name == Evaluator._KNEAREST_NEIGHBORS:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.knearest_neighbors_param_selection(
-                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
+                        self.training.X, self.training.y, jobs=self.conf.jobs)
                 elif name == Evaluator._STOCHASTIC_GRADIENT_DESCENT:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(
-                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
+                        self.training.X, self.training.y, jobs=self.conf.jobs)
                 elif name == Evaluator._ADA_BOOST:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.ada_boosting_param_selection(
-                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
+                        self.training.X, self.training.y, jobs=self.conf.jobs)
                 elif name == Evaluator._NAIVE_BAYES:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.naive_bayes_param_selection(
-                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
+                        self.training.X, self.training.y, jobs=self.conf.jobs)
                 elif name == Evaluator._KMEANS:
                     # perform grid search and fit on best evaluator
                     self.classifiers[name] = Tuning.kmeans_param_selection(
-                        self.training.set_x, self.training.set_y, jobs=self.conf.jobs)
+                        self.training.X, self.training.y, jobs=self.conf.jobs)
 
     def evaluate(self) -> None:
         """
@@ -345,15 +352,15 @@ class Evaluator(AbstractClassifier):
         """
         # filter invalid classifiers
         self.__classifiers = {k: v for k, v in self.classifiers.items() if v is not None}
-        self.__LOG.info(f"[EVAL] Computing evaluation on test set for: {', '.join(self.classifiers.keys())}")
+        self.log.info(f"[EVAL] Computing evaluation on test set for: {', '.join(self.classifiers.keys())}")
 
         for name, classifier in self.classifiers.items():
             accuracy, precision, recall, f1_score, confusion_matrix = Evaluation.evaluate(
                 self.classifiers[name],
-                self.test.set_x,
-                self.test.set_y
+                self.test.X,
+                self.test.y
             )
-            self.__LOG.info(
+            self.log.info(
                 f"[EVAL] Evaluation of {name}:\n"
                 f"\t- Accuracy: {accuracy}\n"
                 f"\t- Precision: {precision}\n"
@@ -365,12 +372,16 @@ class Evaluator(AbstractClassifier):
     def on_success(self) -> None:
         super().on_success()
 
-        self.__LOG.info(f"Successfully evaluated all (valid) classifiers specified")
+        self.log.info(f"Successfully evaluated all (valid) classifiers specified")
 
     def on_error(self, exception: Exception = None) -> None:
         super().on_error(exception)
 
-        self.__LOG.error(f"Something went wrong during evaluation ({__name__}).", exc_info=True)
+        self.log.error(f"Something went wrong during evaluation ({__name__}).", exc_info=True)
+    
+    @property
+    def log(self) -> logging.Logger:
+        return self.__LOG
 
     @property
     def conf(self) -> Conf:

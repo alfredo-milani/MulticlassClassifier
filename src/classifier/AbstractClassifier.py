@@ -20,14 +20,13 @@ class AbstractClassifier(ABC, IClassifier):
         self.prepare()
 
         try:
+            self.data_cleaning()
             self.split()
-            self.manage_bad_values()
-            self.normalize()
-            self.feature_selection()
+            # self.feature_selection()
             ### TESTING - Stratified kfold senza SMOTE
             # self.sample()
-            self.train()
-            self.evaluate()
+            # self.train()
+            # self.evaluate()
         except Exception as e:
             return self.on_error(e)
 
