@@ -20,13 +20,12 @@ class AbstractClassifier(ABC, IClassifier):
         self.prepare()
 
         try:
-            self.data_cleaning()
-            self.split()
-            # self.feature_selection()
-            ### TESTING - Stratified kfold senza SMOTE
+            # TESTING (risultati migliori sono stati ottenuti con sapling prima di feature selection)
+            self.clean_data()
+            self.feature_selection()
             # self.sample()
-            # self.train()
-            # self.evaluate()
+            self.train()
+            self.evaluate()
         except Exception as e:
             return self.on_error(e)
 

@@ -116,8 +116,8 @@ class Evaluator(AbstractClassifier):
         self.log.info(f"[MODE] Classifiers evaluation on test set ({Evaluator.__qualname__})")
 
         # dataset description
-        self.log.debug(f"[DESCRIPTION] Training set description:\n{self.training.w_set.describe(include='all')}")
-        self.log.debug(f"[DESCRIPTION] Test set description:\n{self.test.w_set.describe(include='all')}")
+        self.log.debug(f"[DESCRIPTION] Training set description:\n{self.training.set_.describe(include='all')}")
+        self.log.debug(f"[DESCRIPTION] Test set description:\n{self.test.set_.describe(include='all')}")
 
         # print all parameters for classifiers
         set_config(print_changed_only=False)
@@ -130,26 +130,26 @@ class Evaluator(AbstractClassifier):
 
         # split training/test set obtaining same training set of training phase
         if self.conf.classifier_dump:
-            self.training.w_set = self.training.w_set.sample(
+            self.training.set_ = self.training.set_.sample(
                 frac=1 - self.conf.dataset_test_ratio,
                 random_state=self.conf.rng_seed
             )
-            self.training.y = self.training.w_set.pop('CLASS')
-            self.training.X = self.training.w_set
-            self.training.w_set = None
-            self.test.y = self.test.w_set.pop('CLASS')
-            self.test.X = self.test.w_set
-            self.test.w_set = None
+            self.training.y = self.training.set_.pop('CLASS')
+            self.training.X = self.training.set_
+            self.training.set_ = None
+            self.test.y = self.test.set_.pop('CLASS')
+            self.test.X = self.test.set_
+            self.test.set_ = None
         # split features and label
         else:
-            self.training.y = self.training.w_set.pop('CLASS')
-            self.training.X = self.training.w_set
-            self.training.w_set = None
-            self.test.y = self.test.w_set.pop('CLASS')
-            self.test.X = self.test.w_set
-            self.test.w_set = None
+            self.training.y = self.training.set_.pop('CLASS')
+            self.training.X = self.training.set_
+            self.training.set_ = None
+            self.test.y = self.test.set_.pop('CLASS')
+            self.test.X = self.test.set_
+            self.test.set_ = None
 
-    def data_cleaning(self) -> None:
+    def clean_data(self) -> None:
         """
         Replace missing data with median (as it is not affected by outliers) and
           outliers detected using modified z-score

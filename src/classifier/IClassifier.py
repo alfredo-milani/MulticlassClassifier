@@ -7,23 +7,9 @@ class IClassifier(object):
     """
 
     @abstractmethod
-    def split(self) -> None:
-        """
-        Dataset split
-        """
-        raise NotImplementedError
-
-    @abstractmethod
-    def data_cleaning(self) -> None:
+    def clean_data(self) -> None:
         """
         Manage bad values
-        """
-        raise NotImplementedError
-
-    @abstractmethod
-    def normalize(self) -> None:
-        """
-        Normalize, Scale features
         """
         raise NotImplementedError
 
