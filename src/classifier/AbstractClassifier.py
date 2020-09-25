@@ -22,8 +22,8 @@ class AbstractClassifier(ABC, IClassifier):
         try:
             # TESTING (risultati migliori sono stati ottenuti con sapling prima di feature selection)
             self.clean_data()
+            self.sample()
             self.feature_selection()
-            # self.sample()
             self.train()
             self.evaluate()
         except Exception as e:

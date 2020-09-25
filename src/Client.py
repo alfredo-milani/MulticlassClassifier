@@ -76,7 +76,17 @@ class Client(object):
                 Evaluator(self.conf).process()
             else:
                 # execute multi-class classification to choose best classifier
-                Trainer(self.conf).process()
+                # Trainer(self.conf).process()
+
+                # TESTING
+                # TESTING - SAMPLING BEFORE FS
+                import random
+                rrange = [10000, 1000000]
+                iterations = 100
+                for r in random.sample(range(rrange[0], rrange[1]), iterations):
+                    self.conf.rng_seed = r
+                    self.log.critical(f"SEED: {self.conf.rng_seed}")
+                    Trainer(self.conf).process()
         except KeyboardInterrupt:
             self.log.info(f"Execution interrupted by user.")
         except (Conf.NoValueError, SyntaxError, ValueError) as e:

@@ -89,10 +89,10 @@ class Trainer(AbstractClassifier):
             Trainer._MULTILAYER_PERCEPTRON: None,
             # Trainer._SUPPORT_VECTOR_MACHINE: None,
             # Trainer._DECISION_TREE: None,
-            Trainer._RANDOM_FOREST: None,
+            # Trainer._RANDOM_FOREST: None,
             # Trainer._KNEAREST_NEIGHBORS: None,
             # Trainer._STOCHASTIC_GRADIENT_DESCENT: None,
-            Trainer._ADA_BOOST: None,
+            # Trainer._ADA_BOOST: None,
             # Trainer._NAIVE_BAYES: None,
             # Trainer._KMEANS: None
         }
@@ -203,19 +203,19 @@ class Trainer(AbstractClassifier):
         #     pyplot.show()
 
         # summarize the number of rows with missing values for each column
-        self.log.info(f"[DATA CLEANING] Percentage missing value in training set:")
-        for feature in self.training.X.columns:
-            # count number of rows with missing values
-            n_miss = self.training.X[feature].isnull().sum()
-            perc = n_miss / self.training.X.shape[0] * 100
-            print(f'> {feature} - missing: {n_miss} ({perc:.1f}%)')
-        # summarize the number of rows with missing values for each column
-        self.log.info(f"[DATA CLEANING] Percentage missing value in testing set:")
-        for feature in self.test.X.columns:
-            # count number of rows with missing values
-            n_miss = self.test.X[feature].isnull().sum()
-            perc = n_miss / self.test.X.shape[0] * 100
-            print(f'> {feature} - missing: {n_miss} ({perc:.1f}%)')
+        # self.log.debug(f"[DATA CLEANING] Percentage missing value in training set:")
+        # for feature in self.training.X.columns:
+        #     # count number of rows with missing values
+        #     n_miss = self.training.X[feature].isnull().sum()
+        #     perc = n_miss / self.training.X.shape[0] * 100
+        #     print(f'> {feature} - missing: {n_miss} ({perc:.1f}%)')
+        # # summarize the number of rows with missing values for each column
+        # self.log.debug(f"[DATA CLEANING] Percentage missing value in testing set:")
+        # for feature in self.test.X.columns:
+        #     # count number of rows with missing values
+        #     n_miss = self.test.X[feature].isnull().sum()
+        #     perc = n_miss / self.test.X.shape[0] * 100
+        #     print(f'> {feature} - missing: {n_miss} ({perc:.1f}%)')
 
         ########################################
         # DATA NORMALIZATION AND DATA SCALING
@@ -588,96 +588,107 @@ class Trainer(AbstractClassifier):
             pyplot.legend()
             pyplot.show()
 
+    # TESTING
+    # def train(self) -> None:
+    #     """
+    #     Perform Cross-Validation using GridSearchCV to find best hyper-parameter and refit classifiers on
+    #       complete training set
+    #     """
+    #     # https://towardsdatascience.com/how-to-train-test-split-kfold-vs-stratifiedkfold-281767b93869
+    #     self.log.info(f"[TUNING] Hyper-parameters tuning of: {', '.join(self.classifiers.keys())}")
+    #
+    #     dump_directory_path = Path(Common.get_root_path(), Trainer._CLASSIFIER_REL_PATH)
+    #     # create directory for dump classifier, if requested
+    #     if self.conf.classifier_dump:
+    #         try:
+    #             Validation.is_dir(dump_directory_path)
+    #         except NotADirectoryError:
+    #             self.log.debug(f"[TUNING] Creating folder '{dump_directory_path}'")
+    #             dump_directory_path.mkdir(parents=True, exist_ok=True)
+    #
+    #     for name, classifier in self.classifiers.items():
+    #         self.log.debug(f"[TUNING] Hyper-parameter tuning using {name}")
+    #         if name == Trainer._MULTILAYER_PERCEPTRON:
+    #             # perform grid search and fit on best evaluator
+    #             self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(
+    #                 self.training.X, self.training.y,
+    #                 cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=5, random_state=self.conf.rng_seed),
+    #                 jobs=self.conf.jobs,
+    #                 random_state=self.conf.rng_seed)
+    #         elif name == Trainer._SUPPORT_VECTOR_MACHINE:
+    #             # perform grid search and fit on best evaluator
+    #             self.classifiers[name] = Tuning.support_vector_machine_param_selection(
+    #                 self.training.X, self.training.y,
+    #                 cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=5, random_state=self.conf.rng_seed),
+    #                 jobs=self.conf.jobs,
+    #                 random_state=self.conf.rng_seed)
+    #         elif name == Trainer._DECISION_TREE:
+    #             # perform grid search and fit on best evaluator
+    #             self.classifiers[name] = Tuning.decision_tree_param_selection(self.training.X,
+    #                                                                           self.training.y,
+    #                                                                           jobs=self.conf.jobs)
+    #         elif name == Trainer._RANDOM_FOREST:
+    #             # perform grid search and fit on best evaluator
+    #             self.classifiers[name] = Tuning.random_forest_param_selection(
+    #                 self.training.X, self.training.y,
+    #                 cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=5, random_state=self.conf.rng_seed),
+    #                 jobs=self.conf.jobs,
+    #                 random_state=self.conf.rng_seed)
+    #         elif name == Trainer._KNEAREST_NEIGHBORS:
+    #             # perform grid search and fit on best evaluator
+    #             self.classifiers[name] = Tuning.knearest_neighbors_param_selection(
+    #                 self.training.X, self.training.y, jobs=self.conf.jobs)
+    #         elif name == Trainer._STOCHASTIC_GRADIENT_DESCENT:
+    #             # perform grid search and fit on best evaluator
+    #             self.classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(
+    #                 self.training.X, self.training.y, jobs=self.conf.jobs)
+    #         elif name == Trainer._ADA_BOOST:
+    #             # perform grid search and fit on best evaluator
+    #             self.classifiers[name] = Tuning.ada_boosting_param_selection(
+    #                 self.training.X, self.training.y,
+    #                 cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=5, random_state=self.conf.rng_seed),
+    #                 jobs=self.conf.jobs,
+    #                 random_state=self.conf.rng_seed)
+    #         elif name == Trainer._NAIVE_BAYES:
+    #             # perform grid search and fit on best evaluator
+    #             self.classifiers[name] = Tuning.naive_bayes_param_selection(
+    #                 self.training.X, self.training.y, jobs=self.conf.jobs)
+    #         elif name == Trainer._KMEANS:
+    #             # perform grid search and fit on best evaluator
+    #             self.classifiers[name] = Tuning.kmeans_param_selection(
+    #                 self.training.X, self.training.y, jobs=self.conf.jobs)
+    #
+    #         # dump classifier, if requested
+    #         if self.conf.classifier_dump:
+    #             filename = '_'.join(name.split()) + '.joblib'
+    #             filename_path = dump_directory_path.joinpath(filename)
+    #             self.log.debug(f"[TUNING] Dump of {name} in {filename_path}")
+    #             dump(self.classifiers[name], filename_path)
+
+    # TESTING
     def train(self) -> None:
-        """
-        Perform Cross-Validation using GridSearchCV to find best hyper-parameter and refit classifiers on
-          complete training set
-        """
-        ### TODO
-        ###  - VEDERE SE USARE PIPELINE PER PRE-PROCESSARE TRAINING/VALIDATION SET DURANTE CROSS-VALIDATION
-        ###  - PROVARE REPEATED KFOLD E STRATIFIED KFOLD (usando stratified kfold provare con e senza SMOTE)
-        ###    - https://towardsdatascience.com/how-to-train-test-split-kfold-vs-stratifiedkfold-281767b93869
-        self.log.info(f"[TUNING] Hyper-parameters tuning of: {', '.join(self.classifiers.keys())}")
-
-        dump_directory_path = Path(Common.get_root_path(), Trainer._CLASSIFIER_REL_PATH)
-        # create directory for dump classifier, if requested
-        if self.conf.classifier_dump:
-            try:
-                Validation.is_dir(dump_directory_path)
-            except NotADirectoryError:
-                self.log.debug(f"[TUNING] Creating folder '{dump_directory_path}'")
-                dump_directory_path.mkdir(parents=True, exist_ok=True)
-
         for name, classifier in self.classifiers.items():
-            self.log.debug(f"[TUNING] Hyper-parameter tuning using {name}")
             if name == Trainer._MULTILAYER_PERCEPTRON:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.multilayer_perceptron_param_selection(
-                    self.training.X, self.training.y,
-                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=5, random_state=self.conf.rng_seed),
-                    jobs=self.conf.jobs,
-                    random_state=self.conf.rng_seed)
-            elif name == Trainer._SUPPORT_VECTOR_MACHINE:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.support_vector_machine_param_selection(
-                    self.training.X, self.training.y,
-                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=5, random_state=self.conf.rng_seed),
-                    jobs=self.conf.jobs,
-                    random_state=self.conf.rng_seed)
-            elif name == Trainer._DECISION_TREE:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.decision_tree_param_selection(self.training.X,
-                                                                              self.training.y,
-                                                                              jobs=self.conf.jobs)
-            elif name == Trainer._RANDOM_FOREST:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.random_forest_param_selection(
-                    self.training.X, self.training.y,
-                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=5, random_state=self.conf.rng_seed),
-                    jobs=self.conf.jobs,
-                    random_state=self.conf.rng_seed)
-            elif name == Trainer._KNEAREST_NEIGHBORS:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.knearest_neighbors_param_selection(
-                    self.training.X, self.training.y, jobs=self.conf.jobs)
-            elif name == Trainer._STOCHASTIC_GRADIENT_DESCENT:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.stochastic_gradient_descent_param_selection(
-                    self.training.X, self.training.y, jobs=self.conf.jobs)
-            elif name == Trainer._ADA_BOOST:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.ada_boosting_param_selection(
-                    self.training.X, self.training.y,
-                    cv=ms.RepeatedStratifiedKFold(n_splits=5, n_repeats=5, random_state=self.conf.rng_seed),
-                    jobs=self.conf.jobs,
-                    random_state=self.conf.rng_seed)
-            elif name == Trainer._NAIVE_BAYES:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.naive_bayes_param_selection(
-                    self.training.X, self.training.y, jobs=self.conf.jobs)
-            elif name == Trainer._KMEANS:
-                # perform grid search and fit on best evaluator
-                self.classifiers[name] = Tuning.kmeans_param_selection(
-                    self.training.X, self.training.y, jobs=self.conf.jobs)
-
-            # dump classifier, if requested
-            if self.conf.classifier_dump:
-                filename = '_'.join(name.split()) + '.joblib'
-                filename_path = dump_directory_path.joinpath(filename)
-                self.log.debug(f"[TUNING] Dump of {name} in {filename_path}")
-                dump(self.classifiers[name], filename_path)
+                # training classifier on training set
+                self.classifiers[name] = MLPClassifier(
+                    activation='relu', alpha=0.05, hidden_layer_sizes=(240, 120),
+                    learning_rate='adaptive', learning_rate_init=0.01, solver='sgd',
+                    max_iter=8000
+                ).fit(self.training.X, self.training.y)
 
     def evaluate(self) -> None:
         """
         Evaluate all specified classifiers
         """
         # TESTING
-        # from sklearn.neural_network import MLPClassifier
-        #
-        # # hidden_layer_sizes=(240, 120)
-        # self.__classifiers['MLP'] = MLPClassifier(activation='relu', alpha=0.0001, batch_size='auto', beta_1=0.9,
+        from joblib import load
+        from sklearn.neural_network import MLPClassifier
+
+        # hidden_layer_sizes=(240, 120)
+        # hidden_layer_sizes=(150, 100)
+        # self.__classifiers['MLP'] = MLPClassifier(activation='relu', alpha=0.05, batch_size='auto', beta_1=0.9,
         #                                           beta_2=0.999, early_stopping=False, epsilon=1e-08,
-        #                                           hidden_layer_sizes=(150, 100), learning_rate='adaptive',
+        #                                           hidden_layer_sizes=(240, 120), learning_rate='adaptive',
         #                                           learning_rate_init=0.01, max_fun=15000, max_iter=10000,
         #                                           momentum=0.9, n_iter_no_change=10, nesterovs_momentum=True,
         #                                           power_t=0.5, random_state=self.conf.rng_seed, shuffle=True,
@@ -686,6 +697,8 @@ class Trainer(AbstractClassifier):
         #                                           warm_start=True)
         #
         # self.__classifiers['MLP'].fit(self.training.X, self.training.y)
+
+        # self.__classifiers['MLP'] = load('/Volumes/Ramdisk/Multi-Layer_Perceptron.joblib')
 
         # filter invalid classifiers
         self.__classifiers = {k: v for k, v in self.classifiers.items() if v is not None}
